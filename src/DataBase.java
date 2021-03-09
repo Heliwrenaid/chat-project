@@ -1,7 +1,8 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Comparator;
+
 
 public class DataBase implements Serializable{
     private String mainDir;
@@ -61,10 +62,17 @@ public class DataBase implements Serializable{
     }
 
     void deleteUser(int id){
-        try {
-            Files.deleteIfExists(Paths.get(mainDir+File.separator+"users"+File.separator+id));
-        } catch (IOException e) {
-            e.printStackTrace();
+        String director =  ((mainDir+File.separator+"users"+File.separator+id));
+        File dir = new File(director);
+
+        for (File file: dir.listFiles())
+            if (!file.isDirectory())
+                file.delete();
+        try{
+            Files.deleteIfExists(Paths.get(director));
+        }
+        catch (Exception e){
+            e.getMessage();
         }
     }
 
@@ -95,21 +103,33 @@ public class DataBase implements Serializable{
         return user;
     }
 
-    Group getGroup(int id) throws IOException, ClassNotFoundException {
-        FileInputStream fileStream = new FileInputStream(mainDir+ File.separator+"groups"+File.separator+id);
-        ObjectInputStream objStream = new ObjectInputStream(fileStream);
-        Group wiadomosc = (Group) objStream.readObject();
-        objStream.close();
-        return wiadomosc;
+    Group getGroup(int id)  {
+        FileInputStream fileStream = null;
+        Group group = null;
+        try {
+            fileStream = new FileInputStream(mainDir + File.separator + "groups" + File.separator + id + File.separator + "info");
+            ObjectInputStream objStream = new ObjectInputStream(fileStream);
+            group = (Group) objStream.readObject();
+            objStream.close();
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return group;
     }
 
 
     Channel getChannel(int id) throws IOException, ClassNotFoundException {
-        FileInputStream fileStream = new FileInputStream(mainDir+ File.separator+"channels"+File.separator+id);
-        ObjectInputStream objStream = new ObjectInputStream(fileStream);
-        Channel wiadomosc = (Channel) objStream.readObject();
-        objStream.close();
-        return wiadomosc;
+        FileInputStream fileStream = null;
+        Channel channel= null;
+        try {
+            fileStream = new FileInputStream(mainDir + File.separator + "channels" + File.separator + id + File.separator + "info");
+            ObjectInputStream objStream = new ObjectInputStream(fileStream);
+            channel = (Channel) objStream.readObject();
+            objStream.close();
+        }catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return channel;
     }
 
 
@@ -145,13 +165,15 @@ public class DataBase implements Serializable{
     }
 
     public static void main(String[] args){
-        DataBase db = new DataBase("C:\\Users\\Dell\\chatDb");
-        System.out.println(db.getUsers());
-        System.out.println(db.nextId(db.users));
-
+        DataBase db = new DataBase("C:\\Dell\\chatDb");
+        //System.out.println(db.getUsers());
+        //System.out.println(db.nextId(db.users));
         db.createUser("jan","1234",null,null);
         User jan = db.getUser(1);
         System.out.println(jan.getName() + " ; " + jan.getId() + " ; " + jan.getBio());
+        db.deleteUser(1);
+
+
         //db.deleteUser(1); //TODO
     }
 }

@@ -36,15 +36,9 @@ public class DataBase implements Serializable{
     }
 
     int nextId(ArrayList<Integer> arr){
-        if (arr.size() == 0) return 1;
-        if (!arr.contains(1)) return 1;
-        for(int i =0;i<arr.size()-1;i++){
-            if(arr.get(i) != arr.get(i+1)-1){
-                return arr.get(i)+1;
-            }
-        }
-        return arr.get(arr.size()-1)+1;
+        return Functions.nextId(arr);
     }
+
     int nextUserId(){
         return nextId(users);
     }
@@ -77,16 +71,7 @@ public class DataBase implements Serializable{
     }
 
     void save(){
-        System.out.print("Saving database ... ");
-        try {
-            FileOutputStream file = new FileOutputStream(mainDir+ File.separator+"db");
-            ObjectOutputStream output = new ObjectOutputStream(file);
-            output.writeObject(this);
-            output.close();
-            System.out.println("Saved!");
-        } catch (Exception e) {
-            System.out.println("In Database.save() error occurred: "+ e.getMessage());
-        }
+      Functions.save(this,mainDir+File.separator+"dB");
     }
 
     User getUser(int id) {
@@ -172,9 +157,8 @@ public class DataBase implements Serializable{
         User jan = db.getUser(1);
         System.out.println(jan.getName() + " ; " + jan.getId() + " ; " + jan.getBio());
         db.deleteUser(1);
+        db.save();
 
-
-        //db.deleteUser(1); //TODO
     }
 }
 

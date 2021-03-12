@@ -100,15 +100,7 @@ public class Group implements Serializable {
         }
     }
     void save(){
-        try {
-            FileOutputStream file = new FileOutputStream(dir+ File.separator+"groupData");
-            ObjectOutputStream output = new ObjectOutputStream(file);
-            output.writeObject(this);
-            output.close();
-            System.out.println("Saved!");
-        } catch (Exception e) {
-            System.out.println("In Group.save() error occurreed: "+ e.getMessage());
-        }
+        Functions.save(this,dir+File.separator+"groupData");
     }
 
     Message getMessage(int id){
@@ -127,14 +119,7 @@ public class Group implements Serializable {
 
     int nextMessageId(){
         // jak w DataBase
-        if (messages.size() ==0) return 1;
-        if (!messages.contains(1)) return 1;
-        for(int i =0;i<messages.size()-1;i++){
-            if(messages.get(i) != messages.get(i+1)-1){
-                return messages.get(i)+1;
-            }
-        }
-        return messages.get(messages.size()-1)+1;
+        return Functions.nextId(messages);
     }
 
     public static void main(String[] args) {

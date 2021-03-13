@@ -104,7 +104,7 @@ public class Group implements Serializable {
     }
 
     Message getMessage(int id){
-        FileInputStream fileStream = null;
+        /*FileInputStream fileStream = null;
         Message message = null;
         try {
             fileStream = new FileInputStream(dir+ File.separator+"messages"+File.separator+id);
@@ -114,7 +114,8 @@ public class Group implements Serializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return message;
+        return message;*/
+        return (Message) Functions.getObject(dir+ File.separator+"messages"+File.separator+id);
     }
 
     int nextMessageId(){

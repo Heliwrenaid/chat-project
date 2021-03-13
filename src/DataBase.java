@@ -75,7 +75,7 @@ public class DataBase implements Serializable{
     }
 
     User getUser(int id) {
-        FileInputStream fileStream = null;
+       /* FileInputStream fileStream = null;
         User user = null;
         try {
             fileStream = new FileInputStream(mainDir+ File.separator+"users"+File.separator+id + File.separator + "info");
@@ -85,11 +85,12 @@ public class DataBase implements Serializable{
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return user;
+        return user;*/
+        return (User) Functions.getObject(mainDir+ File.separator+"users"+File.separator+id + File.separator + "info");
     }
 
     Group getGroup(int id)  {
-        FileInputStream fileStream = null;
+        /*FileInputStream fileStream = null;
         Group group = null;
         try {
             fileStream = new FileInputStream(mainDir + File.separator + "groups" + File.separator + id + File.separator + "info");
@@ -99,12 +100,13 @@ public class DataBase implements Serializable{
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return group;
+        return group;*/
+        return (Group) Functions.getObject(mainDir+ File.separator+"groups"+File.separator+id + File.separator + "info");
     }
 
 
-    Channel getChannel(int id) throws IOException, ClassNotFoundException {
-        FileInputStream fileStream = null;
+    Channel getChannel(int id)  {
+    /*    FileInputStream fileStream = null;
         Channel channel= null;
         try {
             fileStream = new FileInputStream(mainDir + File.separator + "channels" + File.separator + id + File.separator + "info");
@@ -114,7 +116,8 @@ public class DataBase implements Serializable{
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return channel;
+        return channel;*/
+        return (Channel) Functions.getObject(mainDir+ File.separator+"channels"+File.separator+id + File.separator + "info");
     }
 
 

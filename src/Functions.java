@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Functions {
@@ -27,4 +25,20 @@ public class Functions {
         }
         return arr.get(arr.size()-1)+1;
     }
+
+    static Object getObject(String filePath){
+        FileInputStream fileStream = null;
+        Object object = null;
+
+        try {
+            fileStream = new FileInputStream(filePath);
+            ObjectInputStream objStream = new ObjectInputStream(fileStream);
+            object = (Object) objStream.readObject();
+            objStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        return object;
+    }
+
 }

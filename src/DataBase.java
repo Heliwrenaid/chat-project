@@ -49,10 +49,10 @@ public class DataBase implements Serializable{
         return nextId(channels);
     }
 
-    void createUser(String name, String password, String bio, String avatarSrc){
+    User createUser(String name, String password, String bio, String avatarSrc){
         int newId = nextId(users);
-        new User(name,password,newId,mainDir,bio,avatarSrc);
         users.add(newId);
+        return new User(name,password,newId,mainDir,bio,avatarSrc);
     }
 
     void deleteUser(int id){
@@ -119,6 +119,21 @@ public class DataBase implements Serializable{
         return channel;*/
         return (Channel) Functions.getObject(mainDir+ File.separator+"channels"+File.separator+id + File.separator + "info");
     }
+    static DataBase loadData(String filename) {
+        if (Files.exists(Paths.get(filename))) {
+            try {
+                FileInputStream fileInputStream = new FileInputStream(filename);
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                DataBase dataBase = ((DataBase) objectInputStream.readObject());
+                objectInputStream.close();
+                return dataBase;
+            } catch (Exception e) {
+                System.out.println("Error in DataBase.loadDataBase(): " + e.getMessage());
+                return null;
+            }
+        }
+        return null;
+    }
 
 
 //-------------------Getters and setters-------------------
@@ -152,6 +167,7 @@ public class DataBase implements Serializable{
         this.users = users;
     }
 
+    /*
     public static void main(String[] args){
         DataBase db = new DataBase("C:\\Dell\\chatDb");
         //System.out.println(db.getUsers());
@@ -163,5 +179,6 @@ public class DataBase implements Serializable{
         db.save();
 
     }
+    */
 }
 

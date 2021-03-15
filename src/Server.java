@@ -31,7 +31,7 @@ public class Server extends Thread{
                     while(isEnabled){
                         Socket clientSocket = serverSocket.accept();
                         System.out.println("Connected to new client");
-                        new ClientThread(clientSocket,dataBase);
+                        new ServerThread(clientSocket,dataBase);
                     }
                 } catch (IOException e) {
                     System.out.println("Error in startListening(): " + e.getMessage());
@@ -62,12 +62,9 @@ public class Server extends Thread{
 
     public static void main(String args[]){
         if (args.length < 2) return;
-
         String host = args[0];
         int port = Integer.parseInt(args[1]);
-
         Server server = new Server(host,port,System.getProperty("user.home") + File.separator + "ServerData");
-
         server.startListening();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

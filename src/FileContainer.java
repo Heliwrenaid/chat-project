@@ -3,9 +3,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
 
-public class FileEvent implements Serializable {
+public class FileContainer implements Serializable{
+    private String destDir;
+    private String srcFilePath;
+    private String fileName;
+    private long fileSize;
+    private byte[] fileData;
+    private boolean status; //true = success
 
-    public FileEvent(String filePath) {
+    public FileContainer(String filePath) {
         srcFilePath = filePath;
         fileName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.length());
         destDir = filePath.substring(0, filePath.lastIndexOf("\\") + 1);
@@ -34,25 +40,13 @@ public class FileEvent implements Serializable {
         }
     }
 
-    private static final long serialVersionUID = 1L;
-
-    private String destDir;
-
-    public String getSrcFilePath() {
-        return srcFilePath;
-    }
-
-    private String srcFilePath;
-    private String fileName;
-    private long fileSize;
-    private byte[] fileData;
-    private boolean status; //true = success
-
     public String getDestinationDirectory() {
         return destDir;
     }
 
-
+    public String getSrcFilePath() {
+        return srcFilePath;
+    }
 
     public void setDestinationDirectory(String destinationDirectory) {
         this.destDir = destinationDirectory;

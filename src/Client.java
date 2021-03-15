@@ -43,7 +43,7 @@ public class Client {
             System.out.println("dataBase was successfully loaded");
         }
         else {
-            System.out.print("dataBase data was not found .. creating new one ...");
+            System.out.println("dataBase data was not found .. creating new one ...");
             dataBase = new DataBase(mainDir);
             System.out.println("Done");
         }

@@ -17,7 +17,8 @@ public class ServerThread extends ClientThread{
             }
             fileContainer.setDestinationDirectory(group.getFileDir());
             fileContainer.setFilename(Integer.toString(group.nextMessageId()));
-            saveFileContiner(fileContainer);
+            saveFileData(fileContainer);
+            saveFileMetadata(fileContainer);
         }
         else if (fileContainer.isForChannel()){
             Channel channel = dataBase.getChannel(fileContainer.getChannelId());
@@ -26,7 +27,8 @@ public class ServerThread extends ClientThread{
             }
             fileContainer.setDestinationDirectory(channel.getFileDir());
             fileContainer.setFilename(Integer.toString(channel.nextMessageId()));
-            saveFileContiner(fileContainer);
+            saveFileData(fileContainer);
+            saveFileMetadata(fileContainer);
         }
         else if (fileContainer.isForUser()){
             User user = dataBase.getUser(fileContainer.getUserChatId());
@@ -35,7 +37,8 @@ public class ServerThread extends ClientThread{
             }
             fileContainer.setDestinationDirectory(user.getFileDir());
             fileContainer.setFilename(Integer.toString(user.nextMessageId()));
-            saveFileContiner(fileContainer);
+            saveFileData(fileContainer);
+            saveFileMetadata(fileContainer);
         }
     }
 

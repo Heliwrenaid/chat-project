@@ -1,5 +1,3 @@
-import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ClientThread extends FileTransferManager{
@@ -24,7 +22,7 @@ public class ClientThread extends FileTransferManager{
     @Override
     public void takeAction(FileContainer fileContainer){
         fileContainer.setDestinationDirectory(dataBase.getMainDir());
-        saveFileContiner(fileContainer);
+        saveFileData(fileContainer);
     }
 
 

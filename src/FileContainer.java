@@ -45,6 +45,19 @@ public class FileContainer implements Serializable{
             status = false;
         }
     }
+    //create metadata for file
+    public FileContainer(FileContainer fileContainer){
+        destDir = fileContainer.getDestinationDirectory();
+        srcFilePath = fileContainer.srcFilePath;
+        fileName = fileContainer.fileName;
+        originalFileName = fileContainer.originalFileName;
+        fileSize = fileContainer.fileSize;
+        status = fileContainer.status;
+        groupId = fileContainer.groupId;
+        channelId = fileContainer.channelId;
+        userId = fileContainer.userId;
+        userChatId = fileContainer.userChatId;
+    }
 
     public String getDestinationDirectory() {
         return destDir;

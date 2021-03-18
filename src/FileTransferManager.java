@@ -52,7 +52,7 @@ public class FileTransferManager{
         };
         new Thread(listener).start();
     }
-    public void saveFileContiner(FileContainer fileContainer){
+    public void saveFileData(FileContainer fileContainer){
         String outputFilePath = fileContainer.getDestinationDirectory() + File.separator + fileContainer.getFilename();
         if (!new File(fileContainer.getDestinationDirectory()).exists()) {
             new File(fileContainer.getDestinationDirectory()).mkdirs();
@@ -66,6 +66,7 @@ public class FileTransferManager{
             fileOutputStream.flush();
             fileOutputStream.close();
             System.out.println(outputFilePath + " was successfully saved");
+
         } catch (FileNotFoundException e) {
             System.out.println(outputFilePath + " was not saved");
             e.printStackTrace();
@@ -74,6 +75,17 @@ public class FileTransferManager{
             e.printStackTrace();
         }
 
+    }
+    public void saveFileMetadata(FileContainer fileContainer){
+        FileContainer metadata = new FileContainer(fileContainer);
+        try {
+            FileOutputStream file = new FileOutputStream(metadata.getDestinationDirectory()+File.separator+metadata.getFilename()+".metadata");
+            ObjectOutputStream output = new ObjectOutputStream(file);
+            output.writeObject(metadata);
+            output.close();
+        } catch (Exception e) {
+            System.out.println("In FileTransferManager.saveFileMetadata() error occurred: "+ e.getMessage());
+        }
     }
     public void takeAction(FileContainer fileContainer){}
 }

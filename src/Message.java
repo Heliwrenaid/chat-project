@@ -8,6 +8,6 @@ public class Message implements Serializable {
     int getData(){
         return data;
     }
-    ////
+    //
 
 }

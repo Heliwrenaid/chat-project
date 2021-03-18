@@ -7,14 +7,20 @@ public class FileContainer implements Serializable{
     private String destDir;
     private String srcFilePath;
     private String fileName;
+    private String originalFileName;
     private long fileSize;
     private byte[] fileData;
     private boolean status; //true = success
-//
+    private int groupId=0;
+    private int channelId=0;
+    private int userId=0;
+    private int userChatId=0;
+
     public FileContainer(String filePath) {
         srcFilePath = filePath;
         fileName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.length());
         destDir = filePath.substring(0, filePath.lastIndexOf("\\") + 1);
+        originalFileName = fileName;
 
         File file = new File(srcFilePath);
         if (file.isFile()) {
@@ -82,5 +88,52 @@ public class FileContainer implements Serializable{
 
     public void setFileData(byte[] fileData) {
         this.fileData = fileData;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
+    }
+
+    public int getUserChatId() {
+        return userChatId;
+    }
+
+    public void setUserChatId(int userChatId) {
+        this.userChatId = userChatId;
+    }
+    public boolean isForUser(){
+        if(userChatId !=0) return true;
+        else return false;
+    }
+    public boolean isForGroup(){
+        if(groupId !=0) return true;
+        else return false;
+    }
+    public boolean isForChannel(){
+        if(channelId !=0) return true;
+        else return false;
+    }
+    public boolean isValid(){
+        return true;
     }
 }

@@ -10,7 +10,6 @@ public class ClientThread extends FileTransferManager{
         this.socket = socket;
         this.dataBase = dataBase;
         startReading();
-        //
     }
     public ClientThread(){}
 
@@ -19,9 +18,7 @@ public class ClientThread extends FileTransferManager{
         user = dataBase.createUser("Jan","1234","sth",null);
         return null;
     }
-    public void send(String filePath){
-        FileContainer fileContainer = new FileContainer(filePath);
-        fileContainer.setDestinationDirectory(System.getProperty("user.home") + File.separator + "ServerData");
+    public void send(FileContainer fileContainer){
         sendFileContainer(fileContainer);
     }
     @Override

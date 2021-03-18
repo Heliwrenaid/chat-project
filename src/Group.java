@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class Group implements Serializable {
     private int groupId;
     private String dir;
+    private String fileDir;
+    private String messageDir;
     private PermissionManager permManager = new PermissionManager();
     private ArrayList<Integer> subscribers = new ArrayList<Integer>();
     private ArrayList<Integer> admins = new ArrayList<Integer>();
@@ -14,7 +16,10 @@ public class Group implements Serializable {
     public Group(int groupId, String mainDir) {
         this.groupId = groupId;
         this.dir = mainDir + File.separator + "groups" + File.separator + groupId;
+        fileDir = mainDir + File.separator + "files";
+        messageDir = mainDir + File.separator + "messages";
     }
+    public Group(){};
 
     boolean addSubscriber(int userId){
         /*
@@ -119,10 +124,20 @@ public class Group implements Serializable {
     }
 
     int nextMessageId(){
-        // jak w DataBase
         return Functions.nextId(messages);
     }
-    //
+
+    public String getDir() {
+        return dir;
+    }
+
+    public String getFileDir() {
+        return fileDir;
+    }
+
+    public String getMessageDir() {
+        return messageDir;
+    }
 
     public static void main(String[] args) {
         Group group = new Group(1,"C:\\");

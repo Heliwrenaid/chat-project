@@ -14,7 +14,7 @@ public class FileTransferManager{
             output = new ObjectOutputStream(socket.getOutputStream());
             output.writeObject(fileContainer);
             output.flush();
-            //output.close();//
+            //output.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

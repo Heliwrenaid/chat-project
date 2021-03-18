@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class User implements Serializable {
 
@@ -11,6 +12,9 @@ public class User implements Serializable {
     private int id;
     private String avatarSrc;
     private String dir;
+    private String fileDir;
+    private String messageDir;
+    private ArrayList<Integer> messages = new ArrayList<Integer>();
 
     public User(String name, String password,int id,String mainDir,String bio,String avatarSrc) {
         this.name = name;
@@ -27,12 +31,14 @@ public class User implements Serializable {
             this.avatarSrc = "resources\\avatar.png";
         }
         this.dir = mainDir + File.separator + "users" + File.separator + id;
+        fileDir = this.dir + File.separator + "files";
+        messageDir = this.dir + File.separator + "messages";
+
         try {
             Files.createDirectories(Paths.get(dir));
         }catch (IOException e){
             System.out.println("In User.Constructor() error occurred: "+ e.getMessage());
         }
-        //
         save();
     }
 
@@ -92,7 +98,27 @@ public class User implements Serializable {
     public void setDir(String dir) {
         this.dir = dir;
     }
+
+    public String getFileDir() {
+        return fileDir;
+    }
+
+    public void setFileDir(String fileDir) {
+        this.fileDir = fileDir;
+    }
+
+    public String getMessageDir() {
+        return messageDir;
+    }
+
+    public void setMessageDir(String messageDir) {
+        this.messageDir = messageDir;
+    }
+
     public static void main(String[] args){
        // User user = new User("jan","pass",1,)
+    }
+    int nextMessageId(){
+        return Functions.nextId(messages);
     }
 }

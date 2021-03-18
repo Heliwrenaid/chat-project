@@ -15,7 +15,6 @@ public class DataBase implements Serializable{
         createDirectories();
         save();
         /*
-        ko
         users.add(1);
         users.add(2);
         //users.add(3);
@@ -76,48 +75,15 @@ public class DataBase implements Serializable{
     }
 
     User getUser(int id) {
-       /* FileInputStream fileStream = null;
-        User user = null;
-        try {
-            fileStream = new FileInputStream(mainDir+ File.separator+"users"+File.separator+id + File.separator + "info");
-            ObjectInputStream objStream = new ObjectInputStream(fileStream);
-            user = (User) objStream.readObject();
-            objStream.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return user;*/
         return (User) Functions.getObject(mainDir+ File.separator+"users"+File.separator+id + File.separator + "info");
     }
 
     Group getGroup(int id)  {
-        /*FileInputStream fileStream = null;
-        Group group = null;
-        try {
-            fileStream = new FileInputStream(mainDir + File.separator + "groups" + File.separator + id + File.separator + "info");
-            ObjectInputStream objStream = new ObjectInputStream(fileStream);
-            group = (Group) objStream.readObject();
-            objStream.close();
-        }catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return group;*/
         return (Group) Functions.getObject(mainDir+ File.separator+"groups"+File.separator+id + File.separator + "info");
     }
 
 
     Channel getChannel(int id)  {
-    /*    FileInputStream fileStream = null;
-        Channel channel= null;
-        try {
-            fileStream = new FileInputStream(mainDir + File.separator + "channels" + File.separator + id + File.separator + "info");
-            ObjectInputStream objStream = new ObjectInputStream(fileStream);
-            channel = (Channel) objStream.readObject();
-            objStream.close();
-        }catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return channel;*/
         return (Channel) Functions.getObject(mainDir+ File.separator+"channels"+File.separator+id + File.separator + "info");
     }
     static DataBase loadData(String filename) {

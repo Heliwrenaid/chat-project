@@ -32,6 +32,7 @@ public class User implements Serializable {
         }catch (IOException e){
             System.out.println("In User.Constructor() error occurred: "+ e.getMessage());
         }
+        //
         save();
     }
 

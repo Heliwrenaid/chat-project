@@ -10,6 +10,7 @@ public class ClientThread extends FileTransferManager{
         this.socket = socket;
         this.dataBase = dataBase;
         startReading();
+        //
     }
     public ClientThread(){}
 

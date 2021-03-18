@@ -122,6 +122,7 @@ public class Group implements Serializable {
         // jak w DataBase
         return Functions.nextId(messages);
     }
+    //
 
     public static void main(String[] args) {
         Group group = new Group(1,"C:\\");

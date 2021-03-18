@@ -10,7 +10,7 @@ public class FileContainer implements Serializable{
     private long fileSize;
     private byte[] fileData;
     private boolean status; //true = success
-
+//
     public FileContainer(String filePath) {
         srcFilePath = filePath;
         fileName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.length());

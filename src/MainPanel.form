@@ -208,7 +208,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Look for a frame..."/>
+                  <text value="Look for a string..."/>
                 </properties>
               </component>
               <component id="61915" class="javax.swing.JButton" binding="searchButton" default-binding="true">

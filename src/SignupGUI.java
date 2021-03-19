@@ -22,7 +22,6 @@ public class SignupGUI extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                signupPanel.setVisible(false);
                 dispose();
             }
         });
@@ -31,12 +30,12 @@ public class SignupGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(!passwordField1.getPassword().equals(passwordField2.getPassword()) || userName.getText().length() == 0){
                     JOptionPane.showMessageDialog(signupPanel,"ERROR in signing up. Please try again !");
-                    signupPanel.setVisible(false);
+                    dispose();
                 }
                 else
                 {
                     User user = new User(userName.getText(),passwordField1.getPassword().toString(),90,null,null,null);
-                    signupPanel.setVisible(false);
+                   dispose();
 
                 }
             }

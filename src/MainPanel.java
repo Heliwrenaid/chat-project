@@ -1,9 +1,10 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainPanel extends JFrame {
-    User user = new User("Jan","abc",15,null,"Lubie placki","src\\Icons\\eagle.jpg");
+    User user = new User("Jan","abc",15,null,"Lubie placki","src\\Icons\\wolf.jpg");
     DataBase db = new DataBase("C:\\Users\\janfi");
     private JPanel leftFrame;
     private JPanel rightFrame;
@@ -36,6 +37,7 @@ public class MainPanel extends JFrame {
         infoField.setText("Witaj "+user.getName()+"!");
         ImageIcon icon = new ImageIcon(user.getAvatarSrc());
         avatarIcon.setIcon(icon);
+        setContentPane(mainPanel);
 
 
         sendButton.addActionListener(new ActionListener() {
@@ -56,15 +58,59 @@ public class MainPanel extends JFrame {
         newGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JFrame f = new NewOrgGUI(mainPanel.getBackground(),listChannel.getBackground());
+                f.pack();
+                f.setVisible(true);
             }
         });
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame f = new LoginGUI();
+                f.pack();
+                f.setVisible(true);
                 dispose();
-                JFrame frame = new JFrame("LoginGUI");
-                frame.setVisible(true);
+            }
+        });
+        settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame f = new SettingsGUI(mainPanel.getBackground(),listChannel.getBackground());
+                f.pack();
+                f.setVisible(true);
+            }
+        });
+        darkModebutton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(mainPanel.getBackground()!=Color.gray) {
+                    mainPanel.setBackground(Color.gray);
+                    leftFrame.setBackground(Color.gray);
+                    rightFrame.setBackground(Color.gray);
+                    modesPanel.setBackground(Color.gray);
+                    groupsPanel.setBackground(Color.gray);
+                    messagePanel.setBackground(Color.GRAY);
+                    listChannel.setBackground(Color.lightGray);
+                    listGroup.setBackground(Color.lightGray);
+                    searchMsgField.setBackground(Color.lightGray);
+                    chatField.setBackground(Color.lightGray);
+                    comboBox1.setBackground(Color.lightGray);
+                    textMessageArea.setBackground(Color.lightGray);
+                }
+                else{
+                    mainPanel.setBackground(Color.lightGray);
+                    leftFrame.setBackground(Color.lightGray);
+                    rightFrame.setBackground(Color.lightGray);
+                    modesPanel.setBackground(Color.lightGray);
+                    groupsPanel.setBackground(Color.lightGray);
+                    messagePanel.setBackground(Color.lightGray);
+                    listChannel.setBackground(Color.WHITE);
+                    listGroup.setBackground(Color.WHITE);
+                    searchMsgField.setBackground(Color.WHITE);
+                    chatField.setBackground(Color.WHITE);
+                    comboBox1.setBackground(Color.WHITE);
+                    textMessageArea.setBackground(Color.WHITE);
+                }
             }
         });
     }

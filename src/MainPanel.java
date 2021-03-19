@@ -7,7 +7,6 @@ public class MainPanel extends JFrame {
 
     User user = new User("Jan","abc",60,null,"Lubie placki","src\\Icons\\wolf.jpg");
     DataBase db = new DataBase("C:\\Users\\janfi");
-
     private JPanel leftFrame;
     private JPanel rightFrame;
     private JPanel modesPanel;

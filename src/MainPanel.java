@@ -2,16 +2,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainPanel {
-    User user = new User("Jan","abc",15,null,"Lubie placki","C:\\Users\\janfi\\Pictures\\bear.jpg");
-    DataBase db = new DataBase("C:\\Users\\janfi\\Pictures\\");
+public class MainPanel extends JFrame {
+    User user = new User("Jan","abc",15,null,"Lubie placki","src\\Icons\\eagle.jpg");
+    DataBase db = new DataBase("C:\\Users\\janfi");
     private JPanel leftFrame;
     private JPanel rightFrame;
     private JPanel modesPanel;
     private JPanel groupsPanel;
-    private JPanel headPanel;
     private JPanel messagePanel;
-    private JPanel typePanel;
     private JTextField chatField;
     private JButton FileButton;
     private JButton sendButton;
@@ -26,15 +24,20 @@ public class MainPanel {
     private JButton searchButton;
     private JComboBox comboBox1;
     private JTextArea textMessageArea;
-    private JLabel groupLabel;
     private JLabel avatarIcon;
     private JButton logOutButton;
     private JButton newGroupButton;
+    private JLabel komunikatorField;
+    private JLabel infoField;
+    private JButton darkModebutton1;
     private JTextArea messageTextArea;
 
     public MainPanel() {
+        infoField.setText("Witaj "+user.getName()+"!");
         ImageIcon icon = new ImageIcon(user.getAvatarSrc());
         avatarIcon.setIcon(icon);
+
+
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,14 +49,22 @@ public class MainPanel {
         info.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(info,"Tutaj pojawią się podstawowe informacje o koncie");
-
+                JOptionPane.showMessageDialog(info,"Project created for JPWP subject. AGH University of Science and Technology.\n Contact:\n Jan Sciga-sciga@student.agh.edu.pl \n Michał Kurdziel- mkurdziel@student.agh.edu.pl ");
+                dispose();
             }
         });
         newGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+            }
+        });
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                JFrame frame = new JFrame("LoginGUI");
+                frame.setVisible(true);
             }
         });
     }

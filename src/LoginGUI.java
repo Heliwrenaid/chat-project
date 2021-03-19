@@ -8,23 +8,20 @@ public class LoginGUI extends JFrame {
     private JPanel loginMain;
     private JButton signInButton;
     private JButton signUpButton;
-    private Client client = new Client("C:\\Users\\janfi");
+    //private Client client = new Client("C:\\Users\\janfi");
 
     public LoginGUI() {
         setContentPane(loginMain);
+
         signInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //if(warunki logowania)
                 JFrame f = new MainPanel();
                 f.pack();
                 f.setVisible(true);
-            //}else{
-                //
-                //}
             }
         });
+
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

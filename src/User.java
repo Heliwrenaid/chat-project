@@ -28,6 +28,7 @@ public class User implements Serializable {
         if (avatarSrc != null) {
             this.avatarSrc = avatarSrc;
         } else {
+
             this.avatarSrc = "resources\\avatar.png";
         }
         this.dir = mainDir + File.separator + "users" + File.separator + id;

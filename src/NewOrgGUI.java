@@ -15,6 +15,7 @@ public class NewOrgGUI extends JFrame{
     private JPanel downsecondPanel;
 
     public NewOrgGUI(Color darker,Color lighter) {
+
         setContentPane(newOrgPanel);
         newOrgPanel.setBackground(darker);
         nameField.setBackground(lighter);

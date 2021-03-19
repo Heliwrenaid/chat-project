@@ -38,7 +38,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <text value=""/>
+            </properties>
           </component>
           <component id="512b6" class="javax.swing.JTextField" binding="nickField1">
             <constraints>

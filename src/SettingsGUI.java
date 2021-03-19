@@ -20,10 +20,12 @@ public class SettingsGUI extends JFrame{
     private JButton cancelButton;
     private JPanel downPanel;
     private JPanel upPanel;
-    private String haslo;
+  //  private String haslo;
+
 
 
     public SettingsGUI(Color darker, Color lighter) {
+
         setContentPane(settingsPanel);
         downPanel.setBackground(darker);
         upPanel.setBackground(darker);
@@ -44,17 +46,7 @@ public class SettingsGUI extends JFrame{
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                haslo=JOptionPane.showInternalInputDialog(settingsPanel,"Wprowadź stare hasło!");
-//                if(haslo.equals(klient.getBazaDanych().getAktualneKonto().getHaslo())){
-//                    Konto konto = new Konto(nazwa.getText(),nazwisko.getText(),email.getText(),new String(hasloText.getPassword()),emailZapasowy.getText(),klient.getBazaDanych().getAktualneKonto().getKluczSzyfrowania());
-//                    klient.getBazaDanych().getAktFolderKonta().zapiszKonto(konto);
-//                    klient.wyslij(konto,"zmienInfo");
-//                    JOptionPane.showMessageDialog(informacjeoKoncie,"Dane konta zostały zmienione poprawnie");
-//                    dispose();
-//                }
-//                else {
-//                    JOptionPane.showMessageDialog(informacjeoKoncie,"Błędne hasło ! ");
-//                }
+               // haslo=JOptionPane.showInternalInputDialog(settingsPanel,"Wprowadź stare hasło!");
             }
         });
     }

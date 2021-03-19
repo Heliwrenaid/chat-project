@@ -3,7 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainPanel {
-    User user = new User("Jan","abc",15,null,"Lubie placki","C:\\Users\\janfi\\Pictures\\pau.jpg");
+    User user = new User("Jan","abc",15,null,"Lubie placki","C:\\Users\\janfi\\Pictures\\bear.jpg");
     DataBase db = new DataBase("C:\\Users\\janfi\\Pictures\\");
     private JPanel leftFrame;
     private JPanel rightFrame;
@@ -28,6 +28,8 @@ public class MainPanel {
     private JTextArea textMessageArea;
     private JLabel groupLabel;
     private JLabel avatarIcon;
+    private JButton logOutButton;
+    private JButton newGroupButton;
     private JTextArea messageTextArea;
 
     public MainPanel() {
@@ -48,6 +50,12 @@ public class MainPanel {
 
             }
         });
+        newGroupButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 //
     public static void main(String[] args) {
@@ -58,10 +66,7 @@ public class MainPanel {
         frame.setVisible(true);
     }
 
-    JTextArea makeBubble(String a){
-        messageTextArea.setText(a);
-        return messageTextArea;
-    }
+
 
 
 }

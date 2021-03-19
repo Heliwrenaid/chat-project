@@ -11,7 +11,7 @@ public class SignupGUI extends JFrame {
     private JTextField bioText;
     private JPasswordField passwordField2;
     private JRadioButton wolfRadioButton;
-    private JRadioButton bullRadioButton;
+    private JRadioButton tigerRadioButton;
     private JRadioButton horseRadioButton;
     private JRadioButton eagleRadioButton;
     private JRadioButton lionRadioButton;

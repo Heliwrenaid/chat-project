@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="822" height="623"/>
+      <xy x="20" y="20" width="847" height="623"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -16,7 +16,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="a4832" binding="modesPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="a4832" binding="modesPanel" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -29,29 +29,31 @@
                   <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Settings"/>
+                  <icon value="Icons/settings.png"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="c7aba" class="javax.swing.JButton" binding="joinButton" default-binding="true">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Join !"/>
+                  <icon value="Icons/join.png"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="1e8ad" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
               <component id="e0a9c" class="javax.swing.JLabel" binding="groupLabel">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Choose new group or channel !"/>
+                  <text value="Choose a new group or channel !"/>
                 </properties>
               </component>
               <component id="92998" class="javax.swing.JLabel" binding="avatarIcon">
@@ -59,6 +61,24 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="aad13" class="javax.swing.JButton" binding="logOutButton" default-binding="true">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/log.jpg"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="b7afe" class="javax.swing.JButton" binding="newGroupButton">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/new.png"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -120,14 +140,6 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="8b6b6" class="javax.swing.JButton" binding="info">
-                <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="info"/>
-                </properties>
-              </component>
               <component id="8bf21" class="javax.swing.JTextField" binding="searchMsgField">
                 <constraints>
                   <grid row="0" column="1" row-span="3" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -138,20 +150,22 @@
                   <text value=""/>
                 </properties>
               </component>
-              <component id="61915" class="javax.swing.JButton" binding="searchButton" default-binding="true">
+              <component id="8b6b6" class="javax.swing.JButton" binding="info">
                 <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Search"/>
+                  <icon value="Icons/info.png"/>
+                  <text value=""/>
                 </properties>
               </component>
-              <component id="d049e" class="javax.swing.JLabel">
+              <component id="61915" class="javax.swing.JButton" binding="searchButton" default-binding="true">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Komunikator_czatowy"/>
+                  <icon value="Icons/search.png"/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>
@@ -199,20 +213,22 @@
                   <text value=""/>
                 </properties>
               </component>
-              <component id="e0a4c" class="javax.swing.JButton" binding="FileButton">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="File"/>
-                </properties>
-              </component>
               <component id="acc72" class="javax.swing.JButton" binding="sendButton" default-binding="true">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Send"/>
+                  <icon value="Icons/sent.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="e0a4c" class="javax.swing.JButton" binding="FileButton">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/file.png"/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>

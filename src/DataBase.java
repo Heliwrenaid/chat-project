@@ -2,26 +2,17 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 
 public class DataBase implements Serializable{
     private String mainDir;
-    private ArrayList<Integer> channels = new ArrayList<Integer>();
-    private ArrayList<Integer> groups = new ArrayList<Integer>();
-    private ArrayList<Integer> users = new ArrayList<Integer>() ;
-
+    // Strings: 'users', 'groups', 'channels'
+    private HashMap<Integer,String> idSet = new HashMap<>();
     public DataBase(String mainDir) {
         this.mainDir = mainDir;
         createDirectories();
         save();
-        /*
-        users.add(1);
-        users.add(2);
-        //users.add(3);
-        users.add(4);
-        //users.add(5);
-        users.add(6);
-        */
     }
 
     void createDirectories(){
@@ -35,35 +26,30 @@ public class DataBase implements Serializable{
         }
     }
 
-    int nextId(ArrayList<Integer> arr){
-        return Functions.nextId(arr);
-    }
-
-    int nextUserId(){
-        return nextId(users);
-    }
-    int nextGroupId(){
-        return nextId(groups);
-    }
-    int nextChannelId(){
-        return nextId(channels);
+    int freeId(){
+        return Functions.freeId(idSet);
     }
 
     User createUser(String name, String password, String bio, String avatarSrc){
-        int newId = nextId(users);
-        users.add(newId);
+        int newId = freeId();
+        idSet.put(newId,"users");
         return new User(name,password,newId,mainDir,bio,avatarSrc);
     }
 
-    void deleteUser(int id){
-        String director =  ((mainDir+File.separator+"users"+File.separator+id));
-        File dir = new File(director);
+    void delete(int id){
+        if (!idSet.containsKey(id)){
+            System.out.println("In Database.delete(): " + id + " isn't in idSet");
+            return;
+        }
+        String directory = mainDir+File.separator+idSet.get(id)+File.separator+id;
+        idSet.remove(id);
+        File dir = new File(directory);
 
         for (File file: dir.listFiles())
             if (!file.isDirectory())
                 file.delete();
         try{
-            Files.deleteIfExists(Paths.get(director));
+            Files.deleteIfExists(Paths.get(directory));
         }
         catch (Exception e){
             e.getMessage();
@@ -71,7 +57,7 @@ public class DataBase implements Serializable{
     }
 
     void save(){
-      Functions.save(this,mainDir+File.separator+"dB");
+      Functions.save(this,mainDir+File.separator+"db");
     }
 
     User getUser(int id) {
@@ -82,9 +68,15 @@ public class DataBase implements Serializable{
         return (Group) Functions.getObject(mainDir+ File.separator+"groups"+File.separator+id + File.separator + "info");
     }
 
-
     Channel getChannel(int id)  {
         return (Channel) Functions.getObject(mainDir+ File.separator+"channels"+File.separator+id + File.separator + "info");
+    }
+    public Chat getChat(int id){
+        if(!idSet.containsKey(id)) return null;
+        if(idSet.get(id).equals("users")) return getUser(id);
+        if(idSet.get(id).equals("groups")) return getGroup(id);
+        if(idSet.get(id).equals("channels")) return getChannel(id);
+        return null;
     }
     static DataBase loadData(String filename) {
         if (Files.exists(Paths.get(filename))) {
@@ -111,41 +103,19 @@ public class DataBase implements Serializable{
     public void setMainDir(String mainDir) {
         this.mainDir = mainDir;
     }
-    public ArrayList<Integer> getChannels() {
-        return channels;
-    }
-
-    public void setChannels(ArrayList<Integer> channels) {
-        this.channels = channels;
-    }
-
-    public ArrayList<Integer> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(ArrayList<Integer> groups) {
-        this.groups = groups;
-    }
-    public ArrayList<Integer> getUsers() {
-        return users;
-    }
-
-    public void setUsers(ArrayList<Integer> users) {
-        this.users = users;
-    }
 
     /*
     public static void main(String[] args){
-        DataBase db = new DataBase("C:\\Dell\\chatDb");
-        //System.out.println(db.getUsers());
-        //System.out.println(db.nextId(db.users));
-        db.createUser("jan","1234",null,null);
-        User jan = db.getUser(1);
-        System.out.println(jan.getName() + " ; " + jan.getId() + " ; " + jan.getBio());
-        db.deleteUser(1);
+        DataBase db = loadData(System.getProperty("user.home") + File.separator + "DB\\db\\db");
+        System.out.println(db.idSet.keySet());
+        //db.createUser("jan","1234",null,null);
+        db.delete(4);
+       // User jan = db.getUser(1);
+       System.out.println(db.idSet.keySet());
+      //  System.out.println(jan.getName() + " ; " + jan.getId() + " ; " + jan.getBio());
         db.save();
-
     }
-    */
+     */
+
 }
 

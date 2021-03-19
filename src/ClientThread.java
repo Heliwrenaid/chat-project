@@ -10,20 +10,26 @@ public class ClientThread extends FileTransferManager{
         startReading();
     }
     public ClientThread(){}
-
-    User signUp(){
-        //TODO: return User on null
-        user = dataBase.createUser("Jan","1234","sth",null);
-        return null;
-    }
     public void send(FileContainer fileContainer){
-        sendFileContainer(fileContainer);
+        if(fileContainer.getStatus() == false){
+            System.out.println("in ClientThread.send(): fileContainer has status: false");
+            return;
+        }
+        send((Object) fileContainer);
     }
+
     @Override
-    public void takeAction(FileContainer fileContainer){
-        fileContainer.setDestinationDirectory(dataBase.getMainDir());
-        saveFileData(fileContainer);
+    public void takeAction(Object obj){
+        switch (obj.getClass().getName()){
+            case "FileContainer": takeAction((FileContainer) obj);
+                break;
+            case "Message": takeAction((Message) obj);
+                break;
+        }
     }
+    public void takeAction(FileContainer fileContainer){}
+    public void takeAction(Message message){}
+
 
 
 }

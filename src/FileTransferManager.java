@@ -5,14 +5,10 @@ public class FileTransferManager{
     protected Socket socket = null;
     protected ObjectOutputStream output = null;
 
-    public void sendFileContainer(FileContainer fileContainer) {
-        if (fileContainer.getStatus() == false) {
-            System.out.println("FileContiner has status: false");
-            return;
-        }
+    public void send(Object obj) {
         try {
             output = new ObjectOutputStream(socket.getOutputStream());
-            output.writeObject(fileContainer);
+            output.writeObject(obj);
             output.flush();
             //output.close();
         } catch (IOException e) {
@@ -20,20 +16,19 @@ public class FileTransferManager{
         }
     }
 
-    public FileContainer read() {
-        FileContainer fileContainer;
+    public Object read() {
+        Object obj;
         try {
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-            fileContainer = (FileContainer) input.readObject();
-            if (fileContainer != null) {
-                return fileContainer;
+            obj = input.readObject();
+            if (obj != null) {
+                return obj;
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         return null;
     }
     public void startReading() {
@@ -45,47 +40,13 @@ public class FileTransferManager{
                     //Thread.sleep();
                     obj = read();
                     if(obj != null){
-                        takeAction((FileContainer)obj);
+                        takeAction(obj);
                     }
                 }
             }
         };
         new Thread(listener).start();
     }
-    public void saveFileData(FileContainer fileContainer){
-        String outputFilePath = fileContainer.getDestinationDirectory() + File.separator + fileContainer.getFilename();
-        if (!new File(fileContainer.getDestinationDirectory()).exists()) {
-            new File(fileContainer.getDestinationDirectory()).mkdirs();
-        }
 
-        File file = new File(outputFilePath);
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(fileContainer.getFileData());
-            fileOutputStream.flush();
-            fileOutputStream.close();
-            System.out.println(outputFilePath + " was successfully saved");
-
-        } catch (FileNotFoundException e) {
-            System.out.println(outputFilePath + " was not saved");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println(outputFilePath + " was not saved");
-            e.printStackTrace();
-        }
-
-    }
-    public void saveFileMetadata(FileContainer fileContainer){
-        FileContainer metadata = new FileContainer(fileContainer);
-        try {
-            FileOutputStream file = new FileOutputStream(metadata.getDestinationDirectory()+File.separator+metadata.getFilename()+".metadata");
-            ObjectOutputStream output = new ObjectOutputStream(file);
-            output.writeObject(metadata);
-            output.close();
-        } catch (Exception e) {
-            System.out.println("In FileTransferManager.saveFileMetadata() error occurred: "+ e.getMessage());
-        }
-    }
-    public void takeAction(FileContainer fileContainer){}
+    public void takeAction(Object obj){}
 }

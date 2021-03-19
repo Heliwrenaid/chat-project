@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class User implements Serializable {
+public class User extends Chat implements Serializable {
 
     private String name;
     private String password;
@@ -28,7 +28,6 @@ public class User implements Serializable {
         if (avatarSrc != null) {
             this.avatarSrc = avatarSrc;
         } else {
-
             this.avatarSrc = "resources\\avatar.png";
         }
         this.dir = mainDir + File.separator + "users" + File.separator + id;
@@ -44,13 +43,13 @@ public class User implements Serializable {
     }
 
     void save(){
-        System.out.print("Saving user info ... ");
+        //System.out.print("Saving user info ... ");
         try {
             FileOutputStream file = new FileOutputStream(dir+ File.separator + "info");
             ObjectOutputStream output = new ObjectOutputStream(file);
             output.writeObject(this);
             output.close();
-            System.out.println("Saved!");
+            //System.out.println("Saved!");
         } catch (Exception e) {
             System.out.println("In User.save() error occurred: "+ e.getMessage());
         }

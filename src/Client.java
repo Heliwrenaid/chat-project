@@ -62,11 +62,13 @@ public class Client {
     public static void main(String[] args) {
         Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
         client.startTransmission();
+
         FileContainer fileContainer = new FileContainer("C:\\Users\\Dell\\Pictures\\PE\\a.png");
-        fileContainer.setDestinationDirectory(System.getProperty("user.home") + File.separator + "ServerData");
-        fileContainer.setUserChatId(1);
+        fileContainer.setDestId(1);
+
         client.clientThread.send(fileContainer);
-       // client.clientThread.send("C:\\Users\\Dell\\Pictures\\PE\\a.png");
+        client.clientThread.send(new Message("a","b","c","d"));
+
         client.saveDataBase();
     }
 }

@@ -1,7 +1,4 @@
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.Serializable;
+import java.io.*;
 
 public class FileContainer implements Serializable{
     private String destDir;
@@ -15,6 +12,7 @@ public class FileContainer implements Serializable{
     private int channelId=0;
     private int userId=0;
     private int userChatId=0;
+    private int destId;
 
     public FileContainer(String filePath) {
         srcFilePath = filePath;
@@ -45,18 +43,41 @@ public class FileContainer implements Serializable{
             status = false;
         }
     }
-    //create metadata for file
-    public FileContainer(FileContainer fileContainer){
-        destDir = fileContainer.getDestinationDirectory();
-        srcFilePath = fileContainer.srcFilePath;
-        fileName = fileContainer.fileName;
-        originalFileName = fileContainer.originalFileName;
-        fileSize = fileContainer.fileSize;
-        status = fileContainer.status;
-        groupId = fileContainer.groupId;
-        channelId = fileContainer.channelId;
-        userId = fileContainer.userId;
-        userChatId = fileContainer.userChatId;
+
+    public void saveFileData(){
+        String outputFilePath = destDir + File.separator + fileName;
+        if (!new File(destDir).exists()) {
+            new File(destDir).mkdirs();
+        }
+
+        File file = new File(outputFilePath);
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(fileData);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            System.out.println(outputFilePath + " was successfully saved");
+
+        } catch (FileNotFoundException e) {
+            System.out.println(outputFilePath + " was not saved");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println(outputFilePath + " was not saved");
+            e.printStackTrace();
+        }
+
+    }
+    public void saveFileMetadata(){
+        fileData = null;
+        try {
+            FileOutputStream file = new FileOutputStream(destDir+File.separator+fileName+".metadata");
+            ObjectOutputStream output = new ObjectOutputStream(file);
+            output.writeObject(this);
+            output.close();
+        } catch (Exception e) {
+            System.out.println("In FileContainer.saveFileMetadata() error occurred: "+ e.getMessage());
+        }
     }
 
     public String getDestinationDirectory() {
@@ -134,6 +155,15 @@ public class FileContainer implements Serializable{
     public void setUserChatId(int userChatId) {
         this.userChatId = userChatId;
     }
+
+    public int getDestId() {
+        return destId;
+    }
+
+    public void setDestId(int destId) {
+        this.destId = destId;
+    }
+
     public boolean isForUser(){
         if(userChatId !=0) return true;
         else return false;

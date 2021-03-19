@@ -3,15 +3,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Group implements Serializable {
+public class Group extends Chat implements Serializable {
     private int groupId;
     private String dir;
-    private String fileDir;
-    private String messageDir;
-    private PermissionManager permManager = new PermissionManager();
+
     private ArrayList<Integer> subscribers = new ArrayList<Integer>();
     private ArrayList<Integer> admins = new ArrayList<Integer>();
-    private ArrayList<Integer> messages = new ArrayList<Integer>();
+
 
     public Group(int groupId, String mainDir) {
         this.groupId = groupId;
@@ -68,27 +66,7 @@ public class Group implements Serializable {
         }
         return true;
     }
-    boolean addMessage(Message message){
-        if (permManager.checkPerm(message)){
-            /*
-            int newId = nextMessageId();
-            dodaj newId do 'messages'
-            zapisz 'message' do pliku o nazwie 'newId' w folderze messages
-             */
-            int newId = nextMessageId();
-            messages.add(newId);
-            try {
-                FileOutputStream file = new FileOutputStream(dir+File.separator+"messages"+File.separator+newId);
-                ObjectOutputStream output = new ObjectOutputStream(file);
-                output.writeObject(message);
-                output.close();
-                return true;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return false;
-    }
+
     void createDirectories(){
         /*
             groups\ (już utworzone przez DataBase)
@@ -105,48 +83,8 @@ public class Group implements Serializable {
         }
     }
     void save(){
-        Functions.save(this,dir+File.separator+"groupData");
+        Functions.save(this,dir+File.separator+"info");
     }
 
-    Message getMessage(int id){
-        /*FileInputStream fileStream = null;
-        Message message = null;
-        try {
-            fileStream = new FileInputStream(dir+ File.separator+"messages"+File.separator+id);
-            ObjectInputStream objStream = new ObjectInputStream(fileStream);
-             message = (Message) objStream.readObject();
-            objStream.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return message;*/
-        return (Message) Functions.getObject(dir+ File.separator+"messages"+File.separator+id);
-    }
 
-    int nextMessageId(){
-        return Functions.nextId(messages);
-    }
-
-    public String getDir() {
-        return dir;
-    }
-
-    public String getFileDir() {
-        return fileDir;
-    }
-
-    public String getMessageDir() {
-        return messageDir;
-    }
-
-    public static void main(String[] args) {
-        Group group = new Group(1,"C:\\");
-        group.createDirectories();
-        Message m = new Message(10000);
-        Message mi = new Message(10);
-        group.addMessage(m);
-        group.addMessage(mi);
-        System.out.println(group.getMessage(1).getData());
-        group.save();
-    }
 }

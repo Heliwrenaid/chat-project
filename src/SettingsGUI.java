@@ -20,20 +20,55 @@ public class SettingsGUI extends JFrame{
     private JButton cancelButton;
     private JPanel downPanel;
     private JPanel upPanel;
-  //  private String haslo;
+    private JTextField emailtextField1;
+    private Client client;
+    private String str;
+    private String animal;
+
+    //  private String haslo;
 
 
 
-    public SettingsGUI(Color darker, Color lighter) {
+    public SettingsGUI(Color darker, Color lighter,Client client) {
 
         setContentPane(settingsPanel);
+        this.client=client;
         downPanel.setBackground(darker);
         upPanel.setBackground(darker);
         settingsPanel.setBackground(darker);
         passwordField1.setBackground(lighter);
         nicktextField1.setBackground(lighter);
-        passwordField2.setBackground(lighter);
         biotextField2.setBackground(lighter);
+        emailtextField1.setText(client.getActualUser().getEmail());
+        nicktextField1.setText(client.getActualUser().getName());
+        passwordField1.setText(client.getActualUser().getPassword());
+        biotextField2.setText(client.getActualUser().getBio());
+        str=client.getActualUser().getAvatarSrc();
+
+        if(str.equals("src\\Icons\\wolf.jpg"))
+        {
+            wolfRadioButton.setSelected(true);
+        }
+        if(str.equals("src\\Icons\\tiger.jpg"))
+        {
+            tigerRadioButton.setSelected(true);
+        }
+        if(str.equals("src\\Icons\\eagle.jpg"))
+        {
+            eagleRadioButton.setSelected(true);
+        }
+        if(str.equals("src\\Icons\\bear.jpg"))
+        {
+            bearRadioButton.setSelected(true);
+        }
+        if(str.equals("src\\Icons\\horse.jpg"))
+        {
+            horseRadioButton.setSelected(true);
+        }
+        if(str.equals("src\\Icons\\lion.jpg"))
+        {
+            lionRadioButton.setSelected(true);
+        }
 
 
         cancelButton.addActionListener(new ActionListener() {
@@ -47,6 +82,44 @@ public class SettingsGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                // haslo=JOptionPane.showInternalInputDialog(settingsPanel,"Wprowadź stare hasło!");
+                String haslo = JOptionPane.showInputDialog(settingsPanel,"Confirm old password: ");
+                if(haslo.equals(client.getActualUser().getPassword())){
+                    if(wolfRadioButton.isSelected())
+                    {
+                        animal = "src\\Icons\\wolf.jpg";
+                    }
+                    if(lionRadioButton.isSelected())
+                    {
+                        animal = "src\\Icons\\lion.jpg";
+                    }
+                    if(tigerRadioButton.isSelected())
+                    {
+                        animal = "src\\Icons\\tiger.jpg";
+                    }
+                    if(bearRadioButton.isSelected())
+                    {
+                        animal = "src\\Icons\\bear.jpg";
+                    }
+                    if(eagleRadioButton.isSelected())
+                    {
+                        animal = "src\\Icons\\eagle.jpg";
+                    }
+                    if(horseRadioButton.isSelected())
+                    {
+                        animal = "src\\Icons\\horse.jpg";
+                    }
+                    client.getActualUser().setAvatarSrc(animal);
+                    client.getActualUser().setBio(biotextField2.getText());
+                    client.getActualUser().setName(nicktextField1.getText());
+                    client.getActualUser().setPassword(passwordField1.getText());
+                    dispose();
+
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(settingsPanel,"ERROR! Please try again !");
+
+                }
             }
         });
     }

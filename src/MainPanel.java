@@ -5,6 +5,8 @@ import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +48,8 @@ public class MainPanel extends JFrame {
     public MainPanel(Client client) {
         this.client=client;
 
+
+
         infoField.setText("Witaj "+client.getActualUser().getName()+"!");
         ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
         avatarIcon.setIcon(icon);
@@ -64,7 +68,7 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(info,"Project created for JPWP subject. AGH University of Science and Technology.\n Contact:\n Jan Sciga-sciga@student.agh.edu.pl \n Michał Kurdziel- mkurdziel@student.agh.edu.pl ");
-                dispose();
+
             }
         });
         newGroupButton.addActionListener(new ActionListener() {
@@ -87,9 +91,10 @@ public class MainPanel extends JFrame {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = new SettingsGUI(mainPanel.getBackground(),listChannel.getBackground());
+                JFrame f = new SettingsGUI(mainPanel.getBackground(),listChannel.getBackground(),client);
                 f.pack();
                 f.setVisible(true);
+
             }
         });
         darkModebutton1.addActionListener(new ActionListener() {
@@ -150,6 +155,15 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+            }
+        });
+        textMessageArea.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                infoField.setText("Witaj "+client.getActualUser().getName()+"!");
+                ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
+                avatarIcon.setIcon(icon);
             }
         });
     }

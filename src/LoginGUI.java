@@ -18,12 +18,21 @@ public class LoginGUI extends JFrame {
         signInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
 
-                client.signIn(nickField1.getText(),passwordField1.getText());
+                    client.signIn(nickField1.getText(), passwordField1.getText());
 
-                JFrame f = new MainPanel(client);
-                f.pack();
-                f.setVisible(true);
+                    JFrame f = new MainPanel(client);
+                    f.pack();
+                    f.setVisible(true);
+
+                }catch (Exception k)
+                {
+                    JOptionPane.showMessageDialog(loginMain,"Error! Please try again. ");
+                    nickField1.setText("");
+                    passwordField1.setText("");
+                }
+
             }
         });
 

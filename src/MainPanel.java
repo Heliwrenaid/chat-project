@@ -46,12 +46,11 @@ public class MainPanel extends JFrame {
     public MainPanel(Client client) {
         this.client=client;
 
-//       infoField.setText("Witaj "+client.getActualUser().getName()+"!");
-//        ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
-//        avatarIcon.setIcon(icon);
+        infoField.setText("Witaj "+client.getActualUser().getName()+"!");
+        ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
+        avatarIcon.setIcon(icon);
 
         setContentPane(mainPanel);
-
 
         sendButton.addActionListener(new ActionListener() {
             @Override
@@ -150,9 +149,7 @@ public class MainPanel extends JFrame {
         joinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                infoField.setText("Witaj "+client.getActualUser().getName()+"!");
-                ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
-                avatarIcon.setIcon(icon);
+
             }
         });
     }

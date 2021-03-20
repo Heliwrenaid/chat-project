@@ -17,7 +17,6 @@ public class SignupGUI extends JFrame {
     private JRadioButton lionRadioButton;
     private JRadioButton bearRadioButton;
     private JTextField emailtextField1;
-    private String animal;
     private Client client;
 
     public SignupGUI(Client client) {
@@ -25,30 +24,6 @@ public class SignupGUI extends JFrame {
 
         setContentPane(signupPanel);
 
-        if(wolfRadioButton.isSelected())
-        {
-            animal = "src\\Icons\\wolf.jpg";
-        }
-        if(lionRadioButton.isSelected())
-        {
-            animal = "src\\Icons\\lion.jpg";
-        }
-        if(tigerRadioButton.isSelected())
-        {
-            animal = "src\\Icons\\tiger.jpg";
-        }
-        if(bearRadioButton.isSelected())
-        {
-            animal = "src\\Icons\\bear.jpg";
-        }
-        if(eagleRadioButton.isSelected())
-        {
-            animal = "src\\Icons\\eagle.jpg";
-        }
-        if(horseRadioButton.isSelected())
-        {
-            animal = "src\\Icons\\horse.jpg";
-        }
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -59,13 +34,39 @@ public class SignupGUI extends JFrame {
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String animal="src\\Icons\\wolf.jpg";
+                if(wolfRadioButton.isSelected())
+                {
+                    animal = "src\\Icons\\wolf.jpg";
+                }
+                if(lionRadioButton.isSelected())
+                {
+                    animal = "src\\Icons\\lion.jpg";
+                }
+                if(tigerRadioButton.isSelected())
+                {
+                    animal = "src\\Icons\\tiger.jpg";
+                }
+                if(bearRadioButton.isSelected())
+                {
+                    animal = "src\\Icons\\bear.jpg";
+                }
+                if(eagleRadioButton.isSelected())
+                {
+                    animal = "src\\Icons\\eagle.jpg";
+                }
+                if(horseRadioButton.isSelected())
+                {
+                    animal = "src\\Icons\\horse.jpg";
+                }
+
                 if(userName.getText().length() == 0){
                     JOptionPane.showMessageDialog(signupPanel,"ERROR in signing up. Please try again !");
                     dispose();
                 }
                 else
                 {
-                   client.signUp(emailtextField1.getText(),userName.getText(),passwordField1.getPassword().toString(),bioText.getText(),animal);
+                   client.signUp(emailtextField1.getText(),userName.getText(),passwordField1.getText(),bioText.getText(),animal);
 
                    dispose();
                 }

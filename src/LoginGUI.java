@@ -19,7 +19,7 @@ public class LoginGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                client.signIn(nickField1.getText(),passwordField1.getPassword().toString());
+                client.signIn(nickField1.getText(),passwordField1.getText());
 
                 JFrame f = new MainPanel(client);
                 f.pack();
@@ -37,31 +37,7 @@ public class LoginGUI extends JFrame {
         });
     }
 
-    public LoginGUI(Client client) {
-        setContentPane(loginMain);
-        this.client=client;
 
-        signInButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                client.signIn(nickField1.getText(),passwordField1.getPassword().toString());
-                JFrame f = new MainPanel(client);
-                f.pack();
-                f.setVisible(true);
-                dispose();
-            }
-        });
-
-        signUpButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame f = new SignupGUI(client);
-                f.pack();
-                f.setVisible(true);
-                dispose();
-            }
-        });
-    }
 
 
     public static void main(String[] args) {

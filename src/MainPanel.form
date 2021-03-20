@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="847" height="623"/>
+      <xy x="20" y="20" width="847" height="709"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -111,19 +111,6 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="9bef5" class="javax.swing.JList" binding="listGroup">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <model>
-                    <item value="group1"/>
-                    <item value="group1"/>
-                  </model>
-                </properties>
-              </component>
               <component id="43e63" class="javax.swing.JList" binding="listChannel">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -135,7 +122,33 @@
                     <item value="chanel1"/>
                     <item value="chanel1"/>
                     <item value="channel2"/>
+                    <item value="chanel1"/>
+                    <item value="chanel1"/>
                     <item value="channel2"/>
+                    <item value="channel2channel2"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="9bef5" class="javax.swing.JList" binding="listGroup">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="group1"/>
+                    <item value="group1"/>
+                    <item value="group1"/>
+                    <item value="group1group1"/>
+                    <item value="group1group1"/>
+                    <item value="group1group1"/>
+                    <item value="group1group1"/>
+                    <item value="group1group1"/>
+                    <item value="group1group1"/>
+                    <item value="group1group1"/>
+                    <item value="group1group1"/>
+                    <item value="group1group1"/>
                   </model>
                 </properties>
               </component>
@@ -151,7 +164,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="a04bb" binding="messagePanel" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="a04bb" binding="messagePanel" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -161,7 +174,7 @@
             <children>
               <scrollpane id="53b80">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -169,6 +182,7 @@
                   <component id="dcde4" class="javax.swing.JTextArea" binding="textMessageArea">
                     <constraints/>
                     <properties>
+                      <editable value="false"/>
                       <text value=""/>
                     </properties>
                   </component>
@@ -176,7 +190,7 @@
               </scrollpane>
               <component id="acc72" class="javax.swing.JButton" binding="sendButton" default-binding="true">
                 <constraints>
-                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <icon value="Icons/sent.png"/>
@@ -185,7 +199,7 @@
               </component>
               <component id="e0a4c" class="javax.swing.JButton" binding="FileButton">
                 <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <icon value="Icons/file.png"/>
@@ -194,7 +208,7 @@
               </component>
               <component id="2901e" class="javax.swing.JTextField" binding="chatField">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
@@ -229,6 +243,22 @@
                 <properties>
                   <icon value="Icons/info.png"/>
                   <text value=""/>
+                </properties>
+              </component>
+              <component id="e94ac" class="javax.swing.JLabel" binding="organizName">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Group/Channel name"/>
+                </properties>
+              </component>
+              <component id="bc5ea" class="javax.swing.JLabel" binding="organDescrip">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Short description"/>
                 </properties>
               </component>
             </children>

@@ -1,7 +1,12 @@
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainPanel extends JFrame {
 
@@ -32,6 +37,8 @@ public class MainPanel extends JFrame {
     private JLabel komunikatorField;
     private JLabel infoField;
     private JButton darkModebutton1;
+    private JLabel organizName;
+    private JLabel organDescrip;
     private JTextArea messageTextArea;
 
     public MainPanel() {
@@ -114,7 +121,29 @@ public class MainPanel extends JFrame {
                 }
             }
         });
+
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Highlighter.HighlightPainter painter =
+                        new DefaultHighlighter.DefaultHighlightPainter( Color.green );
+                
+                int offset = textMessageArea.getText().indexOf(searchMsgField.getText());
+                int length = searchMsgField.getText().length();
+
+                while ( offset != -1)
+                {
+                    try
+                    {
+                        textMessageArea.getHighlighter().addHighlight(offset, offset + length, painter);
+                        offset = searchMsgField.getText().indexOf(searchMsgField.getText(), offset+1);
+                    }
+                    catch(BadLocationException ble) { System.out.println(ble); }
+                }
+            }
+        });
     }
+
 //
     public static void main(String[] args) {
         JFrame frame = new JFrame("MainPanel");

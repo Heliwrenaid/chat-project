@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38a3134d-04a8-4d64-ac48-52289746f997" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/chat-project_nowy.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/chat/Icons/Skan_20210228 (2).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Icons/Skan_20210228 (2).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chat-project_nowy/Client.bat" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/chat-project_nowy/Client.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chat-project_nowy/del.bat" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/chat-project_nowy/del.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainPanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,11 +26,19 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW" value="true" />
+    <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="Application.LoginGUI">
+  <component name="RunManager" selected="Application.MainPanel">
     <configuration name="LoginGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="LoginGUI" />
       <module name="chat-project_nowy" />
@@ -48,21 +53,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
+    <configuration name="SignupGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SignupGUI" />
+      <module name="chat-project_nowy" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.LoginGUI" />
         <item itemvalue="Application.MainPanel" />
+        <item itemvalue="Application.SignupGUI" />
+        <item itemvalue="Application.LoginGUI" />
       </list>
     </recent_temporary>
   </component>
@@ -79,6 +81,9 @@
       <workItem from="1616185590937" duration="21000" />
       <workItem from="1616185689053" duration="69000" />
       <workItem from="1616187374074" duration="34000" />
+      <workItem from="1616194630030" duration="3464000" />
+      <workItem from="1616229304749" duration="887000" />
+      <workItem from="1616241185432" duration="385000" />
     </task>
     <servers />
   </component>

@@ -34,7 +34,7 @@ public class SignupGUI extends JFrame {
                 }
                 else
                 {
-                    User user = new User(userName.getText(),passwordField1.getPassword().toString(),90,null,null,null);
+                    User user = new User("d",userName.getText(),passwordField1.getPassword().toString(),90,null,null,null);
                    dispose();
 
                 }

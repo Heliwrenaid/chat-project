@@ -12,12 +12,11 @@ public class ClientThread extends FileTransferManager{
     public ClientThread(){}
     public void send(FileContainer fileContainer){
         if(fileContainer.getStatus() == false){
-            System.out.println("in ClientThread.send(): fileContainer has status: false");
+            System.out.println("in Client/Server Thread.send(): fileContainer has status: false");
             return;
         }
-        send((Object) fileContainer);
+        send(fileContainer);
     }
-
     @Override
     public void takeAction(Object obj){
         switch (obj.getClass().getName()){
@@ -25,10 +24,24 @@ public class ClientThread extends FileTransferManager{
                 break;
             case "Message": takeAction((Message) obj);
                 break;
+            case "User": takeAction((User) obj);
         }
     }
     public void takeAction(FileContainer fileContainer){}
-    public void takeAction(Message message){}
+    public void takeAction(Message message){
+        switch (message.getCmd()){
+            case "signUp:true":{
+                System.out.println("Account linked with " + message.getEmail() + " was created");
+                return;
+            }
+            case "signUp:false":{
+                System.out.println("Error: Account linked with " + message.getEmail() + " was not created");
+                return;
+            }
+        }
+    }
+    public void takeAction(User user){
+    }
 
 
 

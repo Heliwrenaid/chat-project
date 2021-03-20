@@ -14,9 +14,12 @@ public class User extends Chat implements Serializable {
     private String dir;
     private String fileDir;
     private String messageDir;
+    private String email;
+    private String cmd;
     private ArrayList<Integer> messages = new ArrayList<Integer>();
 
-    public User(String name, String password,int id,String mainDir,String bio,String avatarSrc) {
+    public User(String email,String name, String password,int id,String mainDir,String bio,String avatarSrc) {
+        this.email = email;
         this.name = name;
         this.password = password;
         this.id = id;
@@ -40,6 +43,14 @@ public class User extends Chat implements Serializable {
             System.out.println("In User.Constructor() error occurred: "+ e.getMessage());
         }
         save();
+    }
+
+    public User(String email,String name, String password, String bio, String avatarSrc) {
+        this.name = name;
+        this.password = password;
+        this.bio = bio;
+        this.avatarSrc = avatarSrc;
+        this.email = email;
     }
 
     void save(){
@@ -120,5 +131,21 @@ public class User extends Chat implements Serializable {
     }
     int nextMessageId(){
         return Functions.nextId(messages);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCmd() {
+        return cmd;
+    }
+
+    public void setCmd(String cmd) {
+        this.cmd = cmd;
     }
 }

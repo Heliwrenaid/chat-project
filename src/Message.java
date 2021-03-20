@@ -20,4 +20,46 @@ public class Message implements Serializable {
         System.out.println("destId: " + destId);
         System.out.println("---------------------------");
     }
+
+    // ---------------- getters & setters -----------------
+
+    public String getCmd() {
+        return cmd;
+    }
+
+    public void setCmd(String cmd) {
+        this.cmd = cmd;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getDestId() {
+        return destId;
+    }
+
+    public void setDestId(String destId) {
+        this.destId = destId;
+    }
+
+    // -------------- extra getters & setters ---------------
+    public String getEmail(){
+        return message;
+    }
+    public void setEmail(String message) {
+        this.message = message;
+    }
 }

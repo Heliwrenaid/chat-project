@@ -9,6 +9,7 @@ public class DataBase implements Serializable{
     private String mainDir;
     // Strings: 'users', 'groups', 'channels'
     private HashMap<Integer,String> idSet = new HashMap<>();
+    private HashMap <String,Integer> emails = new HashMap<>();
     public DataBase(String mainDir) {
         this.mainDir = mainDir;
         createDirectories();
@@ -30,10 +31,17 @@ public class DataBase implements Serializable{
         return Functions.freeId(idSet);
     }
 
-    User createUser(String name, String password, String bio, String avatarSrc){
+    User createUser(String email,String name, String password, String bio, String avatarSrc){
         int newId = freeId();
+        if(emails.containsKey(email)){
+            System.out.println("In DataBase.createUser(): " +email + " already exists ... Aborting.");
+            return null;
+        }
+        else
+            emails.put(email,newId);
         idSet.put(newId,"users");
-        return new User(name,password,newId,mainDir,bio,avatarSrc);
+        save();
+        return new User(email,name,password,newId,mainDir,bio,avatarSrc);
     }
 
     void delete(int id){
@@ -104,6 +112,9 @@ public class DataBase implements Serializable{
         this.mainDir = mainDir;
     }
 
+    public HashMap<String, Integer> getEmails() {
+        return emails;
+    }
     /*
     public static void main(String[] args){
         DataBase db = loadData(System.getProperty("user.home") + File.separator + "DB\\db\\db");

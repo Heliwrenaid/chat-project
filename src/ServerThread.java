@@ -22,9 +22,27 @@ public class ServerThread extends ClientThread{
 
 
     }
+
+    @Override
     public void takeAction(Message message){
         message.print();
     }
-
-
+    @Override
+    public void takeAction(User user) {
+        switch (user.getCmd()){
+            case "signUp":{
+                String email = user.getEmail();
+                if(dataBase.getEmails().containsKey(email)){
+                    System.out.println("ServerThread.takeAction(): user account linked with " + email + " was not created");
+                    send(new Message("signUp:false",email,null,null));
+                }
+                else {
+                    System.out.println("ServerThread.takeAction(): user account linked with " + email + " was created");
+                    dataBase.createUser(user.getEmail(),user.getName(),user.getPassword(),user.getBio(),user.getAvatarSrc());
+                    send(new Message("signUp:true",email,null,null));
+                }
+                return;
+            }
+        }
+    }
 }

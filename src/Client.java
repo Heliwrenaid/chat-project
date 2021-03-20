@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 public class Client {
     private Socket socket = null;
     private DataBase dataBase = null ;
-    ClientThread clientThread;
+    private ClientThread clientThread = null;
     private String mainDir = null;
     private String dataBasePath = null;
     private String host = "localhost";
@@ -59,15 +59,29 @@ public class Client {
         }
         clientThread = new ClientThread(socket,dataBase);
     }
+    public void signUp(String email,String name, String pass, String bio, String avatarSrc){
+        User user = new User(email,name,pass,bio,avatarSrc);
+        user.setCmd("signUp");
+        if (clientThread != null)
+            send(user);
+        else
+            System.out.println("In Client.signUp(): 'clientThread' is null");
+
+    }
+    public void send(Object obj){
+        if(obj != null) clientThread.send(obj);
+        else System.out.println("Client.send(): 'obj' is null");
+    }
     public static void main(String[] args) {
         Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
         client.startTransmission();
 
         FileContainer fileContainer = new FileContainer("C:\\Users\\Dell\\Pictures\\PE\\a.png");
         fileContainer.setDestId(1);
+        client.send(fileContainer);
 
-        client.clientThread.send(fileContainer);
-        client.clientThread.send(new Message("a","b","c","d"));
+        client.send(new Message("a","b","c","d"));
+        client.signUp("mk@o.pl","Michal","1234","afk",null);
 
         client.saveDataBase();
     }

@@ -25,7 +25,32 @@ public class ServerThread extends ClientThread{
 
     @Override
     public void takeAction(Message message){
-        message.print();
+        switch (message.getCmd()){
+            case "signIn":{
+
+                boolean login;
+                User user = dataBase.getUser(message.getEmail());
+                if (user == null)
+                    login = false;
+                if (user.getEmail().equals(message.getEmail())
+                        && user.getPassword().equals(message.getPassword()))
+                    login = true;
+                else
+                    login = false;
+
+                if(login){
+                    System.out.println(message.getEmail() + " signs in");
+                    actualUser = user;
+                    user.setCmd("signIn:true");
+                    send(user);
+                }
+                else {
+                    System.out.println("Error: " + message.getEmail() + " is not sign in");
+                    send(new Message("signIn:false",message.getEmail(),null,null));
+                }
+                return;
+            }
+        }
     }
     @Override
     public void takeAction(User user) {

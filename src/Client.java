@@ -68,6 +68,13 @@ public class Client {
             System.out.println("In Client.signUp(): 'clientThread' is null");
 
     }
+    public void signIn(String email, String password){
+        Message message = new Message();
+        message.setEmail(email);
+        message.setPassword(password);
+        message.setCmd("signIn");
+        send(message);
+    }
     public void send(Object obj){
         if(obj != null) clientThread.send(obj);
         else System.out.println("Client.send(): 'obj' is null");
@@ -76,12 +83,14 @@ public class Client {
         Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
         client.startTransmission();
 
-        FileContainer fileContainer = new FileContainer("C:\\Users\\Dell\\Pictures\\PE\\a.png");
+        FileContainer fileContainer = new FileContainer("C:\\Users\\Dell\\Pictures\\PE\\ak.png");
         fileContainer.setDestId(1);
         client.send(fileContainer);
 
         client.send(new Message("a","b","c","d"));
         client.signUp("mk@o.pl","Michal","1234","afk",null);
+
+        client.signIn("mk@o.pl","13234");
 
         client.saveDataBase();
     }

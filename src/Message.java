@@ -12,6 +12,8 @@ public class Message implements Serializable {
         this.userId = userId;
         this.destId = destId;
     }
+    public Message(){}
+
     public void print(){
         System.out.println("-------Print Message-------");
         System.out.println("cmd: " + cmd);
@@ -61,5 +63,12 @@ public class Message implements Serializable {
     }
     public void setEmail(String message) {
         this.message = message;
+    }
+    public String getPassword() {
+        return userId;
+    }
+
+    public void setPassword(String userId) {
+        this.userId = userId;
     }
 }

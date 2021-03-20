@@ -2,7 +2,7 @@ import java.net.Socket;
 
 public class ClientThread extends FileTransferManager{
     protected DataBase dataBase;
-    protected User user;
+    protected User actualUser = null;
 
     public ClientThread(Socket socket, DataBase dataBase) {
         this.socket = socket;
@@ -38,11 +38,23 @@ public class ClientThread extends FileTransferManager{
                 System.out.println("Error: Account linked with " + message.getEmail() + " was not created");
                 return;
             }
+            case "signIn:false":{
+                System.out.println("Error: " + message.getEmail() + " is not sign in");
+                return;
+            }
         }
     }
     public void takeAction(User user){
+        switch (user.getCmd()){
+            case "signIn:true":{
+                System.out.println("ClientThread.takeAction(User): " + user.getEmail() + " is sign in");
+                actualUser = user;
+                return;
+            }
+        }
     }
 
-
-
+    public User getActualUser() {
+        return actualUser;
+    }
 }

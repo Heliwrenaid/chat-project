@@ -71,6 +71,9 @@ public class DataBase implements Serializable{
     User getUser(int id) {
         return (User) Functions.getObject(mainDir+ File.separator+"users"+File.separator+id + File.separator + "info");
     }
+    User getUser(String email){
+       return getUser(emails.get(email));
+    }
 
     Group getGroup(int id)  {
         return (Group) Functions.getObject(mainDir+ File.separator+"groups"+File.separator+id + File.separator + "info");

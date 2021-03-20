@@ -63,7 +63,7 @@ public class Server extends Thread{
         String host = args[0];
         int port = Integer.parseInt(args[1]);
         Server server = new Server(host,port,System.getProperty("user.home") + File.separator + "ServerData");
-        server.dataBase.createUser("j@o.pl","Jan","12",null,null);
+        server.dataBase.createUser("admin@o.pl","admin","admin","im dumb admin",null);
         server.startListening();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

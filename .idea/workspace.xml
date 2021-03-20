@@ -2,12 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38a3134d-04a8-4d64-ac48-52289746f997" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/chat-project_nowy/Client.bat" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/chat-project_nowy/Client.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/chat-project_nowy/del.bat" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/chat-project_nowy/del.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chat-project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-project_nowy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chat-project_nowy.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Channel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Channel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Chat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.bat" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileTransferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileTransferManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Functions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Functions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Group.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LoginGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoginGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoginGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainPanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewOrgGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewOrgGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewOrgGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewOrgGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PermissionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PermissionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SIgnupGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/SIgnupGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SettingsGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/SettingsGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SettingsGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SettingsGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SignupGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SignupGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestObjSerialization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TestObjSerialization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/attachment-sign-svgrepo-com.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/attachment-sign-svgrepo-com.svg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +69,14 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="Application.MainPanel">
+  <component name="RunManager" selected="Application.LoginGUI">
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Client" />
+      <module name="chat-project_nowy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="LoginGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="LoginGUI" />
       <module name="chat-project_nowy" />
@@ -53,6 +91,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Server" />
+      <module name="chat-project_nowy" />
+      <option name="PROGRAM_PARAMETERS" value="localhost 2400" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SignupGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="SignupGUI" />
       <module name="chat-project_nowy" />
@@ -60,11 +106,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.LoginGUI" />
+      <item itemvalue="Application.MainPanel" />
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.SignupGUI" />
+      <item itemvalue="Application.Client" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.LoginGUI" />
+        <item itemvalue="Application.Server" />
+        <item itemvalue="Application.Client" />
         <item itemvalue="Application.MainPanel" />
         <item itemvalue="Application.SignupGUI" />
-        <item itemvalue="Application.LoginGUI" />
       </list>
     </recent_temporary>
   </component>
@@ -84,6 +150,7 @@
       <workItem from="1616194630030" duration="3464000" />
       <workItem from="1616229304749" duration="887000" />
       <workItem from="1616241185432" duration="385000" />
+      <workItem from="1616252998951" duration="3830000" />
     </task>
     <servers />
   </component>
@@ -101,5 +168,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MainPanel.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

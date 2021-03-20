@@ -16,9 +16,40 @@ public class SignupGUI extends JFrame {
     private JRadioButton eagleRadioButton;
     private JRadioButton lionRadioButton;
     private JRadioButton bearRadioButton;
+    private JTextField emailtextField1;
+    private String animal;
+    private Client client;
 
-    public SignupGUI() {
+    public SignupGUI(Client client) {
+        this.client=client;
+
         setContentPane(signupPanel);
+
+        if(wolfRadioButton.isSelected())
+        {
+            animal = "src\\Icons\\wolf.jpg";
+        }
+        if(lionRadioButton.isSelected())
+        {
+            animal = "src\\Icons\\lion.jpg";
+        }
+        if(tigerRadioButton.isSelected())
+        {
+            animal = "src\\Icons\\tiger.jpg";
+        }
+        if(bearRadioButton.isSelected())
+        {
+            animal = "src\\Icons\\bear.jpg";
+        }
+        if(eagleRadioButton.isSelected())
+        {
+            animal = "src\\Icons\\eagle.jpg";
+        }
+        if(horseRadioButton.isSelected())
+        {
+            animal = "src\\Icons\\horse.jpg";
+        }
+
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -28,25 +59,25 @@ public class SignupGUI extends JFrame {
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!passwordField1.getPassword().equals(passwordField2.getPassword()) || userName.getText().length() == 0){
+                if(userName.getText().length() == 0){
                     JOptionPane.showMessageDialog(signupPanel,"ERROR in signing up. Please try again !");
                     dispose();
                 }
                 else
                 {
-                    User user = new User("d",userName.getText(),passwordField1.getPassword().toString(),90,null,null,null);
-                   dispose();
+                   client.signUp(emailtextField1.getText(),userName.getText(),passwordField1.getPassword().toString(),bioText.getText(),animal);
 
+                   dispose();
                 }
             }
         });
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("SignupGUI");
-        frame.setContentPane(new SignupGUI().signupPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+//        JFrame frame = new JFrame("SignupGUI");
+//        frame.setContentPane(new SignupGUI().signupPanel);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.pack();
+//        frame.setVisible(true);
     }
 }

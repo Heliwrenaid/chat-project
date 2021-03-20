@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 
 public class MainPanel extends JFrame {
 
-    User user = new User("Jan","abc",60,null,"Lubie placki","src\\Icons\\wolf.jpg");
-    DataBase db = new DataBase("C:\\Users\\janfi");
+   // User user = new User("Jan","abc",60,null,"Lubie placki","src\\Icons\\wolf.jpg");
+   // DataBase db = new DataBase("C:\\Users\\janfi");
     private JPanel leftFrame;
     private JPanel rightFrame;
     private JPanel modesPanel;
@@ -40,18 +40,23 @@ public class MainPanel extends JFrame {
     private JLabel organizName;
     private JLabel organDescrip;
     private JTextArea messageTextArea;
+    private Client client;
 
-    public MainPanel() {
-        infoField.setText("Witaj "+user.getName()+"!");
-        ImageIcon icon = new ImageIcon(user.getAvatarSrc());
-        avatarIcon.setIcon(icon);
+
+    public MainPanel(Client client) {
+        this.client=client;
+
+//       infoField.setText("Witaj "+client.getActualUser().getName()+"!");
+//        ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
+//        avatarIcon.setIcon(icon);
+
         setContentPane(mainPanel);
 
 
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textMessageArea.append(user.getName()+": "+chatField.getText()+"\n\n");
+                textMessageArea.append(client.getActualUser().getName()+": "+chatField.getText()+"\n\n");
                 chatField.setText("");
             }
         });
@@ -142,15 +147,23 @@ public class MainPanel extends JFrame {
                 }
             }
         });
+        joinButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                infoField.setText("Witaj "+client.getActualUser().getName()+"!");
+                ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
+                avatarIcon.setIcon(icon);
+            }
+        });
     }
 
 //
     public static void main(String[] args) {
-        JFrame frame = new JFrame("MainPanel");
-        frame.setContentPane(new MainPanel().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+//        JFrame frame = new JFrame("MainPanel");
+//        frame.setContentPane(new MainPanel().mainPanel);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.pack();
+//        frame.setVisible(true);
     }
 
 

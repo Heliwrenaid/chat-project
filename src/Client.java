@@ -14,7 +14,7 @@ public class Client {
     private String mainDir = null;
     private String dataBasePath = null;
     private String host = "localhost";
-    private int port = 2300;
+    private int port = 2400;
 
     public Client(String mainDir){
         try {
@@ -51,6 +51,7 @@ public class Client {
     public void saveDataBase(){
         dataBase.save();
     }
+
     public void startTransmission(){
         try {
             socket = new Socket(host, port);
@@ -75,6 +76,10 @@ public class Client {
         message.setCmd("signIn");
         send(message);
     }
+    public User getActualUser(){
+        return clientThread.getActualUser();
+    }
+
     public void send(Object obj){
         if(obj != null) clientThread.send(obj);
         else System.out.println("Client.send(): 'obj' is null");
@@ -83,14 +88,14 @@ public class Client {
         Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
         client.startTransmission();
 
-        FileContainer fileContainer = new FileContainer("C:\\Users\\Dell\\Pictures\\PE\\ak.png");
-        fileContainer.setDestId(1);
-        client.send(fileContainer);
+//        FileContainer fileContainer = new FileContainer("C:\\Users\\Dell\\Pictures\\PE\\ak.png");
+//        fileContainer.setDestId(1);
+//        client.send(fileContainer);
 
-        client.send(new Message("a","b","c","d"));
-        client.signUp("mk@o.pl","Michal","1234","afk",null);
-
-        client.signIn("mk@o.pl","13234");
+//        client.send(new Message("a","b","c","d"));
+//        client.signUp("mk@o.pl","Michal","1234","afk",null);
+//
+//        client.signIn("mk@o.pl","13234");
 
         client.saveDataBase();
     }

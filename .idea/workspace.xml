@@ -3,13 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="38a3134d-04a8-4d64-ac48-52289746f997" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoginGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Chat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainPanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SettingsGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/SettingsGUI.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SettingsGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SettingsGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SignupGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SignupGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,15 +74,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -125,6 +120,7 @@
       <workItem from="1616241185432" duration="385000" />
       <workItem from="1616252998951" duration="3830000" />
       <workItem from="1616272457434" duration="6711000" />
+      <workItem from="1616354678597" duration="13449000" />
     </task>
     <servers />
   </component>

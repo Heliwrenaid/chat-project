@@ -3,15 +3,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class User extends Chat implements Serializable {
 
     private String password;
-    private String bio;
+
     private String avatarSrc;
     private String email;
     private String cmd;
+
     private ArrayList <Integer> subscribedChats = new ArrayList<>();
+
 
     public User(String email,String name, String password,int id,String mainDir,String bio,String avatarSrc) {
         super(mainDir + File.separator + "users" + File.separator + id,id);
@@ -120,5 +123,8 @@ public class User extends Chat implements Serializable {
 
     public ArrayList<Integer> getSubscribedChats() {
         return subscribedChats;
+    }
+    public void setSubscribedChats(ArrayList<Integer> subscribedChats) {
+        this.subscribedChats = subscribedChats;
     }
 }

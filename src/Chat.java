@@ -13,6 +13,17 @@ public class Chat implements Serializable {
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected PermissionManager permManager = new PermissionManager();
 
+    public String getBio() {
+        return bio;
+    }
+
+    protected String bio;
+
+    public String getText() {
+        return text;
+    }
+    protected String text;
+
     public Chat(String dir,int id) {
         this.id = id;
         this.dir = dir;
@@ -136,9 +147,7 @@ public class Chat implements Serializable {
 
     @Override
     public String toString() {
-        return "Chat{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Chat: " +name +'\n';
     }
 
     public ArrayList<Integer> getMessages() {

@@ -103,7 +103,7 @@
               </component>
             </children>
           </grid>
-          <grid id="6c5c7" binding="groupsPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="6c5c7" binding="groupsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -111,45 +111,14 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="43e63" class="javax.swing.JList" binding="listChannel">
+              <component id="9bef5" class="javax.swing.JList" binding="listGroup">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="50"/>
                   </grid>
                 </constraints>
                 <properties>
-                  <model>
-                    <item value="chanel1"/>
-                    <item value="chanel1"/>
-                    <item value="channel2"/>
-                    <item value="chanel1"/>
-                    <item value="chanel1"/>
-                    <item value="channel2"/>
-                    <item value="channel2channel2"/>
-                  </model>
-                </properties>
-              </component>
-              <component id="9bef5" class="javax.swing.JList" binding="listGroup">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <model>
-                    <item value="group1"/>
-                    <item value="group1"/>
-                    <item value="group1"/>
-                    <item value="group1group1"/>
-                    <item value="group1group1"/>
-                    <item value="group1group1"/>
-                    <item value="group1group1"/>
-                    <item value="group1group1"/>
-                    <item value="group1group1"/>
-                    <item value="group1group1"/>
-                    <item value="group1group1"/>
-                    <item value="group1group1"/>
-                  </model>
+                  <model/>
                 </properties>
               </component>
             </children>
@@ -224,7 +193,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Search"/>
+                  <text value="Search..."/>
                 </properties>
               </component>
               <component id="61915" class="javax.swing.JButton" binding="searchButton" default-binding="true">

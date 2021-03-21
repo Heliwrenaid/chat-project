@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,20 +47,25 @@ public class MainPanel extends JFrame {
 
 
     public MainPanel(Client client) {
-        this.client=client;
+        this.client = client;
+        ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
+
+        subscribedChates.add(client.getActualUser().getId());
 
 
 
-        infoField.setText("Witaj "+client.getActualUser().getName()+"!");
+        infoField.setText("Witaj " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
         avatarIcon.setIcon(icon);
-
+        client.getActualUser().setSubscribedChats(subscribedChates);
         setContentPane(mainPanel);
+        listGroup.setModel(readAllChat());
+
 
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textMessageArea.append(client.getActualUser().getName()+": "+chatField.getText()+"\n\n");
+                textMessageArea.append(client.getActualUser().getName() + ": " + chatField.getText() + "\n\n");
                 chatField.setText("");
             }
         });
@@ -67,14 +73,14 @@ public class MainPanel extends JFrame {
         info.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(info,"Project created for JPWP subject. AGH University of Science and Technology.\n Contact:\n Jan Sciga-sciga@student.agh.edu.pl \n Michał Kurdziel- mkurdziel@student.agh.edu.pl ");
+                JOptionPane.showMessageDialog(info, "Project created for JPWP subject. AGH University of Science and Technology.\n Contact:\n Jan Sciga-sciga@student.agh.edu.pl \n Michał Kurdziel- mkurdziel@student.agh.edu.pl ");
 
             }
         });
         newGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = new NewOrgGUI(mainPanel.getBackground(),listChannel.getBackground());
+                JFrame f = new NewOrgGUI(mainPanel.getBackground(), listChannel.getBackground());
                 f.pack();
                 f.setVisible(true);
             }
@@ -91,7 +97,7 @@ public class MainPanel extends JFrame {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = new SettingsGUI(mainPanel.getBackground(),listChannel.getBackground(),client);
+                JFrame f = new SettingsGUI(mainPanel.getBackground(), listChannel.getBackground(), client);
                 f.pack();
                 f.setVisible(true);
 
@@ -100,7 +106,7 @@ public class MainPanel extends JFrame {
         darkModebutton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(mainPanel.getBackground()!=Color.gray) {
+                if (mainPanel.getBackground() != Color.gray) {
                     mainPanel.setBackground(Color.gray);
                     leftFrame.setBackground(Color.gray);
                     rightFrame.setBackground(Color.gray);
@@ -113,8 +119,7 @@ public class MainPanel extends JFrame {
                     chatField.setBackground(Color.lightGray);
                     comboBox1.setBackground(Color.lightGray);
                     textMessageArea.setBackground(Color.lightGray);
-                }
-                else{
+                } else {
                     mainPanel.setBackground(Color.lightGray);
                     leftFrame.setBackground(Color.lightGray);
                     rightFrame.setBackground(Color.lightGray);
@@ -135,20 +140,21 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Highlighter.HighlightPainter painter =
-                        new DefaultHighlighter.DefaultHighlightPainter( Color.green );
-                
+                        new DefaultHighlighter.DefaultHighlightPainter(Color.green);
+
+                //src: https://stackoverflow.com/questions/5909419/searching-for-words-in-textarea
                 int offset = textMessageArea.getText().indexOf(searchMsgField.getText());
                 int length = searchMsgField.getText().length();
 
-                while ( offset != -1)
-                {
-                    try
-                    {
+                while (offset != -1) {
+                    try {
                         textMessageArea.getHighlighter().addHighlight(offset, offset + length, painter);
-                        offset = searchMsgField.getText().indexOf(searchMsgField.getText(), offset+1);
+                        offset = textMessageArea.getText().indexOf(searchMsgField.getText(), offset + 1);
+                    } catch (BadLocationException ble) {
+                        System.out.println(ble);
                     }
-                    catch(BadLocationException ble) { System.out.println(ble); }
                 }
+
             }
         });
         joinButton.addActionListener(new ActionListener() {
@@ -161,13 +167,59 @@ public class MainPanel extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                infoField.setText("Witaj "+client.getActualUser().getName()+"!");
+                infoField.setText("Witaj " + client.getActualUser().getName() + "!");
                 ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
                 avatarIcon.setIcon(icon);
+                textMessageArea.getHighlighter().removeAllHighlights();
             }
+        });
+        searchMsgField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                searchMsgField.setText("");
+            }
+        });
+        chatField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                chatField.setText("");
+            }
+        });
+        listGroup.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                JList lista = (JList) e.getSource();
+                if (e.getClickCount() == 2) {
+                    int index = lista.locationToIndex(e.getPoint());
+                    if (index >= 0) {
+                        Chat o = new Chat();
+                        o = (Chat) lista.getModel().getElementAt(index);
+                        System.out.println("Kliknieto: " + o.toString());
+                        textMessageArea.setText(o.getText());
+                        organizName.setText(o.toString());
+                        organDescrip.setText(o.getText());
+                    }
+
+                }
+            }
+
         });
     }
 
+    public DefaultListModel <Chat> readAllChat() {
+        ArrayList <Integer> subscribedChats  =  client.getActualUser().getSubscribedChats();
+
+       // DefaultListModel <Integer> chatList = new DefaultListModel<>();
+        DefaultListModel <Chat> chatList = new DefaultListModel<>();
+
+        for(int m : subscribedChats){
+            chatList.addElement(client.getActualUser());
+        }
+        return chatList;
+    }
 //
     public static void main(String[] args) {
 //        JFrame frame = new JFrame("MainPanel");

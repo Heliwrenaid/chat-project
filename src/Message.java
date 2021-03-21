@@ -5,12 +5,18 @@ public class Message implements Serializable {
     private String message;
     private String userId;
     private String destId;
+    private String info;
 
     public Message(String cmd, String message, String userId, String destId) {
         this.cmd = cmd;
         this.message = message;
         this.userId = userId;
         this.destId = destId;
+    }
+    public Message(String message, int userId, int destId){
+        this.message = message;
+        this.userId = Integer.toString(userId);
+        this.destId = Integer.toString(destId);
     }
     public Message(){}
 
@@ -21,6 +27,13 @@ public class Message implements Serializable {
         System.out.println("userId: " + userId);
         System.out.println("destId: " + destId);
         System.out.println("---------------------------");
+    }
+    public boolean isValid(){
+        if(userId == null) return false;
+        if(destId == null) return false;
+        if(cmd == null) return false;
+        if(message == null) return false;
+        return true;
     }
 
     // ---------------- getters & setters -----------------
@@ -41,20 +54,28 @@ public class Message implements Serializable {
         this.message = message;
     }
 
-    public String getUserId() {
-        return userId;
+    public int getUserId() {
+        return Integer.valueOf(userId);
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId(int userId) {
+        this.userId = Integer.toString(userId);
     }
 
-    public String getDestId() {
-        return destId;
+    public int getDestId() {
+       return Integer.valueOf(destId);
     }
 
-    public void setDestId(String destId) {
-        this.destId = destId;
+    public void setDestId(int destId) {
+        this.destId = Integer.toString(destId);
+    }
+
+    public int getInfo() {
+        return Integer.valueOf(info);
+    }
+
+    public void setInfo(int info) {
+        this.info = Integer.toString(info);
     }
 
     // -------------- extra getters & setters ---------------
@@ -67,7 +88,6 @@ public class Message implements Serializable {
     public String getPassword() {
         return userId;
     }
-
     public void setPassword(String userId) {
         this.userId = userId;
     }

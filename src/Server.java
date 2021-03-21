@@ -64,6 +64,8 @@ public class Server extends Thread{
         int port = Integer.parseInt(args[1]);
         Server server = new Server(host,port,System.getProperty("user.home") + File.separator + "ServerData");
         server.dataBase.createUser("admin@o.pl","admin","admin","im dumb admin",null);
+        //server.dataBase.createGroup(); //TODO
+       Chat chat =  server.dataBase.getChat(1);
         server.startListening();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

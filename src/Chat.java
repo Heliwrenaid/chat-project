@@ -1,16 +1,30 @@
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Chat {
+public class Chat implements Serializable {
     protected String dir;
     protected String fileDir;
     protected String messageDir;
+    protected int id = 0;
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected PermissionManager permManager = new PermissionManager();
 
-    boolean addMessage(Message message){
+    public Chat(String dir,int id) {
+        this.id = id;
+        this.dir = dir;
+        this.fileDir =dir + File.separator + "files";
+        this.messageDir = dir + File.separator + "messages";
+        createDirectories();
+    }
+    public Chat(){
+    }
+    void save(){
+        Functions.save(this,dir+File.separator + "info");
+    }
+    int addMessage(Message message){
         if (permManager.checkPerm(message)){
             /*
             int newId = nextMessageId();
@@ -19,17 +33,56 @@ public class Chat {
              */
             int newId = nextMessageId();
             messages.add(newId);
+
             try {
-                FileOutputStream file = new FileOutputStream(dir+ File.separator+"messages"+File.separator+newId);
+                System.out.print("Saving Message with id: " + newId + " ... ");
+                FileOutputStream file = new FileOutputStream(messageDir+File.separator+newId);
                 ObjectOutputStream output = new ObjectOutputStream(file);
                 output.writeObject(message);
                 output.close();
-                return true;
+                System.out.println("Saved !");
+                save();
+                return newId;
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println("Error in Chat.addMessage(): " + e.getMessage());
             }
         }
-        return false;
+        return 0;
+    }
+    int addMessageClient(Message message){
+        if (permManager.checkPerm(message)){
+            /*
+            int newId = nextMessageId();
+            dodaj newId do 'messages'
+            zapisz 'message' do pliku o nazwie 'newId' w folderze messages
+             */
+            int newId = message.getInfo();
+            messages.add(newId);
+            try {
+                System.out.print("Saving Message with id: " + message.getInfo() + " ... ");
+                FileOutputStream file = new FileOutputStream(messageDir+File.separator+newId);
+                ObjectOutputStream output = new ObjectOutputStream(file);
+                output.writeObject(message);
+                output.close();
+                System.out.println("Saved !");
+                save();
+                return newId;
+            } catch (Exception e) {
+                System.out.println("Error in Chat.addMessage(): " + e.getMessage());
+            }
+        }
+        return 0;
+    }
+
+
+    void createDirectories(){
+        try {
+            Files.createDirectories(Paths.get(dir));
+            Files.createDirectories(Paths.get(messageDir));
+            Files.createDirectories(Paths.get(fileDir));
+        }catch (IOException e){
+            System.out.println("In Database.createDirectories() error occurred: "+ e.getMessage());
+        }
     }
     int nextMessageId(){
         return Functions.nextId(messages);
@@ -48,4 +101,42 @@ public class Chat {
     Message getMessage(int id){
         return (Message) Functions.getObject(dir+ File.separator+"messages"+File.separator+id);
     }
+    public boolean verify(Object obj){
+        //TODO
+        return true;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setDir(String dir) {
+        this.dir = dir;
+    }
+
+    public void setFileDir(String fileDir) {
+        this.fileDir = fileDir;
+    }
+
+    public void setMessageDir(String messageDir) {
+        this.messageDir = messageDir;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ArrayList<Integer> getMessages() {
+        return messages;
+    }
+/*
+    public static void main(String [] args){
+        Chat chat = new Chat();
+        Message message = new Message("a","b","c","d");
+        //chat.addMessage()
+        chat.messages.add(chat.nextMessageId());
+        System.out.println(chat.nextMessageId());
+
+    }
+*/
 }

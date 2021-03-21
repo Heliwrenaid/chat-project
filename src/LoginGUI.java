@@ -19,20 +19,22 @@ public class LoginGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-
-                    client.signIn(nickField1.getText(), passwordField1.getText());
-
-                    JFrame f = new MainPanel(client);
-                    f.pack();
-                    f.setVisible(true);
-
+                    if(client.signIn(nickField1.getText(), passwordField1.getText())) {
+                        JFrame f = new MainPanel(client);
+                        f.pack();
+                        f.setVisible(true);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(loginMain,"Error! Please try again. ");
+                        nickField1.setText("");
+                        passwordField1.setText("");
+                    }
                 }catch (Exception k)
                 {
                     JOptionPane.showMessageDialog(loginMain,"Error! Please try again. ");
                     nickField1.setText("");
                     passwordField1.setText("");
                 }
-
             }
         });
 
@@ -45,10 +47,6 @@ public class LoginGUI extends JFrame {
             }
         });
     }
-
-
-
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("LoginGUI");
         frame.setContentPane(new LoginGUI().loginMain);

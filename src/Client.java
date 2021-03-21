@@ -11,6 +11,7 @@ public class Client {
     private Socket socket = null;
     private DataBase dataBase = null ;
     private ClientThread clientThread = null;
+    private Event event = new Event();
     private String mainDir = null;
     private String dataBasePath = null;
     private String host = "localhost";
@@ -58,7 +59,7 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        clientThread = new ClientThread(socket,dataBase);
+        clientThread = new ClientThread(socket,dataBase,event);
     }
     public void signUp(String email,String name, String pass, String bio, String avatarSrc){
         User user = new User(email,name,pass,bio,avatarSrc);
@@ -69,12 +70,17 @@ public class Client {
             System.out.println("In Client.signUp(): 'clientThread' is null");
 
     }
-    public void signIn(String email, String password){
+    public boolean signIn(String email, String password){
         Message message = new Message();
         message.setEmail(email);
         message.setPassword(password);
         message.setCmd("signIn");
         send(message);
+        event.block();
+        if(getActualUser() == null){
+            return false;
+        }
+        else return true;
     }
     public User getActualUser(){
         return clientThread.getActualUser();
@@ -84,6 +90,15 @@ public class Client {
         if(obj != null) clientThread.send(obj);
         else System.out.println("Client.send(): 'obj' is null");
     }
+    public void sendMessage(Message message){
+        message.setCmd("messageRequest");
+        send(message);
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
     public static void main(String[] args) {
         Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
         client.startTransmission();
@@ -92,10 +107,9 @@ public class Client {
 //        fileContainer.setDestId(1);
 //        client.send(fileContainer);
 
-//        client.send(new Message("a","b","c","d"));
-//        client.signUp("mk@o.pl","Michal","1234","afk",null);
-//
-//        client.signIn("mk@o.pl","13234");
+        client.signUp("mk@o.pl","Michal","1234","afk",null);
+        client.signIn("mk@o.pl","1234");
+        client.sendMessage(new Message("text",2,2));
 
         client.saveDataBase();
     }

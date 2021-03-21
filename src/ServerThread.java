@@ -10,6 +10,8 @@ public class ServerThread extends ClientThread{
     @Override
     public void takeAction(FileContainer fileContainer){
         if(!fileContainer.isValid()) return;
+        if(!dataBase.verify(fileContainer)) return;
+
         Chat chat= dataBase.getChat(fileContainer.getDestId());
         if(chat == null) {
             System.out.println("In ServerThread.takeAction(): chat doesn't exist");
@@ -32,23 +34,38 @@ public class ServerThread extends ClientThread{
                 User user = dataBase.getUser(message.getEmail());
                 if (user == null)
                     login = false;
-                if (user.getEmail().equals(message.getEmail())
+                else if (user.getEmail().equals(message.getEmail())
                         && user.getPassword().equals(message.getPassword()))
                     login = true;
                 else
                     login = false;
 
                 if(login){
-                    System.out.println(message.getEmail() + " signs in");
+                    System.out.println(message.getEmail() + " is signed in");
                     actualUser = user;
                     user.setCmd("signIn:true");
                     send(user);
                 }
                 else {
-                    System.out.println("Error: " + message.getEmail() + " is not sign in");
+                    System.out.println("Error: " + message.getEmail() + " is not signed in");
                     send(new Message("signIn:false",message.getEmail(),null,null));
                 }
                 return;
+            }
+            case "messageRequest":{
+                if(!message.isValid()) return;
+                if(!dataBase.verify(message)) return;
+                if(message.getUserId() != actualUser.getId()) return;
+                Chat chat = dataBase.getChat(message.getDestId());
+                if(chat == null) return;
+
+                if(chat.verify(message)){
+                    int newId = chat.addMessage(message);
+                    if (newId == 0) return;
+                    message.setInfo(newId);
+                    message.setCmd("messageResponse");
+                    send(message);
+                }
             }
         }
     }
@@ -63,8 +80,12 @@ public class ServerThread extends ClientThread{
                 }
                 else {
                     System.out.println("ServerThread.takeAction(): user account linked with " + email + " was created");
-                    dataBase.createUser(user.getEmail(),user.getName(),user.getPassword(),user.getBio(),user.getAvatarSrc());
-                    send(new Message("signUp:true",email,null,null));
+                    User newUser = dataBase.createUser(user.getEmail(),user.getName(),user.getPassword(),user.getBio(),user.getAvatarSrc());
+                    if(newUser != null){
+                        newUser.setCmd("signUp:true");
+                        send(newUser);
+                    }
+
                 }
                 return;
             }

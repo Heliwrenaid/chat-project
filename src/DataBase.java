@@ -31,7 +31,7 @@ public class DataBase implements Serializable{
         return Functions.freeId(idSet);
     }
 
-    User createUser(String email,String name, String password, String bio, String avatarSrc){
+    public User createUser(String email,String name, String password, String bio, String avatarSrc){
         int newId = freeId();
         if(emails.containsKey(email)){
             System.out.println("In DataBase.createUser(): " +email + " already exists ... Aborting.");
@@ -43,7 +43,18 @@ public class DataBase implements Serializable{
         save();
         return new User(email,name,password,newId,mainDir,bio,avatarSrc);
     }
-
+    public boolean createUser(User user){
+        if(emails.containsKey(user.getEmail())){
+            System.out.println("In DataBase.createUser(): " +user.getEmail() + " already exists ... Aborting.");
+            return false;
+        }
+        else {
+            idSet.put(user.getId(),"users");
+            emails.put(user.getEmail(), user.getId());
+        }
+        new User(user.getEmail(), user.getName(), user.getPassword(), user.getId(), mainDir, user.getBio(), user.getAvatarSrc());
+        return true;
+    }
     void delete(int id){
         if (!idSet.containsKey(id)){
             System.out.println("In Database.delete(): " + id + " isn't in idSet");
@@ -72,7 +83,11 @@ public class DataBase implements Serializable{
         return (User) Functions.getObject(mainDir+ File.separator+"users"+File.separator+id + File.separator + "info");
     }
     User getUser(String email){
-       return getUser(emails.get(email));
+        if(emails != null)
+            if(emails.containsKey(email)){
+                return getUser(emails.get(email));
+            }
+        return null;
     }
 
     Group getGroup(int id)  {
@@ -105,6 +120,23 @@ public class DataBase implements Serializable{
         return null;
     }
 
+    public boolean verify(Object obj){
+        switch (obj.getClass().getName()){
+            case "FileContainer":{
+                FileContainer fileContainer = (FileContainer) obj;
+                if (!idSet.containsKey(fileContainer.getUserId()))
+                    return false;
+                return true;
+            }
+            case "Message":{
+                Message message = (Message) obj;
+                if (!idSet.containsKey(message.getUserId()))
+                    return false;
+                return true;
+            }
+        }
+        return false;
+    }
 
 //-------------------Getters and setters-------------------
     public String getMainDir() {
@@ -115,10 +147,14 @@ public class DataBase implements Serializable{
         this.mainDir = mainDir;
     }
 
+    public HashMap<Integer, String> getIdSet() {
+        return idSet;
+    }
+
     public HashMap<String, Integer> getEmails() {
         return emails;
     }
-    /*
+
     public static void main(String[] args){
         DataBase db = loadData(System.getProperty("user.home") + File.separator + "DB\\db\\db");
         System.out.println(db.idSet.keySet());
@@ -129,7 +165,7 @@ public class DataBase implements Serializable{
       //  System.out.println(jan.getName() + " ; " + jan.getId() + " ; " + jan.getBio());
         db.save();
     }
-     */
+
 
 }
 

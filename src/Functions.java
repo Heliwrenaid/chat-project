@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public class Functions {
     static void save(Object object, String filepath){
-      //  System.out.print("Saving "+ object.getClass().getName() + " to " + filepath + " ...");
+        System.out.print("Saving "+ object.getClass().getName() + " to " + filepath + " ...");
         try {
             FileOutputStream file = new FileOutputStream(filepath);
             ObjectOutputStream output = new ObjectOutputStream(file);
             output.writeObject(object);
             output.close();
-      //      System.out.println("Saved!");
+            System.out.println("Saved!");
         } catch (Exception e) {
             System.out.println("In Functions.save() error occurred: "+ e.getMessage());
         }

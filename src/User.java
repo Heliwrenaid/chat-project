@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 public class User extends Chat implements Serializable {
 
-    private String name;
     private String password;
     private String bio;
     private String avatarSrc;
     private String email;
     private String cmd;
+    private ArrayList <Integer> subscribedChats = new ArrayList<>();
 
     public User(String email,String name, String password,int id,String mainDir,String bio,String avatarSrc) {
         super(mainDir + File.separator + "users" + File.separator + id,id);
@@ -41,16 +41,14 @@ public class User extends Chat implements Serializable {
         this.email = email;
     }
 
-
+    public void subscribeChat(int id){
+        subscribedChats.add(id);
+    }
+    public void deleteSub(int id){
+        subscribedChats.remove(id);
+    }
 
     //-------------------Getters and setters--------------------
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
     public String getPassword() {
         return password;
     }
@@ -118,5 +116,9 @@ public class User extends Chat implements Serializable {
 
     public void setCmd(String cmd) {
         this.cmd = cmd;
+    }
+
+    public ArrayList<Integer> getSubscribedChats() {
+        return subscribedChats;
     }
 }

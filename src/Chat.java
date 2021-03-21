@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Chat implements Serializable {
+    protected String name;
     protected String dir;
     protected String fileDir;
     protected String messageDir;
@@ -124,6 +125,20 @@ public class Chat implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "name='" + name + '\'' +
+                '}';
     }
 
     public ArrayList<Integer> getMessages() {

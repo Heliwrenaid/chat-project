@@ -94,6 +94,9 @@ public class Client {
         message.setCmd("messageRequest");
         send(message);
     }
+    public DataBase getDataBase() {
+        return dataBase;
+    }
 
     public Event getEvent() {
         return event;

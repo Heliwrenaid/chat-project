@@ -48,16 +48,19 @@ public class MainPanel extends JFrame {
 
     public MainPanel(Client client) {
         this.client = client;
+
         ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
 
         subscribedChates.add(client.getActualUser().getId());
 
+        client.getActualUser().setSubscribedChats(subscribedChates);
+
+        client.getDataBase().save();
 
 
         infoField.setText("Witaj " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
         avatarIcon.setIcon(icon);
-        client.getActualUser().setSubscribedChats(subscribedChates);
         setContentPane(mainPanel);
         listGroup.setModel(readAllChat());
 
@@ -200,7 +203,7 @@ public class MainPanel extends JFrame {
                         System.out.println("Kliknieto: " + o.toString());
                         textMessageArea.setText(o.getText());
                         organizName.setText(o.toString());
-                        organDescrip.setText(o.getText());
+                        organDescrip.setText(o.getBio());
                     }
 
                 }
@@ -216,7 +219,7 @@ public class MainPanel extends JFrame {
         DefaultListModel <Chat> chatList = new DefaultListModel<>();
 
         for(int m : subscribedChats){
-            chatList.addElement(client.getActualUser());
+            chatList.addElement(client.getDataBase().getChat(m));
         }
         return chatList;
     }

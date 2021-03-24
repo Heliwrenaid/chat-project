@@ -8,11 +8,8 @@ import java.util.Arrays;
 public class User extends Chat implements Serializable {
 
     private String password;
-
     private String avatarSrc;
     private String email;
-    private String cmd;
-
     private ArrayList <Integer> subscribedChats = new ArrayList<>();
 
 
@@ -112,15 +109,6 @@ public class User extends Chat implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getCmd() {
-        return cmd;
-    }
-
-    public void setCmd(String cmd) {
-        this.cmd = cmd;
-    }
-
     public ArrayList<Integer> getSubscribedChats() {
         return subscribedChats;
     }

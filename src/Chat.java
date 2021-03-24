@@ -9,6 +9,7 @@ public class Chat implements Serializable {
     protected String dir;
     protected String fileDir;
     protected String messageDir;
+    protected String cmd;
     protected int id = 0;
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected PermissionManager permManager = new PermissionManager();
@@ -27,11 +28,12 @@ public class Chat implements Serializable {
     public Chat(String dir,int id) {
         this.id = id;
         this.dir = dir;
-        this.fileDir =dir + File.separator + "files";
-        this.messageDir = dir + File.separator + "messages";
+        generateDirs();
         createDirectories();
     }
     public Chat(){
+        generateDirs();
+        //createDirectories(); TODO:??
     }
     void save(){
         Functions.save(this,dir+File.separator + "info");
@@ -144,7 +146,17 @@ public class Chat implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    public String getCmd() {
+        return cmd;
+    }
 
+    public void setCmd(String cmd) {
+        this.cmd = cmd;
+    }
+    public void generateDirs(){
+        this.fileDir =dir + File.separator + "files";
+        this.messageDir = dir + File.separator + "messages";
+    }
     @Override
     public String toString() {
         return "Chat: " +name +'\n';

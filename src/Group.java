@@ -7,12 +7,17 @@ public class Group extends Chat implements Serializable {
 
     private ArrayList<Integer> subscribers = new ArrayList<Integer>();
     private ArrayList<Integer> admins = new ArrayList<Integer>();
+    private int ownerId;
 
+    public Group(Group group,String mainDir) {
+        super(mainDir,group.id);
 
-    public Group(String mainDir,int groupId) {
-        super(mainDir,groupId);
     }
     public Group(){};
+    public Group(String name){
+        // create group from Client.createGroup(...)
+        this.name = name;
+    }
 
     boolean addSubscriber(int userId){
         /*
@@ -61,6 +66,35 @@ public class Group extends Chat implements Serializable {
         }
         return true;
     }
+    public void createOwner(int ownerId){
+        this.ownerId = ownerId;
+        subscribers.add(ownerId);
+        admins.add(ownerId);
+    }
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public ArrayList<Integer> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(ArrayList<Integer> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public ArrayList<Integer> getAdmins() {
+        return admins;
+    }
+
+    public void setAdmins(ArrayList<Integer> admins) {
+        this.admins = admins;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
 
     void save(){
         Functions.save(this,dir+File.separator+"info");

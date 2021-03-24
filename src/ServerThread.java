@@ -91,4 +91,25 @@ public class ServerThread extends ClientThread{
             }
         }
     }
+    @Override
+    public void takeAction(Group group){
+        switch (group.getCmd()){
+            case "createGroup":{
+               Group newGroup =  dataBase.createGroup(group,actualUser.getId());
+               if (newGroup == null){
+                   System.out.println("ServerThread.takeAction(Group): 'newGroup' is null");
+                   Message message = new Message();
+                   message.setCmd("createGroup:false");
+                   message.setMessage("Group '" + group.getName() + "' was not created");
+                   send(message);
+               }
+               else{
+                   System.out.println("Group '" + group.getName() + "' was created");
+                   newGroup.setCmd("createGroup:true");
+                   send(newGroup);
+               }
+               return;
+            }
+        }
+    }
 }

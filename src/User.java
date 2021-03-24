@@ -56,14 +56,6 @@ public class User extends Chat implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
     public String getAvatarSrc() {
         return avatarSrc;
     }

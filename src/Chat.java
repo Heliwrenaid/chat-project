@@ -10,20 +10,11 @@ public class Chat implements Serializable {
     protected String fileDir;
     protected String messageDir;
     protected String cmd;
+    protected String bio;
     protected int id = 0;
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected PermissionManager permManager = new PermissionManager();
 
-    public String getBio() {
-        return bio;
-    }
-
-    protected String bio;
-
-    public String getText() {
-        return text;
-    }
-    protected String text;
 
     public Chat(String dir,int id) {
         this.id = id;
@@ -98,6 +89,14 @@ public class Chat implements Serializable {
             System.out.println("In Database.createDirectories() error occurred: "+ e.getMessage());
         }
     }
+    public void generateDirs(){
+        this.fileDir =dir + File.separator + "files";
+        this.messageDir = dir + File.separator + "messages";
+    }
+    @Override
+    public String toString() {
+        return "Chat: " +name +'\n';
+    }
     int nextMessageId(){
         return Functions.nextId(messages);
     }
@@ -119,7 +118,13 @@ public class Chat implements Serializable {
         //TODO
         return true;
     }
+    public String getBio() {
+        return bio;
+    }
 
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
     public int getId() {
         return id;
     }
@@ -153,14 +158,7 @@ public class Chat implements Serializable {
     public void setCmd(String cmd) {
         this.cmd = cmd;
     }
-    public void generateDirs(){
-        this.fileDir =dir + File.separator + "files";
-        this.messageDir = dir + File.separator + "messages";
-    }
-    @Override
-    public String toString() {
-        return "Chat: " +name +'\n';
-    }
+
 
     public ArrayList<Integer> getMessages() {
         return messages;

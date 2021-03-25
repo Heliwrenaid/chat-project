@@ -2,15 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38a3134d-04a8-4d64-ac48-52289746f997" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/JoinOrgGUI.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/JoinOrgGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ClientThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Chat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainPanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewOrgGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewOrgGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -73,19 +84,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.LoginGUI" />
       <item itemvalue="Application.MainPanel" />
@@ -122,7 +120,13 @@
       <workItem from="1616252998951" duration="3830000" />
       <workItem from="1616272457434" duration="6711000" />
       <workItem from="1616354678597" duration="13449000" />
-      <workItem from="1616399566997" duration="1715000" />
+      <workItem from="1616399566997" duration="2529000" />
+      <workItem from="1616402551929" duration="4359000" />
+      <workItem from="1616417048216" duration="5530000" />
+      <workItem from="1616422612990" duration="84000" />
+      <workItem from="1616449997444" duration="2058000" />
+      <workItem from="1616594422012" duration="3510000" />
+      <workItem from="1616618009551" duration="22000" />
     </task>
     <servers />
   </component>

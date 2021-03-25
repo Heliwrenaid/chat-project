@@ -82,6 +82,12 @@ public class Client {
         }
         else return true;
     }
+    public void createGroup(String name, String bio){
+        Group group = new Group(name);
+        group.setBio(bio);
+        group.setCmd("createGroup");
+        send(group);
+    }
     public User getActualUser(){
         return clientThread.getActualUser();
     }
@@ -112,8 +118,8 @@ public class Client {
 
         client.signUp("mk@o.pl","Michal","1234","afk",null);
         client.signIn("mk@o.pl","1234");
-        client.sendMessage(new Message("text",2,2));
-
+       // client.sendMessage(new Message("text",2,2));
+        client.createGroup("Group Name","bio");
         client.saveDataBase();
     }
 }

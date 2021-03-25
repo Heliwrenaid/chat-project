@@ -8,11 +8,8 @@ import java.util.Arrays;
 public class User extends Chat implements Serializable {
 
     private String password;
-
     private String avatarSrc;
     private String email;
-    private String cmd;
-
     private ArrayList <Integer> subscribedChats = new ArrayList<>();
 
 
@@ -33,6 +30,15 @@ public class User extends Chat implements Serializable {
             this.avatarSrc = "resources\\avatar.png";
         }
         save();
+    }
+
+    @Override
+    public String toString() {
+        return "User";
+    }
+
+    public User (){
+
     }
 
     public User(String email,String name, String password, String bio, String avatarSrc) {
@@ -59,14 +65,6 @@ public class User extends Chat implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
     public String getAvatarSrc() {
         return avatarSrc;
     }
@@ -112,15 +110,6 @@ public class User extends Chat implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getCmd() {
-        return cmd;
-    }
-
-    public void setCmd(String cmd) {
-        this.cmd = cmd;
-    }
-
     public ArrayList<Integer> getSubscribedChats() {
         return subscribedChats;
     }

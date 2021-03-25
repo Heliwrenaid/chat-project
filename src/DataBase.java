@@ -17,7 +17,7 @@ public class DataBase implements Serializable{
     }
 
     void createDirectories(){
-        //function that creates directories
+        //function for creating directories
         try {
             Files.createDirectories(Paths.get(mainDir + File.separator + "users"));
             Files.createDirectories(Paths.get(mainDir + File.separator + "groups"));
@@ -53,7 +53,29 @@ public class DataBase implements Serializable{
             emails.put(user.getEmail(), user.getId());
         }
         new User(user.getEmail(), user.getName(), user.getPassword(), user.getId(), mainDir, user.getBio(), user.getAvatarSrc());
+        save();
         return true;
+    }
+    public Group createGroup(Group group,int ownerId){
+        int freeId = freeId();
+        idSet.put(freeId,"groups");
+        group.setId(freeId);
+        group.createOwner(ownerId);
+        group.setDir(mainDir + File.separator + "groups" + File.separator + group.getId());
+        group.generateDirs();
+        group.createDirectories();
+        saveGroup(group);
+        save();
+        return group;
+    }
+    public void createGroup(Group group){
+        //in client side
+        idSet.put(group.getId(),"groups");
+        group.setDir(mainDir + File.separator + "groups" + File.separator + group.getId());
+        group.generateDirs();
+        group.createDirectories();
+        saveGroup(group);
+        save();
     }
     void delete(int id){
         if (!idSet.containsKey(id)){
@@ -77,6 +99,9 @@ public class DataBase implements Serializable{
 
     void save(){
       Functions.save(this,mainDir+File.separator+"db");
+    }
+    void saveGroup(Group group){
+        Functions.save(group,mainDir + File.separator + "groups" + File.separator + group.getId() + File.separator + "info");
     }
 
     User getUser(int id) {

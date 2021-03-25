@@ -32,7 +32,6 @@ public class MainPanel extends JFrame {
     private JList listChannel;
     private JList listGroup ;
     private JButton searchButton;
-    private JComboBox comboBox1;
     private JTextArea textMessageArea;
     private JLabel avatarIcon;
     private JButton logOutButton;
@@ -42,27 +41,34 @@ public class MainPanel extends JFrame {
     private JButton darkModebutton1;
     private JLabel organizName;
     private JLabel organDescrip;
+    private JLabel bioLabel;
     private JTextArea messageTextArea;
     private Client client;
 
 
     public MainPanel(Client client) {
         this.client = client;
+//-----------------testy
 
-        ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
+          ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
+//
+//        subscribedChates.add(client.getActualUser().getId()); // do testow
+//
+//        client.getActualUser().setSubscribedChats(subscribedChates); //do test
+        User user = new User();
+        client.getDataBase().save(); // do testow
 
-        subscribedChates.add(client.getActualUser().getId());
+//        for(int m : client.getActualUser().getSubscribedChats()){
+//            comboBox1.addItem((client.getDataBase().getChat(m)));
+//        }
 
-        client.getActualUser().setSubscribedChats(subscribedChates);
-
-        client.getDataBase().save();
-
-
-        infoField.setText("Witaj " + client.getActualUser().getName() + "!");
+        //-------------------------------------------------------------------------
+        infoField.setText("Hello " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
         avatarIcon.setIcon(icon);
         setContentPane(mainPanel);
         listGroup.setModel(readAllChat());
+        bioLabel.setText(client.getActualUser().getBio());
 
 
         sendButton.addActionListener(new ActionListener() {
@@ -83,7 +89,7 @@ public class MainPanel extends JFrame {
         newGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = new NewOrgGUI(mainPanel.getBackground(), listChannel.getBackground());
+                JFrame f = new NewOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client);
                 f.pack();
                 f.setVisible(true);
             }
@@ -100,7 +106,7 @@ public class MainPanel extends JFrame {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = new SettingsGUI(mainPanel.getBackground(), listChannel.getBackground(), client);
+                JFrame f = new SettingsGUI(mainPanel.getBackground(), listGroup.getBackground(), client);
                 f.pack();
                 f.setVisible(true);
 
@@ -116,11 +122,10 @@ public class MainPanel extends JFrame {
                     modesPanel.setBackground(Color.gray);
                     groupsPanel.setBackground(Color.gray);
                     messagePanel.setBackground(Color.GRAY);
-                    listChannel.setBackground(Color.lightGray);
                     listGroup.setBackground(Color.lightGray);
                     searchMsgField.setBackground(Color.lightGray);
                     chatField.setBackground(Color.lightGray);
-                    comboBox1.setBackground(Color.lightGray);
+
                     textMessageArea.setBackground(Color.lightGray);
                 } else {
                     mainPanel.setBackground(Color.lightGray);
@@ -129,11 +134,10 @@ public class MainPanel extends JFrame {
                     modesPanel.setBackground(Color.lightGray);
                     groupsPanel.setBackground(Color.lightGray);
                     messagePanel.setBackground(Color.lightGray);
-                    listChannel.setBackground(Color.WHITE);
                     listGroup.setBackground(Color.WHITE);
                     searchMsgField.setBackground(Color.WHITE);
                     chatField.setBackground(Color.WHITE);
-                    comboBox1.setBackground(Color.WHITE);
+
                     textMessageArea.setBackground(Color.WHITE);
                 }
             }
@@ -163,6 +167,22 @@ public class MainPanel extends JFrame {
         joinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+//                ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
+
+//                Chat chat = (Chat) comboBox1.getSelectedItem();
+//
+//                if(!client.getActualUser().getSubscribedChats().contains(chat.getId())) {
+//                    subscribedChates.add(chat.getId());
+//                    client.getActualUser().setSubscribedChats(subscribedChates);
+//                    client.getDataBase().save();
+//                    listGroup.setModel(readAllChat());
+//                    System.out.println(readAllChat());
+//                }
+
+                JFrame f = new JoinOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client,listGroup);
+                f.pack();
+                f.setVisible(true);
 
             }
         });
@@ -208,7 +228,6 @@ public class MainPanel extends JFrame {
 
                 }
             }
-
         });
     }
 

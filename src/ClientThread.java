@@ -1,4 +1,3 @@
-import java.io.File;
 import java.net.Socket;
 
 public class ClientThread extends FileTransferManager{
@@ -28,9 +27,23 @@ public class ClientThread extends FileTransferManager{
             case "Message": takeAction((Message) obj);
                 break;
             case "User": takeAction((User) obj);
+                break;
+            case "Group": takeAction((Group) obj);
+                break;
+            case "Channel": takeAction((Channel) obj);
+                break;
         }
     }
     public void takeAction(FileContainer fileContainer){}
+    public void takeAction(Group group){
+        switch (group.getCmd()){
+            case "createGroup:true":{
+                dataBase.createGroup(group);
+                System.out.println("Group '" + group.getName() + "' was created");
+                return;
+            }
+        }
+    }
     public void takeAction(Message message){
         switch (message.getCmd()){
             case "signUp:false":{
@@ -49,6 +62,10 @@ public class ClientThread extends FileTransferManager{
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 chat.addMessageClient(message);
+                return;
+            }
+            case "createGroup:false":{
+                System.out.println(message.getMessage());
                 return;
             }
         }

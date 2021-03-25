@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class NewOrgGUI extends JFrame{
     private JTextField nameField;
@@ -14,7 +15,7 @@ public class NewOrgGUI extends JFrame{
     private JPanel downPanel;
     private JPanel downsecondPanel;
 
-    public NewOrgGUI(Color darker,Color lighter) {
+    public NewOrgGUI(Color darker,Color lighter,Client client) {
 
         setContentPane(newOrgPanel);
         newOrgPanel.setBackground(darker);
@@ -25,12 +26,29 @@ public class NewOrgGUI extends JFrame{
         channelRadioButton.setBackground(lighter);
         groupRadioButton.setBackground(lighter);
 
+
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
 
+        });
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    if(channelRadioButton.isSelected()){
+                        client.getDataBase().save();
+                    }
+                    if(groupRadioButton.isSelected()){
+                        client.getDataBase().save();
+                    }
+                }catch (Exception m){
+                    System.out.println("ERROR ! "+m.getMessage());
+                }
+                dispose();
+            }
         });
     }
 }

@@ -38,7 +38,6 @@ public class ClientThread extends FileTransferManager{
     public void takeAction(Group group){
         switch (group.getCmd()){
             case "createGroup:true":{
-                actualUser.addToSubscribedChats(group);
                 dataBase.createGroup(group);
                 System.out.println("Group '" + group.getName() + "' was created");
                 return;
@@ -67,6 +66,23 @@ public class ClientThread extends FileTransferManager{
             }
             case "createGroup:false":{
                 System.out.println(message.getMessage());
+                return;
+            }
+            case "groupManagement:true":{
+                //if(!message.isValid()) return;
+                Chat chat = dataBase.getChat(message.getDestId());
+                if(chat == null) return;
+                boolean status = chat.takeAction(message);
+                if (status)
+                    System.out.println("ClientThread: GroupManagement: operation successful");
+                else
+                    System.out.println("ERROR: ClientThread: GroupManagement: operation successful only on Server ");
+                message.print();
+                return;
+            }
+            case "groupManagement:false":{
+                System.out.println("ClientThread : GroupManagement: operation failed");
+                message.print();
                 return;
             }
         }

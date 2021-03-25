@@ -6,6 +6,7 @@ public class Message implements Serializable {
     private String userId;
     private String destId;
     private String info;
+   // private String info2;
 
     public Message(String cmd, String message, String userId, String destId) {
         this.cmd = cmd;
@@ -26,6 +27,7 @@ public class Message implements Serializable {
         System.out.println("message: " + message);
         System.out.println("userId: " + userId);
         System.out.println("destId: " + destId);
+        System.out.println("info: " + info);
         System.out.println("---------------------------");
     }
     public boolean isValid(){
@@ -90,5 +92,26 @@ public class Message implements Serializable {
     }
     public void setPassword(String userId) {
         this.userId = userId;
+    }
+    public void setSubCmd(String cmd){
+        //for managing groups
+        this.message = cmd;
+    }
+    public String getSubCmd(){
+        return message;
+    }
+    public int getExecId(){
+        //for managing groups
+        return Integer.valueOf(userId);
+    }
+    public void setExecId(int execId){
+        this.userId = Integer.toString(execId);
+    }
+    public int getDestUserId(){
+        //for managing groups
+        return Integer.valueOf(info);
+    }
+    public void setDestUserId(int userId){
+        this.info = Integer.toString(userId);
     }
 }

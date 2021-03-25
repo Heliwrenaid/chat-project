@@ -32,8 +32,9 @@ public class User extends Chat implements Serializable {
         save();
     }
 
-    @Override
+	@Override
     public String toString() {
+        return "User";
         return "User"+this.getName();
     }
 
@@ -52,9 +53,12 @@ public class User extends Chat implements Serializable {
 
     public void subscribeChat(int id){
         subscribedChats.add(id);
+        save();
     }
-    public void deleteSub(int id){
-        subscribedChats.remove(id);
+    public void unsubscribeChat(int id){
+        if(!subscribedChats.contains(id)) return;
+        subscribedChats.remove((Object)id);
+        save();
     }
 
     //-------------------Getters and setters--------------------
@@ -114,11 +118,6 @@ public class User extends Chat implements Serializable {
         return subscribedChats;
     }
     public void setSubscribedChats(ArrayList<Integer> subscribedChats) {
-        this.subscribedChats= subscribedChats;
-    }
-    public void addToSubscribedChats(Chat chat) {
-        this.subscribedChats.add(chat.getId());
-        System.out.println("Group added to subscribed chats!");
-        save();
+        this.subscribedChats = subscribedChats;
     }
 }

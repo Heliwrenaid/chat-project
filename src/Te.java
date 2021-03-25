@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 
 public class Te {
     public static void main(String[] args){
+
         Chat chat = new User("a","dfdf","sdsd","adad",null);
         Object obj = chat;
         Functions.save(chat,"C:\\Users\\Dell\\ServerData\\ee");

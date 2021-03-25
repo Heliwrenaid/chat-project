@@ -67,6 +67,20 @@ public class ServerThread extends ClientThread{
                     send(message);
                 }
             }
+            case "groupManagement": {
+               // if(!message.isValid()) return; TODO: sprawdza dla roznyych cmd?
+                //if(!dataBase.verify(message)) return;
+                Chat chat = dataBase.getChat(message.getDestId());
+                if(chat == null) return;
+                boolean status = chat.takeAction(message);
+                if(status){
+                    message.setCmd("groupManagement:true");
+                }
+                else {
+                    message.setCmd("groupManagement:false");
+                }
+                send(message);
+            }
         }
     }
     @Override
@@ -104,7 +118,6 @@ public class ServerThread extends ClientThread{
                    send(message);
                }
                else{
-                   actualUser.addToSubscribedChats(group);
                    System.out.println("Group '" + group.getName() + "' was created");
                    newGroup.setCmd("createGroup:true");
                    send(newGroup);

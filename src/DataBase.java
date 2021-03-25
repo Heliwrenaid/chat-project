@@ -60,8 +60,9 @@ public class DataBase implements Serializable{
         int freeId = freeId();
         idSet.put(freeId,"groups");
         group.setId(freeId);
-        group.createOwner(ownerId);
+        group.setRootDir(mainDir);
         group.setDir(mainDir + File.separator + "groups" + File.separator + group.getId());
+        group.createOwner(ownerId);
         group.generateDirs();
         group.createDirectories();
         saveGroup(group);
@@ -71,13 +72,19 @@ public class DataBase implements Serializable{
     public void createGroup(Group group){
         //in client side
         idSet.put(group.getId(),"groups");
+        group.setRootDir(mainDir);
         group.setDir(mainDir + File.separator + "groups" + File.separator + group.getId());
         group.generateDirs();
         group.createDirectories();
         saveGroup(group);
+        User user = getUser(group.getOwnerId());
+        if (user != null){
+            user.save();
+        }
         save();
     }
     void delete(int id){
+        //TODO: jak User to czy usunac ze wszystkich grup
         if (!idSet.containsKey(id)){
             System.out.println("In Database.delete(): " + id + " isn't in idSet");
             return;
@@ -104,7 +111,7 @@ public class DataBase implements Serializable{
         Functions.save(group,mainDir + File.separator + "groups" + File.separator + group.getId() + File.separator + "info");
     }
 
-    User getUser(int id) {
+    public User getUser(int id) {
         return (User) Functions.getObject(mainDir+ File.separator+"users"+File.separator+id + File.separator + "info");
     }
     User getUser(String email){

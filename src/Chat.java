@@ -7,11 +7,12 @@ import java.util.ArrayList;
 public class Chat implements Serializable {
     protected String name;
     protected String dir;
+    protected String rootDir;
     protected String fileDir;
     protected String messageDir;
     protected String cmd;
     protected String bio;
-    protected int id =0;
+    protected int id = 0;
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected PermissionManager permManager = new PermissionManager();
 
@@ -100,6 +101,9 @@ public class Chat implements Serializable {
     int nextMessageId(){
         return Functions.nextId(messages);
     }
+    public User getUser(int id) {
+        return (User) Functions.getObject(rootDir+ File.separator+"users"+File.separator+id + File.separator + "info");
+    }
     public String getDir() {
         return dir;
     }
@@ -158,7 +162,17 @@ public class Chat implements Serializable {
     public void setCmd(String cmd) {
         this.cmd = cmd;
     }
+    public boolean takeAction(Message message){
+       return true;
+    }
 
+    public String getRootDir() {
+        return rootDir;
+    }
+
+    public void setRootDir(String rootDir) {
+        this.rootDir = rootDir;
+    }
 
     public ArrayList<Integer> getMessages() {
         return messages;

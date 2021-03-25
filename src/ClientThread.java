@@ -35,6 +35,7 @@ public class ClientThread extends FileTransferManager{
         }
     }
     public void takeAction(FileContainer fileContainer){}
+
     public void takeAction(Group group){
         switch (group.getCmd()){
             case "createGroup:true":{

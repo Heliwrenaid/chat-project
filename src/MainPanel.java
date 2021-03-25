@@ -3,10 +3,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,8 +15,6 @@ import java.util.regex.Pattern;
 
 public class MainPanel extends JFrame {
 
-   // User user = new User("Jan","abc",60,null,"Lubie placki","src\\Icons\\wolf.jpg");
-   // DataBase db = new DataBase("C:\\Users\\janfi");
     private JPanel leftFrame;
     private JPanel rightFrame;
     private JPanel modesPanel;
@@ -47,37 +42,35 @@ public class MainPanel extends JFrame {
     private JLabel organizName;
     private JLabel organDescrip;
     private JLabel bioLabel;
+    private JButton buttonDelete;
     private JTextArea messageTextArea;
     private volatile boolean execute=true;
-
+    private JFrame mainFrame;
     private Client client;
 
 
     public MainPanel(Client client) {
         this.client = client;
-//-----------------testy
 
-         // ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
-//
-//        subscribedChates.add(client.getActualUser().getId()); // do testow
-//
-//        client.getActualUser().setSubscribedChats(subscribedChates); //do test
-      //  User user = new User();
-       // client.getDataBase().save(); // do testow
-
-//        for(int m : client.getActualUser().getSubscribedChats()){
-//            comboBox1.addItem((client.getDataBase().getChat(m)));
-//        }
-
-        //-------------------------------------------------------------------------
+        mainFrame = new JFrame("MainFrame");
+        mainFrame.setContentPane(mainPanel);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.pack();
+        mainFrame.setVisible(true);
 
         startRefreshing();
-        listGroup.setModel(readAllChat());
+
         infoField.setText("Hello " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
         avatarIcon.setIcon(icon);
-        setContentPane(mainPanel);
         bioLabel.setText(client.getActualUser().getBio());
+
+        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                execute=false;
+            }
+        });
 
         sendButton.addActionListener(new ActionListener() {
             @Override
@@ -91,9 +84,9 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(info, "Project created for JPWP. AGH University of Science and Technology.\n Contact:\n Jan Sciga-sciga@student.agh.edu.pl \n Michał Kurdziel- mkurdziel@student.agh.edu.pl ");
-
             }
         });
+
         newGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,6 +95,7 @@ public class MainPanel extends JFrame {
                 f.setVisible(true);
             }
         });
+
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,16 +103,17 @@ public class MainPanel extends JFrame {
                 JFrame f = new LoginGUI();
                 f.pack();
                 f.setVisible(true);
+                mainFrame.setVisible(false);
                 dispose();
             }
         });
+
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame f = new SettingsGUI(mainPanel.getBackground(), listGroup.getBackground(), client);
                 f.pack();
                 f.setVisible(true);
-
             }
         });
         darkModebutton1.addActionListener(new ActionListener() {
@@ -134,7 +129,6 @@ public class MainPanel extends JFrame {
                     listGroup.setBackground(Color.lightGray);
                     searchMsgField.setBackground(Color.lightGray);
                     chatField.setBackground(Color.lightGray);
-
                     textMessageArea.setBackground(Color.lightGray);
                 } else {
                     mainPanel.setBackground(Color.lightGray);
@@ -146,7 +140,6 @@ public class MainPanel extends JFrame {
                     listGroup.setBackground(Color.WHITE);
                     searchMsgField.setBackground(Color.WHITE);
                     chatField.setBackground(Color.WHITE);
-
                     textMessageArea.setBackground(Color.WHITE);
                 }
             }
@@ -157,7 +150,6 @@ public class MainPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Highlighter.HighlightPainter painter =
                         new DefaultHighlighter.DefaultHighlightPainter(Color.green);
-
                 //src: https://stackoverflow.com/questions/5909419/searching-for-words-in-textarea
                 int offset = textMessageArea.getText().indexOf(searchMsgField.getText());
                 int length = searchMsgField.getText().length();
@@ -176,20 +168,7 @@ public class MainPanel extends JFrame {
         joinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-//                ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
-
-//                Chat chat = (Chat) comboBox1.getSelectedItem();
-//
-//                if(!client.getActualUser().getSubscribedChats().contains(chat.getId())) {
-//                    subscribedChates.add(chat.getId());
-//                    client.getActualUser().setSubscribedChats(subscribedChates);
-//                    client.getDataBase().save();
-//                    listGroup.setModel(readAllChat());
-//                    System.out.println(readAllChat());
-//                }
-
-                JFrame f = new JoinOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client,listGroup);
+                JFrame f = new JoinOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client);
                 f.pack();
                 f.setVisible(true);
 
@@ -237,20 +216,27 @@ public class MainPanel extends JFrame {
                         }catch (Exception p){
                             JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
                         }
-
                     }
-
+                }
+            }
+        });
+        buttonDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Chat o = (Chat) listGroup.getSelectedValue();
+                    client.getActualUser().deleteFromSubscribedChats(o);
+                    client.getDataBase().save();
+                }catch (Exception exc){
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! "+exc.getMessage());
                 }
             }
         });
     }
-    
 
     public DefaultListModel <Chat> readAllChat() {
         ArrayList <Integer> subscribedChats  =  client.getActualUser().getSubscribedChats();
 
-        System.out.println(client.getActualUser().getSubscribedChats());
-        // DefaultListModel <Integer> chatList = new DefaultListModel<>();
         DefaultListModel <Chat> chatList = new DefaultListModel<>();
 
         for(int m : subscribedChats){
@@ -265,8 +251,7 @@ public class MainPanel extends JFrame {
                 while (execute) {
                     try {
                         refresh();
-                        Thread.sleep(2000);
-                        System.out.println("HEJ");
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -280,13 +265,8 @@ public class MainPanel extends JFrame {
             listGroup.setModel(readAllChat());
         }
     }
-//
+
     public static void main(String[] args) {
-//        JFrame frame = new JFrame("MainPanel");
-//        frame.setContentPane(new MainPanel().mainPanel);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
     }
 
 

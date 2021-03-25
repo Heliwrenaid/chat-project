@@ -20,6 +20,7 @@ public class NewOrgGUI extends JFrame{
     public NewOrgGUI(Color darker,Color lighter,Client client, JList groupList) {
         this.client=client;
         setContentPane(newOrgPanel);
+
         newOrgPanel.setBackground(darker);
         nameField.setBackground(lighter);
         descriptionField.setBackground(lighter);
@@ -27,7 +28,6 @@ public class NewOrgGUI extends JFrame{
         downsecondPanel.setBackground(lighter);
         channelRadioButton.setBackground(lighter);
         groupRadioButton.setBackground(lighter);
-
 
         cancelButton.addActionListener(new ActionListener() {
             @Override

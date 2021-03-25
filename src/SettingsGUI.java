@@ -25,10 +25,6 @@ public class SettingsGUI extends JFrame{
     private String str;
     private String animal;
 
-    //  private String haslo;
-
-
-
     public SettingsGUI(Color darker, Color lighter,Client client) {
 
         setContentPane(settingsPanel);
@@ -113,12 +109,10 @@ public class SettingsGUI extends JFrame{
                     client.getActualUser().setName(nicktextField1.getText());
                     client.getActualUser().setPassword(passwordField1.getText());
                     dispose();
-
                 }
                 else
                 {
                     JOptionPane.showMessageDialog(settingsPanel,"ERROR! Please try again !");
-
                 }
             }
         });

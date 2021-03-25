@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 public class LoginGUI extends JFrame {
@@ -12,7 +13,6 @@ public class LoginGUI extends JFrame {
     private Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
 
     public LoginGUI() {
-        setContentPane(loginMain);
         client.startTransmission();
 
         signInButton.addActionListener(new ActionListener() {
@@ -23,9 +23,11 @@ public class LoginGUI extends JFrame {
                         JFrame f = new MainPanel(client);
                         f.pack();
                         f.setVisible(true);
+                        nickField1.setText("");
+                        passwordField1.setText("");
                     }
                     else {
-                        JOptionPane.showMessageDialog(loginMain,"Error! Please try again. ");
+                        JOptionPane.showMessageDialog(loginMain,"Error! Please try again");
                         nickField1.setText("");
                         passwordField1.setText("");
                     }

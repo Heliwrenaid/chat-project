@@ -121,4 +121,9 @@ public class User extends Chat implements Serializable {
         System.out.println("Group added to subscribed chats!");
         save();
     }
+    public void deleteFromSubscribedChats(Chat chat) {
+        this.subscribedChats.remove(chat.getId());
+        System.out.println("Group removed from subscribed chats!");
+        save();
+    }
 }

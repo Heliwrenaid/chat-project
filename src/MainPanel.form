@@ -24,15 +24,6 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="c7aba" class="javax.swing.JButton" binding="joinButton" default-binding="true">
-                <constraints>
-                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <icon value="Icons/join.png"/>
-                  <text value=""/>
-                </properties>
-              </component>
               <component id="92998" class="javax.swing.JLabel" binding="avatarIcon">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -59,39 +50,12 @@
                   <text value="Komunikator_czatowy"/>
                 </properties>
               </component>
-              <component id="e2a37" class="javax.swing.JButton" binding="darkModebutton1">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <icon value="Icons/dark.png"/>
-                  <text value=""/>
-                </properties>
-              </component>
-              <component id="77e2" class="javax.swing.JButton" binding="settingsButton" default-binding="true">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <icon value="Icons/settings.png"/>
-                  <text value=""/>
-                </properties>
-              </component>
               <component id="b7afe" class="javax.swing.JButton" binding="newGroupButton">
                 <constraints>
                   <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <icon value="Icons/new.png"/>
-                  <text value=""/>
-                </properties>
-              </component>
-              <component id="aad13" class="javax.swing.JButton" binding="logOutButton" default-binding="true">
-                <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <icon value="Icons/log.jpg"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -104,6 +68,51 @@
                   <text value="Label"/>
                 </properties>
               </component>
+              <component id="77e2" class="javax.swing.JButton" binding="settingsButton" default-binding="true">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/settings.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="e2a37" class="javax.swing.JButton" binding="darkModebutton1">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/dark.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="aad13" class="javax.swing.JButton" binding="logOutButton" default-binding="true">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/log.jpg"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="c7aba" class="javax.swing.JButton" binding="joinButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/join.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="f1b28" class="javax.swing.JButton" binding="buttonDelete">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/delete.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="6c5c7" binding="groupsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -114,16 +123,19 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="9bef5" class="javax.swing.JList" binding="listGroup">
+              <scrollpane id="3c3d4">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties>
-                  <model/>
-                </properties>
-              </component>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="47160" class="javax.swing.JList" binding="listGroup">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
         </children>

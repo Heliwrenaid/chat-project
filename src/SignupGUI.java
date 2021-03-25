@@ -60,14 +60,13 @@ public class SignupGUI extends JFrame {
                     animal = "src\\Icons\\horse.jpg";
                 }
 
-                if(userName.getText().length() == 0){
+                if(userName.getText().length() == 0 && passwordField1 != passwordField2 && passwordField1.getText().length()!=0){
                     JOptionPane.showMessageDialog(signupPanel,"ERROR in signing up. Please try again !");
                     dispose();
                 }
                 else
                 {
                    client.signUp(emailtextField1.getText(),userName.getText(),passwordField1.getText(),bioText.getText(),animal);
-
                    dispose();
                 }
             }

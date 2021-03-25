@@ -34,7 +34,7 @@ public class User extends Chat implements Serializable {
 
     @Override
     public String toString() {
-        return "User";
+        return "User"+this.getName();
     }
 
     public User (){
@@ -114,6 +114,11 @@ public class User extends Chat implements Serializable {
         return subscribedChats;
     }
     public void setSubscribedChats(ArrayList<Integer> subscribedChats) {
-        this.subscribedChats = subscribedChats;
+        this.subscribedChats= subscribedChats;
+    }
+    public void addToSubscribedChats(Chat chat) {
+        this.subscribedChats.add(chat.getId());
+        System.out.println("Group added to subscribed chats!");
+        save();
     }
 }

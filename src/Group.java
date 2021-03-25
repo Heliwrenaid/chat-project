@@ -17,6 +17,8 @@ public class Group extends Chat implements Serializable {
     public Group(String name){
         // create group from Client.createGroup(...)
         this.name = name;
+
+
     }
 
     boolean addSubscriber(int userId){

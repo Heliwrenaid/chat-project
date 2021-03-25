@@ -38,6 +38,7 @@ public class ClientThread extends FileTransferManager{
     public void takeAction(Group group){
         switch (group.getCmd()){
             case "createGroup:true":{
+                actualUser.addToSubscribedChats(group);
                 dataBase.createGroup(group);
                 System.out.println("Group '" + group.getName() + "' was created");
                 return;

@@ -104,6 +104,7 @@ public class ServerThread extends ClientThread{
                    send(message);
                }
                else{
+                   actualUser.addToSubscribedChats(group);
                    System.out.println("Group '" + group.getName() + "' was created");
                    newGroup.setCmd("createGroup:true");
                    send(newGroup);

@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 public class NewOrgGUI extends JFrame{
     private JTextField nameField;
@@ -14,9 +15,10 @@ public class NewOrgGUI extends JFrame{
     private JPanel newOrgPanel;
     private JPanel downPanel;
     private JPanel downsecondPanel;
+    private Client client;
 
-    public NewOrgGUI(Color darker,Color lighter,Client client) {
-
+    public NewOrgGUI(Color darker,Color lighter,Client client, JList groupList) {
+        this.client=client;
         setContentPane(newOrgPanel);
         newOrgPanel.setBackground(darker);
         nameField.setBackground(lighter);
@@ -39,10 +41,12 @@ public class NewOrgGUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try{
                     if(channelRadioButton.isSelected()){
-                        client.getDataBase().save();
+                        client.createGroup(nameField.getText(),descriptionField.getText());
+                        dispose();
                     }
                     if(groupRadioButton.isSelected()){
-                        client.getDataBase().save();
+                        client.createGroup(nameField.getText(),descriptionField.getText());
+                        dispose();
                     }
                 }catch (Exception m){
                     System.out.println("ERROR ! "+m.getMessage());
@@ -51,4 +55,5 @@ public class NewOrgGUI extends JFrame{
             }
         });
     }
+
 }

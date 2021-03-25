@@ -7,9 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
 
 public class MainPanel extends JFrame {
 
@@ -43,6 +48,8 @@ public class MainPanel extends JFrame {
     private JLabel organDescrip;
     private JLabel bioLabel;
     private JTextArea messageTextArea;
+    private volatile boolean execute=true;
+
     private Client client;
 
 
@@ -50,26 +57,27 @@ public class MainPanel extends JFrame {
         this.client = client;
 //-----------------testy
 
-          ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
+         // ArrayList <Integer> subscribedChates = new ArrayList<Integer>();
 //
 //        subscribedChates.add(client.getActualUser().getId()); // do testow
 //
 //        client.getActualUser().setSubscribedChats(subscribedChates); //do test
-        User user = new User();
-        client.getDataBase().save(); // do testow
+      //  User user = new User();
+       // client.getDataBase().save(); // do testow
 
 //        for(int m : client.getActualUser().getSubscribedChats()){
 //            comboBox1.addItem((client.getDataBase().getChat(m)));
 //        }
 
         //-------------------------------------------------------------------------
+
+        startRefreshing();
+        listGroup.setModel(readAllChat());
         infoField.setText("Hello " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
         avatarIcon.setIcon(icon);
         setContentPane(mainPanel);
-        listGroup.setModel(readAllChat());
         bioLabel.setText(client.getActualUser().getBio());
-
 
         sendButton.addActionListener(new ActionListener() {
             @Override
@@ -82,14 +90,14 @@ public class MainPanel extends JFrame {
         info.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(info, "Project created for JPWP subject. AGH University of Science and Technology.\n Contact:\n Jan Sciga-sciga@student.agh.edu.pl \n Michał Kurdziel- mkurdziel@student.agh.edu.pl ");
+                JOptionPane.showMessageDialog(info, "Project created for JPWP. AGH University of Science and Technology.\n Contact:\n Jan Sciga-sciga@student.agh.edu.pl \n Michał Kurdziel- mkurdziel@student.agh.edu.pl ");
 
             }
         });
         newGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = new NewOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client);
+                JFrame f = new NewOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client,listGroup);
                 f.pack();
                 f.setVisible(true);
             }
@@ -97,6 +105,7 @@ public class MainPanel extends JFrame {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                execute=false;
                 JFrame f = new LoginGUI();
                 f.pack();
                 f.setVisible(true);
@@ -194,6 +203,7 @@ public class MainPanel extends JFrame {
                 ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
                 avatarIcon.setIcon(icon);
                 textMessageArea.getHighlighter().removeAllHighlights();
+                listGroup.setModel(readAllChat());
             }
         });
         searchMsgField.addMouseListener(new MouseAdapter() {
@@ -221,26 +231,54 @@ public class MainPanel extends JFrame {
                         Chat o = new Chat();
                         o = (Chat) lista.getModel().getElementAt(index);
                         System.out.println("Kliknieto: " + o.toString());
-                        textMessageArea.setText(o.getText());
-                        organizName.setText(o.toString());
-                        organDescrip.setText(o.getBio());
+                        try {
+                            organizName.setText(o.toString());
+                            organDescrip.setText(o.getBio());
+                        }catch (Exception p){
+                            JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
+                        }
+
                     }
 
                 }
             }
         });
     }
+    
 
     public DefaultListModel <Chat> readAllChat() {
         ArrayList <Integer> subscribedChats  =  client.getActualUser().getSubscribedChats();
 
-       // DefaultListModel <Integer> chatList = new DefaultListModel<>();
+        System.out.println(client.getActualUser().getSubscribedChats());
+        // DefaultListModel <Integer> chatList = new DefaultListModel<>();
         DefaultListModel <Chat> chatList = new DefaultListModel<>();
 
         for(int m : subscribedChats){
             chatList.addElement(client.getDataBase().getChat(m));
         }
         return chatList;
+    }
+
+    void startRefreshing(){
+        Runnable listener = new Runnable() {
+            public void run() {
+                while (execute) {
+                    try {
+                        refresh();
+                        Thread.sleep(2000);
+                        System.out.println("HEJ");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread(listener).start();
+    }
+    void refresh(){
+        if(listGroup.getModel().getSize()!=client.getActualUser().getSubscribedChats().size()) {
+            listGroup.setModel(readAllChat());
+        }
     }
 //
     public static void main(String[] args) {

@@ -11,7 +11,7 @@ public class Chat implements Serializable {
     protected String messageDir;
     protected String cmd;
     protected String bio;
-    protected int id = 0;
+    protected int id =0;
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected PermissionManager permManager = new PermissionManager();
 

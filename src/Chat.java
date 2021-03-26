@@ -94,6 +94,8 @@ public class Chat implements Serializable {
         this.fileDir =dir + File.separator + "files";
         this.messageDir = dir + File.separator + "messages";
     }
+
+
     @Override
     public String toString() {
         return "Chat: " +name +'\n';
@@ -101,6 +103,7 @@ public class Chat implements Serializable {
     int nextMessageId(){
         return Functions.nextId(messages);
     }
+
     public User getUser(int id) {
         return (User) Functions.getObject(rootDir+ File.separator+"users"+File.separator+id + File.separator + "info");
     }

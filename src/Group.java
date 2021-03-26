@@ -24,7 +24,11 @@ public class Group extends Chat implements Serializable {
         }
         else {
             users.put(userId,"user");
-            getUser(userId).subscribeChat(id);
+            User user = getUser(userId);
+            if(user == null){
+                return false;
+            }
+            user.subscribeChat(id);
             save();
             return true;
         }
@@ -75,11 +79,6 @@ public class Group extends Chat implements Serializable {
         else {
            users.remove(userId);
            users.put(userId,"user");
-            User user = getUser(userId);
-            if(user == null){
-                return false;
-            }
-            user.unsubscribeChat(id);
             save();
            return true;
         }
@@ -90,6 +89,11 @@ public class Group extends Chat implements Serializable {
         if(execId == ownerId || users.get(execId).equals("admin")){
             users.remove(userId);
             users.put(userId,"banned");
+            User user = getUser(userId);
+            if(user == null){
+                return false;
+            }
+            user.unsubscribeChat(id);
             save();
             return true;
         }
@@ -101,7 +105,6 @@ public class Group extends Chat implements Serializable {
         if(!users.containsKey(userId)) return false;
         if(execId == ownerId || users.get(execId).equals("admin")){
             users.remove(userId);
-            users.put(userId,"user");
             save();
             return true;
         }

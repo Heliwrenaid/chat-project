@@ -48,13 +48,12 @@ public class ManageSubsGUI extends JFrame {
                 if (e.getClickCount() == 2) {
                     int index = lista.locationToIndex(e.getPoint());
                     if (index >= 0) {
-                        User o = new User();
-                        o = (User) lista.getModel().getElementAt(index);
+                        User o = (User) lista.getModel().getElementAt(index);
                         System.out.println("Kliknieto: " + o.toString());
                         try {
                             //src: https://www.tutorialspoint.com/java-program-to-set-jcombobox-in-joptionpane
                             JPanel panel = new JPanel(new GridBagLayout());
-                            Object[] sports = { "Promotion", "Demotion", "Removal", "Ban","Remove the ban"};
+                            Object[] sports = { "Promote", "Demote", "Remove/Leave", "Ban","Unban"};
                             JComboBox comboBox = new JComboBox(sports);
 
                             comboBox.setSelectedIndex(1);
@@ -62,26 +61,26 @@ public class ManageSubsGUI extends JFrame {
                                     JOptionPane.QUESTION_MESSAGE);
 
                             String decision=(String)comboBox.getSelectedItem();
-                            if(decision.equals("Promotion")){
+                            if(decision.equals("Promote")){
                                 Group group = (Group) client.getDataBase().getChat(groupId);
-                                group.addAdmin(o.getId(),client.getActualUser().getId());
+                                client.addAdmin(group,o.getId());
                             }
-                            else if(decision.equals("Demotion")){
+                            else if(decision.equals("Demote")){
                                 Group group = (Group) client.getDataBase().getChat(groupId);
-                                group.removeAdmin(o.getId(),client.getActualUser().getId());
+                                client.removeAdmin(group,o.getId());
                             }
-                            else if(decision.equals("Removal")){
+                            else if(decision.equals("Remove/Leave")){
                                 Group group = (Group) client.getDataBase().getChat(groupId);
-                                group.removeUser(o.getId(),client.getActualUser().getId());
+                                client.removeUser(group,o.getId());
 
                             }
                             else if(decision.equals("Ban")){
                                 Group group = (Group) client.getDataBase().getChat(groupId);
-                                group.banUser(o.getId(),client.getActualUser().getId());
+                                client.banUser(group,o.getId());
                             }
-                            else if(decision.equals("Remove the ban")){
+                            else if(decision.equals("Unban")){
                                 Group group = (Group) client.getDataBase().getChat(groupId);
-                                group.unbanUser(o.getId(),client.getActualUser().getId());
+                                client.unbanUser(group,o.getId());
                             }
                         }catch (Exception p){
                             JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");

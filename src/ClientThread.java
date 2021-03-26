@@ -75,8 +75,10 @@ public class ClientThread extends FileTransferManager{
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 boolean status = chat.takeAction(message);
-                if (status)
+                if (status) {
+                    reloadActualUser();
                     System.out.println("ClientThread: GroupManagement: operation successful");
+                }
                 else
                     System.out.println("ERROR: ClientThread: GroupManagement: operation successful only on Server ");
                 message.print();
@@ -108,6 +110,9 @@ public class ClientThread extends FileTransferManager{
 
     public User getActualUser() {
         return actualUser;
+    }
+    public void reloadActualUser(){
+        actualUser = User.loadUser(actualUser.getSavePath());
     }
 
 }

@@ -10,6 +10,7 @@ public class User extends Chat implements Serializable {
     private String password;
     private String avatarSrc;
     private String email;
+    private String savePath;
     private ArrayList <Integer> subscribedChats = new ArrayList<>();
 
 
@@ -18,6 +19,7 @@ public class User extends Chat implements Serializable {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.savePath = dir + File.separator + "info";
 
         if (bio != null) {
             this.bio = bio;
@@ -50,6 +52,7 @@ public class User extends Chat implements Serializable {
     }
 
     public void subscribeChat(int id){
+        if(subscribedChats.contains(id)) return;
         subscribedChats.add(id);
         save();
     }
@@ -57,6 +60,9 @@ public class User extends Chat implements Serializable {
         if(!subscribedChats.contains(id)) return;
         subscribedChats.remove((Object)id);
         save();
+    }
+    public static User loadUser(String path){
+        return (User) Functions.getObject(path);
     }
 
     //-------------------Getters and setters--------------------
@@ -107,6 +113,14 @@ public class User extends Chat implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getSavePath() {
+        return savePath;
+    }
+
+    public void setSavePath(String savePath) {
+        this.savePath = savePath;
     }
 
     public void setEmail(String email) {

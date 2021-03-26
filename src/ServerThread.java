@@ -67,6 +67,7 @@ public class ServerThread extends ClientThread{
                     send(message);
                 }
             }
+            
             case "groupManagement": {
                // if(!message.isValid()) return; TODO: sprawdza dla roznyych cmd?
                 //if(!dataBase.verify(message)) return;
@@ -74,6 +75,7 @@ public class ServerThread extends ClientThread{
                 if(chat == null) return;
                 boolean status = chat.takeAction(message);
                 if(status){
+                    reloadActualUser();
                     message.setCmd("groupManagement:true");
                 }
                 else {

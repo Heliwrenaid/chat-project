@@ -40,7 +40,7 @@ public class JoinOrgGUI extends JFrame {
                     }
                     else {
                         client.joinChat(chat);
-                        client.getActualUser().subscribeChat(chat.getId());
+                       // client.getActualUser().subscribeChat(chat.getId());
                         dispose();
                     }
                 }catch (Exception ex){

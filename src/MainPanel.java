@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,6 +44,7 @@ public class MainPanel extends JFrame {
     private JLabel organDescrip;
     private JLabel bioLabel;
     private JButton buttonDelete;
+    private JButton personButton;
     private JTextArea messageTextArea;
     private volatile boolean execute=true;
     private JFrame mainFrame;
@@ -53,6 +55,7 @@ public class MainPanel extends JFrame {
         this.client = client;
 
         mainFrame = new JFrame("MainFrame");
+
         mainFrame.setContentPane(mainPanel);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack();
@@ -65,12 +68,12 @@ public class MainPanel extends JFrame {
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
 
-        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                execute=false;
-            }
-        });
+//        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+//            @Override
+//            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+//                execute=false;
+//            }
+//        });
 
         sendButton.addActionListener(new ActionListener() {
             @Override
@@ -171,7 +174,6 @@ public class MainPanel extends JFrame {
                 JFrame f = new JoinOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client);
                 f.pack();
                 f.setVisible(true);
-
             }
         });
         textMessageArea.addMouseListener(new MouseAdapter() {
@@ -199,6 +201,7 @@ public class MainPanel extends JFrame {
                 chatField.setText("");
             }
         });
+
         listGroup.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -220,15 +223,30 @@ public class MainPanel extends JFrame {
                 }
             }
         });
+
         buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     Chat o = (Chat) listGroup.getSelectedValue();
-                    client.leaveChat(o);
                     client.getActualUser().unsubscribeChat(o.getId());
+                    client.leaveChat(o);
                 }catch (Exception exc){
-                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! "+exc.getMessage());
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! ");
+                }
+            }
+        });
+
+        personButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Chat o = (Chat) listGroup.getSelectedValue();
+                    JFrame f = new ManageSubsGUI(mainPanel.getBackground(), listGroup.getBackground(),client,o.getId());
+                    f.pack();
+                    f.setVisible(true);
+                }catch (Exception exc){
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! ");
                 }
             }
         });
@@ -240,7 +258,9 @@ public class MainPanel extends JFrame {
         DefaultListModel <Chat> chatList = new DefaultListModel<>();
 
         for(int m : subscribedChats){
-            chatList.addElement(client.getDataBase().getChat(m));
+            if(!chatList.contains(client.getDataBase().getChat(m))) {
+                chatList.addElement(client.getDataBase().getChat(m));
+            }
         }
         return chatList;
     }
@@ -263,7 +283,6 @@ public class MainPanel extends JFrame {
     void refresh(){
         if(listGroup.getModel().getSize()!=client.getActualUser().getSubscribedChats().size()) {
             listGroup.setModel(readAllChat());
-            System.out.println("Jesteś tu ?");
         }
     }
 

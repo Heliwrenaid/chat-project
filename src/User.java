@@ -34,11 +34,10 @@ public class User extends Chat implements Serializable {
 
 	@Override
     public String toString() {
-        return "User"+this.getName();
+        return "User: "+this.getName();
     }
 
     public User (){
-
     }
 
     public User(String email,String name, String password, String bio, String avatarSrc) {

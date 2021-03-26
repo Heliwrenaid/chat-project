@@ -78,7 +78,9 @@ public class DataBase implements Serializable{
         group.createDirectories();
         saveGroup(group);
         User user = getUser(group.getOwnerId());
+
         if (user != null){
+           // user.subscribeChat(group.getId());
             user.save();
         }
         save();

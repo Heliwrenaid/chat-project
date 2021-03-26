@@ -19,7 +19,6 @@ public class JoinOrgGUI extends JFrame {
     private JButton filterButton;
     private JPanel nextPanel;
     private Client client;
-    private volatile boolean execute=true;
 
     public JoinOrgGUI(Color darker, Color lighter, Client client) {
 
@@ -40,7 +39,8 @@ public class JoinOrgGUI extends JFrame {
                         JOptionPane.showMessageDialog(panel1,"You have already joined this Chat !");
                     }
                     else {
-                        client.getActualUser().addToSubscribedChats(chat);
+                        client.joinChat(chat);
+                        client.getActualUser().subscribeChat(chat.getId());
                         dispose();
                     }
                 }catch (Exception ex){
@@ -52,7 +52,6 @@ public class JoinOrgGUI extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                execute=false;
                 dispose();
             }
         });

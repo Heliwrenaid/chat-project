@@ -225,8 +225,8 @@ public class MainPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Chat o = (Chat) listGroup.getSelectedValue();
-                    client.getActualUser().deleteFromSubscribedChats(o);
-                    client.getDataBase().save();
+                    client.leaveChat(o);
+                    client.getActualUser().unsubscribeChat(o.getId());
                 }catch (Exception exc){
                     JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! "+exc.getMessage());
                 }
@@ -263,6 +263,7 @@ public class MainPanel extends JFrame {
     void refresh(){
         if(listGroup.getModel().getSize()!=client.getActualUser().getSubscribedChats().size()) {
             listGroup.setModel(readAllChat());
+            System.out.println("Jesteś tu ?");
         }
     }
 

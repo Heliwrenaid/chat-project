@@ -34,7 +34,6 @@ public class User extends Chat implements Serializable {
 
 	@Override
     public String toString() {
-        return "User";
         return "User"+this.getName();
     }
 

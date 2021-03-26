@@ -88,6 +88,9 @@ public class Client {
         group.setGroupType(groupType);
         group.setCmd("createGroup");
         send(group);
+        this.joinChat(group);
+        getActualUser().subscribeChat(group.getId());
+        getActualUser().save();
     }
     public User getActualUser(){
         return clientThread.getActualUser();

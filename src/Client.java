@@ -82,8 +82,8 @@ public class Client {
         }
         else return true;
     }
-    public void createGroup(String name, String bio, String groupType){
-        Group group = new Group(name);
+    public void createGroup(String name, String bio, String avatarSrc, String groupType){
+        Group group = new Group(name,bio,avatarSrc);
         group.setBio(bio);
         group.setGroupType(groupType);
         group.setCmd("createGroup");

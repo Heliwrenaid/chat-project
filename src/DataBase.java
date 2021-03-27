@@ -76,10 +76,10 @@ public class DataBase implements Serializable{
         group.setDir(mainDir + File.separator + "groups" + File.separator + group.getId());
         group.generateDirs();
         group.createDirectories();
+        group.saveAvatar();
         saveGroup(group);
         User user = getUser(group.getOwnerId());
-
-        if (user != null){
+        if (user != null){ //TODO: potrzebne?
            // user.subscribeChat(group.getId());
             user.save();
         }

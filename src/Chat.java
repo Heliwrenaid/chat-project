@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 public class Chat implements Serializable {
@@ -12,20 +13,34 @@ public class Chat implements Serializable {
     protected String messageDir;
     protected String cmd;
     protected String bio;
+    protected String avatarSrc;
+    protected FileContainer avatar;
     protected int id = 0;
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected PermissionManager permManager = new PermissionManager();
 
 
-    public Chat(String dir,int id) {
+    public Chat(String dir,int id, String avatarSrc) {
         this.id = id;
         this.dir = dir;
+        if (avatarSrc == null) {
+            this.avatarSrc = "src" + File.separator + "Icons" + File.separator + "wolf.jpg";
+        }
+        else this.avatarSrc = avatarSrc;
         generateDirs();
         createDirectories();
     }
+    public Chat(String name, String bio,String avatarSrc){
+        this.name = name;
+        this.bio = bio;
+        attachAvatar(avatarSrc);
+        generateDirs(); //??
+        //createDirectories(); TODO:??
+
+
+    }
     public Chat(){
         generateDirs();
-        //createDirectories(); TODO:??
     }
     void save(){
         Functions.save(this,dir+File.separator + "info");
@@ -179,6 +194,25 @@ public class Chat implements Serializable {
 
     public ArrayList<Integer> getMessages() {
         return messages;
+    }
+
+    public String getAvatarSrc() {
+        return avatarSrc;
+    }
+
+    public void setAvatarSrc(String avatarSrc) {
+        this.avatarSrc = avatarSrc;
+    }
+
+    public void saveAvatar(){
+        this.avatarSrc = dir + File.separator + "avatar.png";
+        avatar.setDestinationDirectory(dir);
+        avatar.setFilename("avatar.png");
+        avatar.saveFileData();
+    }
+    public void attachAvatar(String avatarPath){
+        // when create group
+        avatar = new FileContainer(avatarPath);
     }
 /*
     public static void main(String [] args){

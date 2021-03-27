@@ -7,14 +7,15 @@ public class Group extends Chat implements Serializable {
     private int ownerId;
     private String groupType;
 
-    public Group(Group group,String mainDir) {
-        super(mainDir,group.id);
+    public Group(Group group,String mainDir, String avatarSrc) {
+        super(mainDir,group.id,avatarSrc);
 
     }
     public Group(){}
-    public Group(String name){
+    public Group(String name, String bio,String avatarSrc){
         // create group from Client.createGroup(...)
-        this.name = name;
+        super(name,bio,avatarSrc);
+
     }
 //
     public boolean addUser(int userId){

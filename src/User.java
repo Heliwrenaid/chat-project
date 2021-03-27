@@ -8,14 +8,13 @@ import java.util.Arrays;
 public class User extends Chat implements Serializable {
 
     private String password;
-    private String avatarSrc;
     private String email;
     private String savePath;
     private ArrayList <Integer> subscribedChats = new ArrayList<>();
 
 
     public User(String email,String name, String password,int id,String mainDir,String bio,String avatarSrc) {
-        super(mainDir + File.separator + "users" + File.separator + id,id);
+        super(mainDir + File.separator + "users" + File.separator + id,id, avatarSrc);
         this.email = email;
         this.name = name;
         this.password = password;
@@ -25,11 +24,6 @@ public class User extends Chat implements Serializable {
             this.bio = bio;
         } else {
             this.bio = "Basic personal info";
-        }
-        if (avatarSrc != null) {
-            this.avatarSrc = avatarSrc;
-        } else {
-            this.avatarSrc = "resources\\avatar.png";
         }
         save();
     }
@@ -73,13 +67,7 @@ public class User extends Chat implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getAvatarSrc() {
-        return avatarSrc;
-    }
 
-    public void setAvatarSrc(String avatarSrc) {
-        this.avatarSrc = avatarSrc;
-    }
     public String getDir() {
         return dir;
     }

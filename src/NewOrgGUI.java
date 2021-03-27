@@ -41,11 +41,11 @@ public class NewOrgGUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try{
                     if(channelRadioButton.isSelected()){
-                        client.createGroup(nameField.getText(),descriptionField.getText(),"channel");
+                        client.createGroup(nameField.getText(),descriptionField.getText(),"src\\Icons\\wolf.jpg","channel");
                         dispose();
                     }
                     if(groupRadioButton.isSelected()){
-                        client.createGroup(nameField.getText(),descriptionField.getText(),"group");
+                        client.createGroup(nameField.getText(),descriptionField.getText(),"src\\Icons\\wolf.jpg","group");
                         dispose();
                     }
                 }catch (Exception m){

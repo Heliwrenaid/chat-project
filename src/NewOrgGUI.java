@@ -15,6 +15,11 @@ public class NewOrgGUI extends JFrame{
     private JPanel newOrgPanel;
     private JPanel downPanel;
     private JPanel downsecondPanel;
+    private JRadioButton greenRadioButton;
+    private JRadioButton redRadioButton;
+    private JRadioButton blueRadioButton;
+    private JRadioButton yellowRadioButton;
+    private String avatarSrc;
     private Client client;
 
     public NewOrgGUI(Color darker,Color lighter,Client client, JList groupList) {
@@ -28,6 +33,20 @@ public class NewOrgGUI extends JFrame{
         downsecondPanel.setBackground(lighter);
         channelRadioButton.setBackground(lighter);
         groupRadioButton.setBackground(lighter);
+        avatarSrc="red_color.png";
+
+        if(greenRadioButton.isSelected()){
+            avatarSrc="green_color.png";
+        }
+        else if(redRadioButton.isSelected()){
+            avatarSrc="red_color.png";
+        }
+        else if(blueRadioButton.isSelected()){
+            avatarSrc="blue_color.png";
+        }
+        else if(yellowRadioButton.isSelected()){
+            avatarSrc="yellow_color.png";
+        }
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -41,11 +60,11 @@ public class NewOrgGUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try{
                     if(channelRadioButton.isSelected()){
-                        client.createGroup(nameField.getText(),descriptionField.getText(),"src\\Icons\\wolf.jpg","channel");
+                        client.createGroup(nameField.getText(),descriptionField.getText(),"src\\Icons\\"+avatarSrc,"channel");
                         dispose();
                     }
                     if(groupRadioButton.isSelected()){
-                        client.createGroup(nameField.getText(),descriptionField.getText(),"src\\Icons\\wolf.jpg","group");
+                        client.createGroup(nameField.getText(),descriptionField.getText(),"src\\Icons\\"+avatarSrc,"group");
                         dispose();
                     }
                 }catch (Exception m){

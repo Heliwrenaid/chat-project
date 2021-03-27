@@ -47,19 +47,15 @@ public class MainPanel extends JFrame {
     private JButton personButton;
     private JTextArea messageTextArea;
     private volatile boolean execute=true;
-    private JFrame mainFrame;
+
     private Client client;
 
 
     public MainPanel(Client client) {
         this.client = client;
 
-        mainFrame = new JFrame("MainFrame");
+        setContentPane(mainPanel);
 
-        mainFrame.setContentPane(mainPanel);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.pack();
-        mainFrame.setVisible(true);
 
         startRefreshing();
 
@@ -103,10 +99,6 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 execute=false;
-                JFrame f = new LoginGUI();
-                f.pack();
-                f.setVisible(true);
-                mainFrame.setVisible(false);
                 dispose();
             }
         });

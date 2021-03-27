@@ -9,6 +9,7 @@ public class LoginGUI extends JFrame {
     private JTextField nickField1;
     private JPanel loginMain;
     private JButton signInButton;
+
     private JButton signUpButton;
     private Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
 
@@ -38,6 +39,7 @@ public class LoginGUI extends JFrame {
                     passwordField1.setText("");
                 }
             }
+
         });
 
         signUpButton.addActionListener(new ActionListener() {

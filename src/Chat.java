@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -5,7 +6,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
-public class Chat implements Serializable {
+public class Chat extends JLabel implements Serializable {
     protected String name;
     protected String dir;
     protected String rootDir;

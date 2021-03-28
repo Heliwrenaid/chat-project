@@ -47,7 +47,6 @@ public class MainPanel extends JFrame {
     private JButton personButton;
     private JTextArea messageTextArea;
     private volatile boolean execute=true;
-
     private Client client;
 
 
@@ -172,11 +171,7 @@ public class MainPanel extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                infoField.setText("Witaj " + client.getActualUser().getName() + "!");
-                ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
-                avatarIcon.setIcon(icon);
                 textMessageArea.getHighlighter().removeAllHighlights();
-                listGroup.setModel(readAllChat());
             }
         });
         searchMsgField.addMouseListener(new MouseAdapter() {
@@ -254,6 +249,7 @@ public class MainPanel extends JFrame {
                 chatList.addElement(client.getDataBase().getChat(m));
             }
         }
+       // listGroup.setCellRenderer();
         return chatList;
     }
 
@@ -276,6 +272,7 @@ public class MainPanel extends JFrame {
         if(listGroup.getModel().getSize()!=client.getActualUser().getSubscribedChats().size()) {
             listGroup.setModel(readAllChat());
         }
+        listGroup.setCellRenderer(new ChatRenderer());
     }
 
     public static void main(String[] args) {

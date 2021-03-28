@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class FileTransferManager{
     protected Socket socket = null;
@@ -24,6 +25,14 @@ public class FileTransferManager{
             if (obj != null) {
                 return obj;
             }
+        } catch (SocketException e){
+            try {
+                output.close();
+                socket.close();
+                System.out.println("Socket is closed");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -35,9 +44,7 @@ public class FileTransferManager{
         Runnable listener = new Runnable() {
             public void run() {
                 Object obj;
-                while (socket.isConnected()) {
-                    System.out.println("loooooping");
-                    //Thread.sleep();
+                while (!socket.isClosed()) {
                     obj = read();
                     if(obj != null){
                         takeAction(obj);

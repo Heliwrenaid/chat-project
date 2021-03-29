@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab0449e7-da26-48b8-993d-b145f89c368c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ChatRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Icons/blue_color.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Icons/blue_color.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Icons/green_color.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Icons/green_color.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Icons/red_color.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Icons/red_color.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Icons/yellow_color.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Icons/yellow_color.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NewOrgGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewOrgGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerThread.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +77,8 @@
       <workItem from="1616857496334" duration="3164000" />
       <workItem from="1616884328536" duration="2664000" />
       <workItem from="1616947125079" duration="9671000" />
+      <workItem from="1616961180601" duration="1823000" />
+      <workItem from="1616967776153" duration="1971000" />
     </task>
     <servers />
   </component>
@@ -99,5 +96,21 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MainPanel.java</url>
+          <line>245</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ServerThread.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

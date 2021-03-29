@@ -10,7 +10,7 @@ public class ServerThread extends ClientThread{
     @Override
     public void takeAction(FileContainer fileContainer){
         if(!fileContainer.isValid()) return;
-        if(!dataBase.verify(fileContainer)) return;
+//        if(!dataBase.verify(fileContainer)) return;
 
         Chat chat= dataBase.getChat(fileContainer.getDestId());
         if(chat == null) {

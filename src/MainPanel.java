@@ -4,6 +4,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -234,6 +235,18 @@ public class MainPanel extends JFrame {
                     f.setVisible(true);
                 }catch (Exception exc){
                     JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! ");
+                }
+            }
+        });
+        FileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
+                    File plik = fc.getSelectedFile();
+                    FileContainer fileContainer = new FileContainer(plik.getAbsolutePath());
+                    fileContainer.setDestId(1);
+                    client.send(fileContainer);
                 }
             }
         });

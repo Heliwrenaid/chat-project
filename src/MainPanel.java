@@ -53,12 +53,8 @@ public class MainPanel extends JFrame {
 
     public MainPanel(Client client) {
         this.client = client;
-
         setContentPane(mainPanel);
-
-
         startRefreshing();
-
         infoField.setText("Hello " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
         avatarIcon.setIcon(icon);

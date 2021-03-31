@@ -29,7 +29,7 @@ public class JoinOrgGUI extends JFrame {
         nextPanel.setBackground(darker);
 
         this.client = client;
-
+        organizationList.setCellRenderer(new ChatRenderer());
         joinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,7 +40,7 @@ public class JoinOrgGUI extends JFrame {
                     }
                     else {
                         client.joinChat(chat);
-                       // client.getActualUser().subscribeChat(chat.getId());
+                        client.getActualUser().subscribeChat(chat.getId());
                         dispose();
                     }
                 }catch (Exception ex){

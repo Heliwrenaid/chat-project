@@ -5,7 +5,7 @@ import java.net.SocketException;
 public class FileTransferManager{
     protected Socket socket = null;
     protected ObjectOutputStream output = null;
-
+    private boolean isRunning = true;
     public void send(Object obj) {
         try {
             output = new ObjectOutputStream(socket.getOutputStream());
@@ -25,14 +25,10 @@ public class FileTransferManager{
             if (obj != null) {
                 return obj;
             }
+        } catch (EOFException e){
+            if(isRunning) stop();
         } catch (SocketException e){
-            try {
-                output.close();
-                socket.close();
-                System.out.println("Socket is closed");
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+           if(isRunning) stop();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -56,4 +52,15 @@ public class FileTransferManager{
     }
 
     public void takeAction(Object obj){}
+
+    public void stop(){
+        try {
+            isRunning = false;
+            output.close();
+            socket.close();
+            System.out.println("Socket is closed");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

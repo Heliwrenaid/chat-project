@@ -102,7 +102,22 @@ public class Client {
         message.setCmd("messageRequest");
         send(message);
     }
+    public boolean transmissionIsActive(){
+        if(clientThread == null) return false;
+        if(socket == null) return false;
+        if(socket.isClosed()) return false;
+        return true;
+    }
+    public void logout(){
+        try {
+            clientThread.stop();
+            clientThread = null;
+            socket.close();
+        } catch (NullPointerException | IOException e){
+            e.printStackTrace();
+        }
 
+    }
     public void joinChat(Chat chat){
         if(chat == null) {
             System.out.println("'chat' is null");

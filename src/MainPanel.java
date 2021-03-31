@@ -99,6 +99,7 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 execute=false;
+                client.logout();
                 dispose();
             }
         });

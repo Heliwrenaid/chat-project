@@ -14,12 +14,11 @@ public class LoginGUI extends JFrame {
     private Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
 
     public LoginGUI() {
-        client.startTransmission();
-
         signInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    if (!client.transmissionIsActive()) client.startTransmission();
                     if(client.signIn(nickField1.getText(), passwordField1.getText())) {
                         JFrame f = new MainPanel(client);
                         f.pack();
@@ -45,6 +44,7 @@ public class LoginGUI extends JFrame {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!client.transmissionIsActive()) client.startTransmission();
                 JFrame f = new SignupGUI(client);
                 f.pack();
                 f.setVisible(true);

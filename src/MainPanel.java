@@ -56,7 +56,7 @@ public class MainPanel extends JFrame {
         setContentPane(mainPanel);
         startRefreshing();
         infoField.setText("Hello " + client.getActualUser().getName() + "!");
-        ImageIcon icon = new ImageIcon(client.getActualUser().getAvatarSrc());
+        ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140,93,Image.SCALE_DEFAULT));
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
 

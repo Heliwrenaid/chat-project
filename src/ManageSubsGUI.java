@@ -22,7 +22,7 @@ public class ManageSubsGUI extends JFrame {
         setContentPane(mainPanel);
         this.client = client;
         groupId = chatId;
-
+        subscriberList.setCellRenderer(new ChatRenderer());
         mainPanel.setBackground(lighter);
         subscriberList.setBackground(darker);
         upLabel.setBackground(lighter);

@@ -19,6 +19,7 @@ public class NewOrgGUI extends JFrame{
     private JRadioButton redRadioButton;
     private JRadioButton blueRadioButton;
     private JRadioButton yellowRadioButton;
+    private JButton chooseYourOwnGroupButton;
     private String avatarSrc;
     private Client client;
 
@@ -33,7 +34,7 @@ public class NewOrgGUI extends JFrame{
         downsecondPanel.setBackground(lighter);
         channelRadioButton.setBackground(lighter);
         groupRadioButton.setBackground(lighter);
-        avatarSrc="src\\Icons\\red_color.png";
+
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -47,32 +48,32 @@ public class NewOrgGUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try{
                     if(channelRadioButton.isSelected()){
-                        if(greenRadioButton.isSelected()){
+                        if(greenRadioButton.isSelected() && avatarSrc ==null){
                             avatarSrc="src\\Icons\\green_color.png";
                         }
-                        else if(redRadioButton.isSelected()){
+                        else if(redRadioButton.isSelected()&& avatarSrc ==null){
                             avatarSrc="src\\Icons\\red_color.png";
                         }
-                        else if(blueRadioButton.isSelected()){
+                        else if(blueRadioButton.isSelected() && avatarSrc ==null){
                             avatarSrc="src\\Icons\\blue_color.png";
                         }
-                        else if(yellowRadioButton.isSelected()){
+                        else if(yellowRadioButton.isSelected() && avatarSrc ==null){
                             avatarSrc="src\\Icons\\yellow_color.png";
                         }
                         client.createGroup(nameField.getText(),descriptionField.getText(),avatarSrc,"channel");
                         dispose();
                     }
                     if(groupRadioButton.isSelected()){
-                        if(greenRadioButton.isSelected()){
+                        if(greenRadioButton.isSelected() && avatarSrc ==null){
                             avatarSrc="src\\Icons\\green_color.png";
                         }
-                        else if(redRadioButton.isSelected()){
+                        else if(redRadioButton.isSelected() && avatarSrc ==null){
                             avatarSrc="src\\Icons\\red_color.png";
                         }
-                        else if(blueRadioButton.isSelected()){
+                        else if(blueRadioButton.isSelected() && avatarSrc ==null){
                             avatarSrc="src\\Icons\\blue_color.png";
                         }
-                        else if(yellowRadioButton.isSelected()){
+                        else if(yellowRadioButton.isSelected() && avatarSrc ==null){
                             avatarSrc="src\\Icons\\yellow_color.png";
                         }
                         client.createGroup(nameField.getText(),descriptionField.getText(),avatarSrc,"group");
@@ -82,6 +83,16 @@ public class NewOrgGUI extends JFrame{
                     System.out.println("ERROR ! "+m.getMessage());
                 }
                 dispose();
+            }
+        });
+        chooseYourOwnGroupButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
+                    File plik = fc.getSelectedFile();
+                    avatarSrc=plik.getAbsolutePath();
+                }
             }
         });
     }

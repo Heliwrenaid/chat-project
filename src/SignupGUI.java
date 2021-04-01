@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class SignupGUI extends JFrame {
     private JPanel signupPanel;
@@ -17,7 +18,9 @@ public class SignupGUI extends JFrame {
     private JRadioButton lionRadioButton;
     private JRadioButton bearRadioButton;
     private JTextField emailtextField1;
+    private JButton yourAvatarButton;
     private Client client;
+    String animal;
 
     public SignupGUI(Client client) {
         this.client=client;
@@ -34,33 +37,33 @@ public class SignupGUI extends JFrame {
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String animal="src\\Icons\\wolf.jpg";
-                if(wolfRadioButton.isSelected())
+
+                if(wolfRadioButton.isSelected() && animal==null)
                 {
                     animal = "src\\Icons\\wolf.jpg";
                 }
-                if(lionRadioButton.isSelected())
+                if(lionRadioButton.isSelected() && animal==null)
                 {
                     animal = "src\\Icons\\lion.jpg";
                 }
-                if(tigerRadioButton.isSelected())
+                if(tigerRadioButton.isSelected() && animal==null)
                 {
                     animal = "src\\Icons\\tiger.jpg";
                 }
-                if(bearRadioButton.isSelected())
+                if(bearRadioButton.isSelected() && animal==null)
                 {
                     animal = "src\\Icons\\bear.jpg";
                 }
-                if(eagleRadioButton.isSelected())
+                if(eagleRadioButton.isSelected() && animal==null)
                 {
                     animal = "src\\Icons\\eagle.jpg";
                 }
-                if(horseRadioButton.isSelected())
+                if(horseRadioButton.isSelected() && animal==null)
                 {
                     animal = "src\\Icons\\horse.jpg";
                 }
 
-                if(userName.getText().length() == 0 && passwordField1 != passwordField2 && passwordField1.getText().length()!=0){
+                if(userName.getText().length() == 0 && passwordField1 != passwordField2 && passwordField1.getText().length()!=0 && animal==null){
                     JOptionPane.showMessageDialog(signupPanel,"ERROR in signing up. Please try again !");
                     dispose();
                 }
@@ -68,6 +71,16 @@ public class SignupGUI extends JFrame {
                 {
                    client.signUp(emailtextField1.getText(),userName.getText(),passwordField1.getText(),bioText.getText(),animal);
                    dispose();
+                }
+            }
+        });
+        yourAvatarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
+                    File plik = fc.getSelectedFile();
+                    animal=plik.getAbsolutePath();
                 }
             }
         });

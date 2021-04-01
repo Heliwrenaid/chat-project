@@ -4,10 +4,12 @@
     <list default="true" id="127ea0ed-b863-4729-9935-a1dd3f692b91" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Icons/lion.jpg/dB" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChatRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/JoinOrgGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JoinOrgGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ManageSubsGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ManageSubsGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewOrgGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewOrgGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewOrgGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewOrgGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SIgnupGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/SIgnupGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SignupGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SignupGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +29,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RunManager" selected="Application.LoginGUI">
     <configuration name="LoginGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -44,13 +52,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -74,6 +84,7 @@
       <option name="presentableId" value="Default" />
       <updated>1617226562168</updated>
       <workItem from="1617226565667" duration="1652000" />
+      <workItem from="1617310220073" duration="1936000" />
     </task>
     <servers />
   </component>

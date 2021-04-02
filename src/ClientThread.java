@@ -1,3 +1,4 @@
+import java.io.File;
 import java.net.Socket;
 
 public class ClientThread extends FileTransferManager{
@@ -89,6 +90,18 @@ public class ClientThread extends FileTransferManager{
                 message.print();
                 return;
             }
+            case "updateUser:true":{
+                if (message.getUserId() == 0) return;
+                if(actualUser.getId() != message.getUserId()) return;
+
+                if(message.getName() != null) actualUser.setName(message.getName());
+                if(message.getPassword() != null) actualUser.setPassword(message.getPassword());
+                if(message.getBio() != null) actualUser.setBio(message.getBio());
+                if(message.getFile() != null) actualUser.setAvatar(message.getFile());
+                actualUser.save();
+                System.out.println("User data was updated !!!");
+                return;
+            }
         }
     }
 
@@ -101,7 +114,8 @@ public class ClientThread extends FileTransferManager{
             }
             case "signIn:true":{
                 System.out.println("ClientThread.takeAction(User): " + user.getEmail() + " is sign in");
-                actualUser = user;
+                dataBase.updateUser(user);
+                actualUser = dataBase.getUser(user.getId());
                 event.unblock();
                 return;
             }

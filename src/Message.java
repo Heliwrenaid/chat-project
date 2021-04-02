@@ -6,7 +6,8 @@ public class Message implements Serializable {
     private String userId;
     private String destId;
     private String info;
-   // private String info2;
+    private FileContainer file;
+    private String info1;
 
     public Message(String cmd, String message, String userId, String destId) {
         this.cmd = cmd;
@@ -37,6 +38,13 @@ public class Message implements Serializable {
         if(message == null) return false;
         return true;
     }
+    public void setUserData(String name, String pass, String bio, String avatarSrc){
+        message = name;
+        destId = pass;
+        info = bio;
+        if(avatarSrc != null)
+            file = new FileContainer(avatarSrc);
+    }
 
     // ---------------- getters & setters -----------------
 
@@ -57,6 +65,7 @@ public class Message implements Serializable {
     }
 
     public int getUserId() {
+        if (userId == null) return 0;
         return Integer.valueOf(userId);
     }
 
@@ -79,6 +88,13 @@ public class Message implements Serializable {
     public void setInfo(int info) {
         this.info = Integer.toString(info);
     }
+    public FileContainer getFile() {
+        return file;
+    }
+
+    public void setFile(String filePath) {
+        this.file = new FileContainer(filePath);
+    }
 
     // -------------- extra getters & setters ---------------
     public String getEmail(){
@@ -87,11 +103,9 @@ public class Message implements Serializable {
     public void setEmail(String message) {
         this.message = message;
     }
-    public String getPassword() {
-        return userId;
-    }
-    public void setPassword(String userId) {
-        this.userId = userId;
+    public String getPassword() { return destId; }
+    public void setPassword(String message) {
+        this.destId = message;
     }
     public void setSubCmd(String cmd){
         //for managing groups
@@ -114,4 +128,11 @@ public class Message implements Serializable {
     public void setDestUserId(int userId){
         this.info = Integer.toString(userId);
     }
+    public String getName(){
+        return message;
+    }
+    public String getBio(){
+        return info;
+    }
+
 }

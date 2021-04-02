@@ -7,11 +7,13 @@ import java.util.HashMap;
 
 public class DataBase implements Serializable{
     private String mainDir;
+    private String userDir;
     // Strings: 'users', 'groups', 'channels'
     private HashMap<Integer,String> idSet = new HashMap<>();
     private HashMap <String,Integer> emails = new HashMap<>();
     public DataBase(String mainDir) {
         this.mainDir = mainDir;
+        this.userDir = mainDir + File.separator+ "users";
         createDirectories();
         save();
     }
@@ -37,23 +39,35 @@ public class DataBase implements Serializable{
             System.out.println("In DataBase.createUser(): " +email + " already exists ... Aborting.");
             return null;
         }
-        else
-            emails.put(email,newId);
+        emails.put(email,newId);
         idSet.put(newId,"users");
         save();
         return new User(email,name,password,newId,mainDir,bio,avatarSrc);
     }
     public boolean createUser(User user){
+        if (user == null) return false;
         if(emails.containsKey(user.getEmail())){
             System.out.println("In DataBase.createUser(): " +user.getEmail() + " already exists ... Aborting.");
             return false;
         }
         else {
+
+        }
+        new User(user.getEmail(), user.getName(), user.getPassword(), user.getId(), mainDir, user.getBio(), user.getAvatarSrc());
+        save();
+        return true;
+    }
+    public boolean updateUser(User user){
+        if (user == null) return false;
+        if(!emails.containsKey(user.getEmail())){
+            System.out.println("In DataBase.updateUser(): " +user.getEmail() + " not exists ... Creating User.");
             idSet.put(user.getId(),"users");
             emails.put(user.getEmail(), user.getId());
         }
         new User(user.getEmail(), user.getName(), user.getPassword(), user.getId(), mainDir, user.getBio(), user.getAvatarSrc());
         save();
+        System.out.println("In DataBase.updateUser(): " +user.getEmail() + " was updated");
+
         return true;
     }
     public Group createGroup(Group group,int ownerId){
@@ -187,6 +201,14 @@ public class DataBase implements Serializable{
 
     public HashMap<String, Integer> getEmails() {
         return emails;
+    }
+
+    public String getUserDir() {
+        return userDir;
+    }
+
+    public void setUserDir(String userDir) {
+        this.userDir = userDir;
     }
 
     public static void main(String[] args){

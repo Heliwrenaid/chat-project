@@ -82,6 +82,22 @@ public class ServerThread extends ClientThread{
                     message.setCmd("groupManagement:false");
                 }
                 send(message);
+                return;
+            }
+            case "updateUser":{
+                if (message.getUserId() == 0) return;
+                if(actualUser.getId() != message.getUserId()) return;
+
+                if(message.getName() != null) actualUser.setName(message.getName());
+                if(message.getPassword() != null) actualUser.setPassword(message.getPassword());
+                if(message.getBio() != null) actualUser.setBio(message.getBio());
+                if(message.getFile() != null)  actualUser.setAvatar(message.getFile());
+                actualUser.save();
+                message.setCmd("updateUser:true");
+                System.out.println("User data was updated !!!");
+                send(message);
+                return;
+                // not send if false
             }
         }
     }

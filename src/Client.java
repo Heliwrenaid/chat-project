@@ -223,6 +223,14 @@ public class Client {
 
         send(message);
     }
+
+    public void updateUser(String name, String pass, String bio, String avatarSrc){
+        Message message = new Message();
+        message.setUserData(name,pass,bio,avatarSrc);
+        message.setCmd("updateUser");
+        message.setUserId(getActualUser().getId());
+        send(message);
+    }
     public DataBase getDataBase() {
         return dataBase;
     }

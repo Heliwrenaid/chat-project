@@ -28,6 +28,7 @@ public class Chat extends JLabel implements Serializable {
             this.avatarSrc = "src" + File.separator + "Icons" + File.separator + "wolf.jpg";
         }
         else this.avatarSrc = avatarSrc;
+        attachAvatar(this.avatarSrc);
         generateDirs();
         createDirectories();
     }
@@ -44,6 +45,7 @@ public class Chat extends JLabel implements Serializable {
         generateDirs();
     }
     void save(){
+        if(avatar != null) saveAvatar();
         Functions.save(this,dir+File.separator + "info");
     }
     int addMessage(Message message){
@@ -214,6 +216,9 @@ public class Chat extends JLabel implements Serializable {
     public void attachAvatar(String avatarPath){
         // when create group
         avatar = new FileContainer(avatarPath);
+    }
+    public void setAvatar(FileContainer fileContainer){
+        this.avatar = fileContainer;
     }
 /*
     public static void main(String [] args){

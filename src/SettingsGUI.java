@@ -104,10 +104,7 @@ public class SettingsGUI extends JFrame{
                     {
                         animal = "src\\Icons\\horse.jpg";
                     }
-                    client.getActualUser().setAvatarSrc(animal);
-                    client.getActualUser().setBio(biotextField2.getText());
-                    client.getActualUser().setName(nicktextField1.getText());
-                    client.getActualUser().setPassword(passwordField1.getText());
+                    client.updateUser(nicktextField1.getText(),passwordField1.getText(),biotextField2.getText(),animal);
                     dispose();
                 }
                 else

@@ -111,6 +111,17 @@ public class Group extends Chat implements Serializable {
         }
         return false;
     }
+    public boolean updateGroup(Message message){
+        if (message.getUserId() == 0) return false;
+        if (message.getDestId() == 0) return false;
+        if(ownerId != message.getUserId()) return false;
+
+        if(message.getName() != null) setName(message.getName());
+        if(message.getBio() != null) setBio(message.getBio());
+        if(message.getFile() != null) setAvatar(message.getFile());
+        save();
+        return true;
+    }
     @Override
     public boolean takeAction(Message message){
         switch (message.getSubCmd()){
@@ -137,6 +148,7 @@ public class Group extends Chat implements Serializable {
     }
 
     public void save(){
+        saveAvatar();
         Functions.save(this,dir+File.separator+"info");
     }
 

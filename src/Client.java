@@ -89,7 +89,13 @@ public class Client {
         group.setCmd("createGroup");
         send(group);
     }
-
+    public void updateGroup(int groupId,String name, String bio, String avatarSrc){
+        Message message = new Message();
+        message.setGroupData(groupId,name,bio,avatarSrc);
+        message.setCmd("updateGroup");
+        message.setUserId(getActualUser().getId());
+        send(message);
+    }
     public User getActualUser(){
         return clientThread.getActualUser();
     }

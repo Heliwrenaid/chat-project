@@ -102,6 +102,23 @@ public class ClientThread extends FileTransferManager{
                 System.out.println("User data was updated !!!");
                 return;
             }
+            case "updateGroup:true":{
+                boolean status = false;
+                Group chat = (Group)dataBase.getChat(message.getDestId());
+                if(chat != null){
+                    status = chat.updateGroup(message);
+                }
+                if(status){
+                   System.out.println("Group info was updated");
+                }
+                else {
+                    System.out.println("Group info wasn't updated only on Client side");
+                }
+                return;
+            }
+            case "updateGroup:false":{
+                System.out.println("Group info wasn't updated");
+            }
         }
     }
 

@@ -45,6 +45,13 @@ public class Message implements Serializable {
         if(avatarSrc != null)
             file = new FileContainer(avatarSrc);
     }
+    public void setGroupData(int groupId,String name, String bio, String avatarSrc){
+        message = name;
+        info = bio;
+        setDestId(groupId);
+        if(avatarSrc != null)
+            file = new FileContainer(avatarSrc);
+    }
 
     // ---------------- getters & setters -----------------
 

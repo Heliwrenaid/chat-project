@@ -99,6 +99,22 @@ public class ServerThread extends ClientThread{
                 return;
                 // not send if false
             }
+            case "updateGroup":{
+                boolean status = false;
+                Group chat = (Group)dataBase.getChat(message.getDestId());
+                if(chat != null){
+                    status = chat.updateGroup(message);
+                }
+                if(status){
+                    message.setCmd("updateGroup:true");
+                    send(message);
+                }
+                else {
+                    message.setCmd("updateGroup:false");
+                    send(message);
+                }
+                return;
+            }
         }
     }
     @Override

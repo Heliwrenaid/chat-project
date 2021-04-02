@@ -133,6 +133,7 @@ public class ClientThread extends FileTransferManager{
                 System.out.println("ClientThread.takeAction(User): " + user.getEmail() + " is sign in");
                 dataBase.updateUser(user);
                 actualUser = dataBase.getUser(user.getId());
+                //TODO: will it delete messages & files ??
                 event.unblock();
                 return;
             }

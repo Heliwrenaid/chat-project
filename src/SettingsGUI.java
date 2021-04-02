@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class SettingsGUI extends JFrame{
 
@@ -21,6 +22,8 @@ public class SettingsGUI extends JFrame{
     private JPanel downPanel;
     private JPanel upPanel;
     private JTextField emailtextField1;
+    private JButton chooseYourAvatarButton;
+    private JLabel avatarLabel;
     private Client client;
     private String str;
     private String animal;
@@ -41,31 +44,6 @@ public class SettingsGUI extends JFrame{
         biotextField2.setText(client.getActualUser().getBio());
         str=client.getActualUser().getAvatarSrc();
 
-        if(str.equals("src\\Icons\\wolf.jpg"))
-        {
-            wolfRadioButton.setSelected(true);
-        }
-        if(str.equals("src\\Icons\\tiger.jpg"))
-        {
-            tigerRadioButton.setSelected(true);
-        }
-        if(str.equals("src\\Icons\\eagle.jpg"))
-        {
-            eagleRadioButton.setSelected(true);
-        }
-        if(str.equals("src\\Icons\\bear.jpg"))
-        {
-            bearRadioButton.setSelected(true);
-        }
-        if(str.equals("src\\Icons\\horse.jpg"))
-        {
-            horseRadioButton.setSelected(true);
-        }
-        if(str.equals("src\\Icons\\lion.jpg"))
-        {
-            lionRadioButton.setSelected(true);
-        }
-
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -80,27 +58,27 @@ public class SettingsGUI extends JFrame{
                // haslo=JOptionPane.showInternalInputDialog(settingsPanel,"Wprowadź stare hasło!");
                 String haslo = JOptionPane.showInputDialog(settingsPanel,"Confirm old password: ");
                 if(haslo.equals(client.getActualUser().getPassword())){
-                    if(wolfRadioButton.isSelected())
+                    if(wolfRadioButton.isSelected() && animal == null)
                     {
                         animal = "src\\Icons\\wolf.jpg";
                     }
-                    if(lionRadioButton.isSelected())
+                    if(lionRadioButton.isSelected() && animal == null )
                     {
                         animal = "src\\Icons\\lion.jpg";
                     }
-                    if(tigerRadioButton.isSelected())
+                    if(tigerRadioButton.isSelected() && animal == null )
                     {
                         animal = "src\\Icons\\tiger.jpg";
                     }
-                    if(bearRadioButton.isSelected())
+                    if(bearRadioButton.isSelected() && animal == null)
                     {
                         animal = "src\\Icons\\bear.jpg";
                     }
-                    if(eagleRadioButton.isSelected())
+                    if(eagleRadioButton.isSelected() && animal == null)
                     {
                         animal = "src\\Icons\\eagle.jpg";
                     }
-                    if(horseRadioButton.isSelected())
+                    if(horseRadioButton.isSelected() && animal == null)
                     {
                         animal = "src\\Icons\\horse.jpg";
                     }
@@ -110,6 +88,17 @@ public class SettingsGUI extends JFrame{
                 else
                 {
                     JOptionPane.showMessageDialog(settingsPanel,"ERROR! Please try again !");
+                }
+            }
+        });
+        chooseYourAvatarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    File plik = fc.getSelectedFile();
+                    animal = plik.getAbsolutePath();
+                    avatarLabel.setText("Selected Avatar: "+animal);
                 }
             }
         });

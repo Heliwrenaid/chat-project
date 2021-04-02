@@ -46,6 +46,7 @@ public class MainPanel extends JFrame {
     private JLabel bioLabel;
     private JButton buttonDelete;
     private JButton personButton;
+    private JButton groupManagement;
     private JTextArea messageTextArea;
     private volatile boolean execute=true;
     private Client client;
@@ -244,6 +245,19 @@ public class MainPanel extends JFrame {
                     FileContainer fileContainer = new FileContainer(plik.getAbsolutePath());
                     fileContainer.setDestId(1);
                     client.send(fileContainer);
+                }
+            }
+        });
+        groupManagement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Chat o = (Chat) listGroup.getSelectedValue();
+                    JFrame f = new GroupSettingsGUI(mainPanel.getBackground(), listGroup.getBackground(), client, o.getId());
+                    f.pack();
+                    f.setVisible(true);
+                }catch (Exception exception){
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR! Please try again !");
                 }
             }
         });

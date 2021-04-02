@@ -19,6 +19,7 @@ public class SignupGUI extends JFrame {
     private JRadioButton bearRadioButton;
     private JTextField emailtextField1;
     private JButton yourAvatarButton;
+    private JLabel avatarPath;
     private Client client;
     String animal;
 
@@ -81,6 +82,7 @@ public class SignupGUI extends JFrame {
                 if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
                     File plik = fc.getSelectedFile();
                     animal=plik.getAbsolutePath();
+                    avatarPath.setText(animal);
                 }
             }
         });

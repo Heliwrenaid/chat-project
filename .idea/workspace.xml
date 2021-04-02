@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e7fd952-5bcc-4577-870e-fd91ebe8cac6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/GroupSettingsGUI.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GroupSettingsGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainPanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SettingsGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/SettingsGUI.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SettingsGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SettingsGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SIgnupGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/SIgnupGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SignupGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SignupGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +75,8 @@
       <option name="presentableId" value="Default" />
       <updated>1617374105867</updated>
       <workItem from="1617374111865" duration="3330000" />
-      <workItem from="1617388859120" duration="4716000" />
+      <workItem from="1617388859120" duration="4888000" />
+      <workItem from="1617393996693" duration="383000" />
     </task>
     <servers />
   </component>

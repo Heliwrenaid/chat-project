@@ -200,8 +200,8 @@ public class MainPanel extends JFrame {
                         o = (Chat) lista.getModel().getElementAt(index);
                         System.out.println("Kliknieto: " + o.toString());
                         try {
-                            organizName.setText(o.toString());
-                            organDescrip.setText(o.getBio());
+                            organizName.setText(client.getDataBase().getChat(o.getId()).toString());
+                            organDescrip.setText(client.getDataBase().getChat(o.getId()).getBio());
                         }catch (Exception p){
                             JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
                         }
@@ -297,6 +297,10 @@ public class MainPanel extends JFrame {
             listGroup.setModel(readAllChat());
         }
         listGroup.setCellRenderer(new ChatRenderer());
+        infoField.setText("Hello " + client.getActualUser().getName() + "!");
+        ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140,93,Image.SCALE_DEFAULT));
+        avatarIcon.setIcon(icon);
+        bioLabel.setText(client.getActualUser().getBio());
     }
 
     public static void main(String[] args) {

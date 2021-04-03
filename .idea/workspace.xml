@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6e7fd952-5bcc-4577-870e-fd91ebe8cac6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SIgnupGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/SIgnupGUI.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SignupGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SignupGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +54,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.Server" />
       <item itemvalue="Application.LoginGUI" />
@@ -77,6 +87,7 @@
       <workItem from="1617374111865" duration="3330000" />
       <workItem from="1617388859120" duration="4888000" />
       <workItem from="1617393996693" duration="383000" />
+      <workItem from="1617459234432" duration="3451000" />
     </task>
     <servers />
   </component>

@@ -35,7 +35,11 @@ public class ClientThread extends FileTransferManager{
                 break;
         }
     }
-    public void takeAction(FileContainer fileContainer){}
+    public void takeAction(FileContainer fileContainer){
+        System.out.println("testyyyy");
+        fileContainer.setDestinationDirectory(actualUser.getFileDir());
+        fileContainer.saveFileData();
+    }
 
     public void takeAction(Group group){
         switch (group.getCmd()){

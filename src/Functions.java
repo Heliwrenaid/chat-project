@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Functions {
     static void save(Object object, String filepath){
@@ -34,6 +35,18 @@ public class Functions {
        int max = Collections.max(map.keySet());
         for(int i = min; i <= max; i++){
             if(!map.containsKey(i)){
+                return i;
+            }
+        }
+        return max+1;
+    }
+    static int freeId(Set<Integer> map){
+        if (map.size() == 0) return 1;
+        if (!map.contains(1)) return 1;
+        int min = 1;
+        int max = Collections.max(map);
+        for(int i = min; i <= max; i++){
+            if(!map.contains(i)){
                 return i;
             }
         }

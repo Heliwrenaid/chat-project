@@ -62,6 +62,9 @@ public class FileContainer implements Serializable{
         } catch (IOException e) {
             System.out.println(outputFilePath + " was not saved");
             e.printStackTrace();
+        } catch (Exception e){
+            System.out.println(outputFilePath + " was not saved");
+            e.printStackTrace();
         }
 
     }

@@ -2,6 +2,9 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server extends Thread{
 
@@ -11,6 +14,7 @@ public class Server extends Thread{
     private DataBase dataBase;
     private String mainDir;
     private String dataBasePath;
+    private ServerThreadManager stm;
 
     public Server(String host, int port, String mainDir) {
         this.mainDir = mainDir;
@@ -20,7 +24,8 @@ public class Server extends Thread{
         loadDataBase(dataBasePath);
     }
 
-    public void startListening(){
+    public void startListening(int nThreads){
+        stm = new ServerThreadManager(nThreads);
         Runnable listener = new Runnable() {
             public void run() {
                 try {
@@ -31,7 +36,7 @@ public class Server extends Thread{
                     while(isEnabled){
                         Socket clientSocket = serverSocket.accept();
                         System.out.println("Connected to new client");
-                        new ServerThread(clientSocket,dataBase);
+                        stm.createThread(clientSocket,dataBase);
                     }
                 } catch (IOException e) {
                     System.out.println("Error in startListening(): " + e.getMessage());
@@ -66,7 +71,7 @@ public class Server extends Thread{
         server.dataBase.createUser("admin@o.pl","admin","admin","im dumb admin",null);
         //server.dataBase.createGroup(); //TODO
        Chat chat =  server.dataBase.getChat(1);
-        server.startListening();
+        server.startListening(100);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true){
@@ -76,7 +81,14 @@ public class Server extends Thread{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (p.equals("x")) break;
+            if (p.equals("x"))
+                break;
+            if (p.equals("d"))
+                continue; //debug here
+            if (p.equals("send")){
+                System.out.println(server.stm.getServerThread(2).getThreadId());
+                server.stm.getServerThread(2).send(new Message("test","a","b","c"));
+            }
             if(p.equals("s")) server.saveDataBase();
         }
         server.saveDataBase();

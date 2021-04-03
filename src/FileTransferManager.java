@@ -5,7 +5,7 @@ import java.net.SocketException;
 public class FileTransferManager{
     protected Socket socket = null;
     protected ObjectOutputStream output = null;
-    private boolean isRunning = true;
+    protected boolean isRunning = true;
     public void send(Object obj) {
         try {
             output = new ObjectOutputStream(socket.getOutputStream());

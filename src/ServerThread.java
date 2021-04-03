@@ -1,9 +1,20 @@
+import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
 
-public class ServerThread extends ClientThread{
-    public ServerThread(Socket socket, DataBase dataBase) {
+public class ServerThread extends ClientThread implements Runnable{
+    private HashMap<Integer,Integer> actualUsers;
+    private int threadId;
+    public ServerThread(Socket socket, DataBase dataBase, HashMap<Integer,Integer> actualUsers,int threadId) {
         this.socket = socket;
         this.dataBase = dataBase;
+        this.actualUsers = actualUsers;
+        this.threadId = threadId;
+    }
+
+    @Override
+    public void run() {
+        //TODO: wątek w wątku -> moze przeznaczyć na send() ??
         startReading();
     }
 
@@ -42,6 +53,7 @@ public class ServerThread extends ClientThread{
 
                 if(login){
                     System.out.println(message.getEmail() + " is signed in");
+                    actualUsers.put(user.getId(),threadId);
                     actualUser = user;
                     user.setCmd("signIn:true");
                     send(user);
@@ -67,7 +79,7 @@ public class ServerThread extends ClientThread{
                     send(message);
                 }
             }
-            
+
             case "groupManagement": {
                // if(!message.isValid()) return; TODO: sprawdza dla roznyych cmd?
                 //if(!dataBase.verify(message)) return;
@@ -159,5 +171,23 @@ public class ServerThread extends ClientThread{
                return;
             }
         }
+    }
+    @Override
+    public void stop(){
+        try {
+            if(actualUser != null)
+                if(actualUsers.containsKey(actualUser.getId()))
+                    actualUsers.remove(actualUser.getId());
+            isRunning = false;
+            output.close();
+            socket.close();
+            System.out.println("Socket is closed");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getThreadId() {
+        return threadId;
     }
 }

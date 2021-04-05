@@ -142,4 +142,8 @@ public class Message implements Serializable {
         return info;
     }
 
+    @Override
+    public String toString() {
+        return message;
+    }
 }

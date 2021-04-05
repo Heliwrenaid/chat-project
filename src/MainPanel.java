@@ -47,19 +47,17 @@ public class MainPanel extends JFrame {
     private JButton buttonDelete;
     private JButton personButton;
     private JButton groupManagement;
-    private JButton loadButton;
-    private JButton downloadButton;
-    private JTextArea messageTextArea;
+    private JList messageList;
     private volatile boolean execute=true;
     private Client client;
-    private HashMap<String,Integer> hashMap = new HashMap<>();
+
 
     public MainPanel(Client client) {
         this.client = client;
         setContentPane(mainPanel);
         startRefreshing();
         infoField.setText("Hello " + client.getActualUser().getName() + "!");
-        ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140, 93, Image.SCALE_DEFAULT));
+        ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140,93,Image.SCALE_DEFAULT));
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
 
@@ -88,7 +86,7 @@ public class MainPanel extends JFrame {
         newGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = new NewOrgGUI(mainPanel.getBackground(), listGroup.getBackground(), client, listGroup);
+                JFrame f = new NewOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client,listGroup);
                 f.pack();
                 f.setVisible(true);
             }
@@ -97,7 +95,7 @@ public class MainPanel extends JFrame {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                execute = false;
+                execute=false;
                 client.logout();
                 dispose();
             }
@@ -140,41 +138,15 @@ public class MainPanel extends JFrame {
             }
         });
 
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Highlighter.HighlightPainter painter =
-                        new DefaultHighlighter.DefaultHighlightPainter(Color.green);
-                //src: https://stackoverflow.com/questions/5909419/searching-for-words-in-textarea
-                int offset = textMessageArea.getText().indexOf(searchMsgField.getText());
-                int length = searchMsgField.getText().length();
-
-                while (offset != -1) {
-                    try {
-                        textMessageArea.getHighlighter().addHighlight(offset, offset + length, painter);
-                        offset = textMessageArea.getText().indexOf(searchMsgField.getText(), offset + 1);
-                    } catch (BadLocationException ble) {
-                        System.out.println(ble);
-                    }
-                }
-
-            }
-        });
         joinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = new JoinOrgGUI(mainPanel.getBackground(), listGroup.getBackground(), client);
+                JFrame f = new JoinOrgGUI(mainPanel.getBackground(), listGroup.getBackground(),client);
                 f.pack();
                 f.setVisible(true);
             }
         });
-        textMessageArea.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                textMessageArea.getHighlighter().removeAllHighlights();
-            }
-        });
+
         searchMsgField.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -201,36 +173,21 @@ public class MainPanel extends JFrame {
                         Chat o = new Chat();
                         o = (Chat) lista.getModel().getElementAt(index);
                         System.out.println("Kliknieto: " + o.toString());
+
+                        //TODO: for testing ----------------------------
+                        ArrayList<Integer> arr = new ArrayList<>();
+                        for(int i = 1; i <=6 ;i++) arr.add(i);
+                        o.setMessages(arr);
+                        o.save();
+                        // ---------------------------------------------
+
                         try {
+                            messageList.setModel(readAllMessages(o.getId()));
                             organizName.setText(client.getDataBase().getChat(o.getId()).toString());
                             organDescrip.setText(client.getDataBase().getChat(o.getId()).getBio());
-                            ArrayList<Integer> me = new ArrayList<Integer>();
-                            me.add(1);
-                            me.add(2);
-                            me.add(3);
-                            me.add(4);
-                            me.add(5);
-                            me.add(6);
-
-                            o.setMessages(me);
-
-                            textMessageArea.setText("");
-                            for (int i : o.getMessages()) {
-                                if (o.getMessage(i).getClass().getName().equals("FileContainer")) {
-                                    FileContainer fileContainer = (FileContainer) o.getMessage(i);
-                                    textMessageArea.append(client.getDataBase().getChat(fileContainer.getUserId()).getName() + ": " + fileContainer.getOriginalFileName() + "\n\n");
-                                    hashMap.put(fileContainer.getOriginalFileName(), i);
-                                }
-                                if (o.getMessage(i).getClass().getName().equals("Message")) {
-                                    Message message = (Message) o.getMessage(i);
-                                    textMessageArea.append(client.getDataBase().getChat(message.getUserId()).getName() + ": " + message.getMessage() + "\n\n");
-                                }
-                            }
-                        } catch (Exception p) {
-                            JOptionPane.showMessageDialog(mainPanel, "ERROR! There aren't any groups!");
+                        }catch (Exception p){
+                            JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
                         }
-
-
                     }
                 }
             }
@@ -243,8 +200,8 @@ public class MainPanel extends JFrame {
                     Chat o = (Chat) listGroup.getSelectedValue();
                     client.getActualUser().unsubscribeChat(o.getId());
                     client.leaveChat(o);
-                } catch (Exception exc) {
-                    JOptionPane.showMessageDialog(mainPanel, "ERROR ! Please try again ! ");
+                }catch (Exception exc){
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! ");
                 }
             }
         });
@@ -254,11 +211,11 @@ public class MainPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Chat o = (Chat) listGroup.getSelectedValue();
-                    JFrame f = new ManageSubsGUI(mainPanel.getBackground(), listGroup.getBackground(), client, o.getId());
+                    JFrame f = new ManageSubsGUI(mainPanel.getBackground(), listGroup.getBackground(),client,o.getId());
                     f.pack();
                     f.setVisible(true);
-                } catch (Exception exc) {
-                    JOptionPane.showMessageDialog(mainPanel, "ERROR ! Please try again ! ");
+                }catch (Exception exc){
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! ");
                 }
             }
         });
@@ -266,14 +223,12 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fc = new JFileChooser();
-                if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
                     File plik = fc.getSelectedFile();
                     FileContainer fileContainer = new FileContainer(plik.getAbsolutePath());
                     fileContainer.setDestId(1);
                     client.send(fileContainer);
-
                 }
-                System.out.println(textMessageArea.getSelectedText());
             }
         });
         groupManagement.addActionListener(new ActionListener() {
@@ -284,20 +239,8 @@ public class MainPanel extends JFrame {
                     JFrame f = new GroupSettingsGUI(mainPanel.getBackground(), listGroup.getBackground(), client, o.getId());
                     f.pack();
                     f.setVisible(true);
-                } catch (Exception exception) {
-                    JOptionPane.showMessageDialog(mainPanel, "ERROR! Please try again !");
-                }
-            }
-        });
-        downloadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String path = textMessageArea.getSelectedText();
-                    hashMap.get(path);
-
-                } catch (Exception exception) {
-                    JOptionPane.showMessageDialog(mainPanel, "ERROR! Please try again ! ");
+                }catch (Exception exception){
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR! Please try again !");
                 }
             }
         });
@@ -315,6 +258,18 @@ public class MainPanel extends JFrame {
         }
        // listGroup.setCellRenderer();
         return chatList;
+    }
+
+    public DefaultListModel <Object> readAllMessages(int groupId) {
+        ArrayList <Integer> messages  =  client.getDataBase().getChat(groupId).getMessages();
+        DefaultListModel <Object> messageList = new DefaultListModel<>();
+
+        for(int m : messages){
+            if(!messageList.contains(m)) {
+                messageList.addElement(client.getDataBase().getChat(groupId).getMessage(m));
+            }
+        }
+        return messageList;
     }
 
     void startRefreshing(){
@@ -337,13 +292,12 @@ public class MainPanel extends JFrame {
             listGroup.setModel(readAllChat());
         }
         listGroup.setCellRenderer(new ChatRenderer());
+        messageList.setCellRenderer(new MessageRenderer(client.getDataBase()));
         infoField.setText("Hello " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140,93,Image.SCALE_DEFAULT));
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
     }
-
-
 
     public static void main(String[] args) {
     }

@@ -14,11 +14,6 @@ public class Chat implements Serializable {
     protected String avatarSrc;
     protected FileContainer avatar;
     protected int id = 0;
-
-    public void setMessages(ArrayList<Integer> messages) {
-        this.messages = messages;
-    }
-
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected PermissionManager permManager = new PermissionManager();
 
@@ -222,7 +217,11 @@ public class Chat implements Serializable {
     public void setAvatar(FileContainer fileContainer){
         this.avatar = fileContainer;
     }
-/*
+
+    public void setMessages(ArrayList<Integer> messages) {
+        this.messages = messages;
+    }
+    /*
     public static void main(String [] args){
         Chat chat = new Chat();
         Message message = new Message("a","b","c","d");

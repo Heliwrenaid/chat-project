@@ -1,10 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server extends Thread{
 
@@ -15,6 +10,7 @@ public class Server extends Thread{
     private String mainDir;
     private String dataBasePath;
     private ServerThreadManager stm;
+    private UpdateCenter updateCenter;
 
     public Server(String host, int port, String mainDir) {
         this.mainDir = mainDir;
@@ -26,6 +22,7 @@ public class Server extends Thread{
 
     public void startListening(int nThreads){
         stm = new ServerThreadManager(nThreads);
+        updateCenter = new UpdateCenter(dataBase,stm);
         Runnable listener = new Runnable() {
             public void run() {
                 try {
@@ -36,7 +33,7 @@ public class Server extends Thread{
                     while(isEnabled){
                         Socket clientSocket = serverSocket.accept();
                         System.out.println("Connected to new client");
-                        stm.createThread(clientSocket,dataBase);
+                        createServerThread(clientSocket);
                     }
                 } catch (IOException e) {
                     System.out.println("Error in startListening(): " + e.getMessage());
@@ -61,6 +58,9 @@ public class Server extends Thread{
             dataBase = new DataBase(mainDir);
             System.out.println("Done");
         }
+    }
+    public void createServerThread(Socket clientSocket){
+        stm.createThread(clientSocket,updateCenter);
     }
 
     public static void main(String args[]){

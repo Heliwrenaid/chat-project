@@ -1,14 +1,13 @@
 import java.io.IOException;
 import java.net.Socket;
-import java.util.HashMap;
 
 public class ServerThread extends ClientThread implements Runnable{
-    private HashMap<Integer,Integer> actualUsers;
+    private UpdateCenter updateCenter;
     private int threadId;
-    public ServerThread(Socket socket, DataBase dataBase, HashMap<Integer,Integer> actualUsers,int threadId) {
+    public ServerThread(Socket socket,UpdateCenter updateCenter,int threadId) {
         this.socket = socket;
-        this.dataBase = dataBase;
-        this.actualUsers = actualUsers;
+        this.updateCenter = updateCenter;
+        this.dataBase = updateCenter.getDataBase();
         this.threadId = threadId;
     }
 
@@ -53,7 +52,7 @@ public class ServerThread extends ClientThread implements Runnable{
 
                 if(login){
                     System.out.println(message.getEmail() + " is signed in");
-                    actualUsers.put(user.getId(),threadId);
+                    updateCenter.addActualUser(user.getId(),threadId);
                     actualUser = user;
                     user.setCmd("signIn:true");
                     send(user);
@@ -119,6 +118,7 @@ public class ServerThread extends ClientThread implements Runnable{
                 }
                 if(status){
                     message.setCmd("updateGroup:true");
+                    updateCenter.addUpdate(message);
                     send(message);
                 }
                 else {
@@ -175,9 +175,7 @@ public class ServerThread extends ClientThread implements Runnable{
     @Override
     public void stop(){
         try {
-            if(actualUser != null)
-                if(actualUsers.containsKey(actualUser.getId()))
-                    actualUsers.remove(actualUser.getId());
+            updateCenter.removeActualUser(actualUser.getId());
             isRunning = false;
             output.close();
             socket.close();

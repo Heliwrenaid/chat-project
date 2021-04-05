@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Group extends Chat implements Serializable {
@@ -150,6 +151,14 @@ public class Group extends Chat implements Serializable {
     public void save(){
         saveAvatar();
         Functions.save(this,dir+File.separator+"info");
+    }
+
+    public ArrayList<Integer> getSubscribers(){
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i: users.keySet()){
+            if(!users.get(i).equals("banned")) arr.add(i);
+        }
+        return arr;
     }
 
     public int getOwnerId() {

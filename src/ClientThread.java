@@ -1,4 +1,3 @@
-import java.io.File;
 import java.net.Socket;
 
 public class ClientThread extends FileTransferManager{

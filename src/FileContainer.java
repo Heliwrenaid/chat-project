@@ -10,6 +10,7 @@ public class FileContainer implements Serializable{
     private boolean status; //true = success
     private int userId=0;
     private int destId=0;
+    private String metadataExt = "";
 
     public FileContainer(String filePath) {
         srcFilePath = filePath;
@@ -71,7 +72,7 @@ public class FileContainer implements Serializable{
     public void saveFileMetadata(){
         fileData = null;
         try {
-            FileOutputStream file = new FileOutputStream(destDir+File.separator+fileName+".metadata");
+            FileOutputStream file = new FileOutputStream(destDir+File.separator+fileName+ metadataExt);
             ObjectOutputStream output = new ObjectOutputStream(file);
             output.writeObject(this);
             output.close();
@@ -124,7 +125,13 @@ public class FileContainer implements Serializable{
         this.fileData = fileData;
     }
 
+    public String getMetadataExt() {
+        return metadataExt;
+    }
 
+    public void setMetadataExt(String metadataExt) {
+        this.metadataExt = metadataExt;
+    }
 
     public int getUserId() {
         return userId;
@@ -140,6 +147,14 @@ public class FileContainer implements Serializable{
 
     public void setDestId(int destId) {
         this.destId = destId;
+    }
+
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
     }
 
     public boolean isValid(){

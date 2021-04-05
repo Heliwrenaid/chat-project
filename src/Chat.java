@@ -133,8 +133,8 @@ public class Chat implements Serializable {
     public String getMessageDir() {
         return messageDir;
     }
-    Message getMessage(int id){
-        return (Message) Functions.getObject(dir+ File.separator+"messages"+File.separator+id);
+    public Object getMessage(int id){
+        return Functions.getObject(messageDir+File.separator+id);
     }
     public boolean verify(Object obj){
         //TODO

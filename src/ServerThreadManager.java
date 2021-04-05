@@ -10,14 +10,18 @@ public class ServerThreadManager{
     public ServerThreadManager(int nThreads) {
        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(nThreads);
     }
-    public void createThread(Socket socket, DataBase dataBase){
+    public void createThread(Socket socket, UpdateCenter updateCenter){
         int newId = Functions.freeId(serverThreads.keySet());
-        ServerThread serverThread = new ServerThread(socket,dataBase,actualUsers,newId);
+        ServerThread serverThread = new ServerThread(socket,updateCenter,newId);
         executor.execute(serverThread);
         serverThreads.put(newId,serverThread);
     }
     public ServerThread getServerThread(int userId){
         if (!actualUsers.containsKey(userId)) return null;
         return serverThreads.get(actualUsers.get(userId));
+    }
+
+    public HashMap<Integer, Integer> getActualUsers() {
+        return actualUsers;
     }
 }

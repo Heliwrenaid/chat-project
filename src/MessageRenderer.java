@@ -9,7 +9,13 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Object>{
     private JPanel iconPanel;
     private JLabel label;
     private JTextArea textArea;
+<<<<<<< HEAD
+
     public MessageRenderer(DataBase dataBase){
+
+=======
+    public MessageRenderer(DataBase dataBase){
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
         this.dataBase = dataBase;
         setLayout(new BorderLayout());
 
@@ -26,10 +32,19 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Object>{
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         add(textArea, BorderLayout.CENTER);
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
     }
 
     public Component getListCellRendererComponent(JList<? extends Object> list, Object obj, int index,
                                                   boolean isSelected, boolean cellHasFocus) {
+<<<<<<< HEAD
+
+=======
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
         String text;
         int userId;
         if(obj == null) return null;
@@ -75,11 +90,23 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Object>{
             textArea.setSize(width, Short.MAX_VALUE);
 
         if (isSelected) {
+<<<<<<< HEAD
+            iconPanel.setBackground(list.getSelectionBackground());
+            iconPanel.setForeground(list.getSelectionForeground());
+            textArea.setBackground(list.getSelectionBackground());
+            textArea.setForeground(list.getSelectionForeground());
+        } else {
+                iconPanel.setBackground(list.getBackground());
+                iconPanel.setForeground(list.getForeground());
+                textArea.setBackground(list.getBackground());
+                textArea.setForeground(list.getForeground());
+=======
             setBackground(list.getSelectionBackground());
             setForeground(list.getSelectionForeground());
         } else {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
         }
         return this;
     }

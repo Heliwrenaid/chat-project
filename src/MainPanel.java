@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +49,10 @@ public class MainPanel extends JFrame {
     private JButton personButton;
     private JButton groupManagement;
     private JList messageList;
+<<<<<<< HEAD
+    private JScrollPane scrollpane;
+=======
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
     private volatile boolean execute=true;
     private Client client;
 
@@ -123,6 +128,11 @@ public class MainPanel extends JFrame {
                     listGroup.setBackground(Color.lightGray);
                     searchMsgField.setBackground(Color.lightGray);
                     chatField.setBackground(Color.lightGray);
+<<<<<<< HEAD
+                    messageList.setBackground(Color.lightGray);
+                    scrollpane.setBackground(Color.lightGray);
+=======
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
 
                 } else {
                     mainPanel.setBackground(Color.lightGray);
@@ -134,6 +144,11 @@ public class MainPanel extends JFrame {
                     listGroup.setBackground(Color.WHITE);
                     searchMsgField.setBackground(Color.WHITE);
                     chatField.setBackground(Color.WHITE);
+<<<<<<< HEAD
+                    messageList.setBackground(Color.white);
+                    scrollpane.setBackground(Color.white);
+=======
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
                 }
             }
         });
@@ -258,7 +273,24 @@ public class MainPanel extends JFrame {
                     f.setVisible(true);
                 }catch (Exception exception){
                     JOptionPane.showMessageDialog(mainPanel,"ERROR! Please try again !");
+<<<<<<< HEAD
                 }
+            }
+        });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String findString = searchMsgField.getText();
+                ListModel listModel= messageList.getModel();
+                ArrayList <Integer> list = new ArrayList<>();
+                for(int i = 0;i<listModel.getSize();i++){
+                    if(listModel.getElementAt(i).toString().contains(findString)){
+                       list.add(i);
+                    }
+=======
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
+                }
+                messageList.setSelectedIndices(convertIntegers(list));
             }
         });
     }
@@ -284,6 +316,10 @@ public class MainPanel extends JFrame {
         for(int m : messages){
             if(!messageList.contains(m)) {
                 messageList.addElement(client.getDataBase().getChat(groupId).getMessage(m));
+<<<<<<< HEAD
+
+=======
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
             }
         }
         return messageList;
@@ -315,6 +351,20 @@ public class MainPanel extends JFrame {
         bioLabel.setText(client.getActualUser().getBio());
     }
 
+<<<<<<< HEAD
+    public static int[] convertIntegers(ArrayList<Integer> integers)
+    {
+        int[] ret = new int[integers.size()];
+        Iterator<Integer> iterator = integers.iterator();
+        for (int i = 0; i < ret.length; i++)
+        {
+            ret[i] = iterator.next().intValue();
+        }
+        return ret;
+    }
+
+=======
+>>>>>>> b1ac644cb8519efac1cd4608f1a5632934d18bcd
     public static void main(String[] args) {
     }
 

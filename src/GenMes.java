@@ -19,7 +19,9 @@ public class GenMes {
         int start = 1;
         int end = 3;
         for (int i=start; i <= end;i++){
-            message.setMessage("Message: " + i);
+            if(i%2 == 0) message.setMessage("Message: " + i);
+            else message.setMessage("Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.Looooong text.");
+
             Functions.save(message,messageDir+File.separator+i);
 
             FileContainer file = new FileContainer(filePath);

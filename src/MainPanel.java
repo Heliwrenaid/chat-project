@@ -60,6 +60,7 @@ public class MainPanel extends JFrame {
         ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140,93,Image.SCALE_DEFAULT));
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
+        messageList.setCellRenderer(new MessageRenderer(client.getDataBase()));
 
 //        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
 //            @Override
@@ -122,7 +123,7 @@ public class MainPanel extends JFrame {
                     listGroup.setBackground(Color.lightGray);
                     searchMsgField.setBackground(Color.lightGray);
                     chatField.setBackground(Color.lightGray);
-                    textMessageArea.setBackground(Color.lightGray);
+
                 } else {
                     mainPanel.setBackground(Color.lightGray);
                     leftFrame.setBackground(Color.lightGray);
@@ -133,7 +134,6 @@ public class MainPanel extends JFrame {
                     listGroup.setBackground(Color.WHITE);
                     searchMsgField.setBackground(Color.WHITE);
                     chatField.setBackground(Color.WHITE);
-                    textMessageArea.setBackground(Color.WHITE);
                 }
             }
         });
@@ -162,6 +162,9 @@ public class MainPanel extends JFrame {
             }
         });
 
+
+
+
         listGroup.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -188,6 +191,20 @@ public class MainPanel extends JFrame {
                         }catch (Exception p){
                             JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
                         }
+                    }
+                }
+            }
+        });
+        messageList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                JList lista = (JList) e.getSource();
+                if (e.getClickCount() == 2) {
+                    int index = lista.locationToIndex(e.getPoint());
+                    if (index >= 0) {
+                        Object o = (Object) lista.getModel().getElementAt(index);
+                        System.out.println("Kliknieto: " + o.toString());
                     }
                 }
             }
@@ -292,7 +309,6 @@ public class MainPanel extends JFrame {
             listGroup.setModel(readAllChat());
         }
         listGroup.setCellRenderer(new ChatRenderer());
-        messageList.setCellRenderer(new MessageRenderer(client.getDataBase()));
         infoField.setText("Hello " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140,93,Image.SCALE_DEFAULT));
         avatarIcon.setIcon(icon);

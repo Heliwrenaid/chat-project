@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 
 public class FileContainer implements Serializable{
     private String destDir;
@@ -163,5 +164,10 @@ public class FileContainer implements Serializable{
         if (destId == 0) return false;
         if (fileName == null) return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return originalFileName;
     }
 }

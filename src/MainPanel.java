@@ -187,19 +187,20 @@ public class MainPanel extends JFrame {
                     if (index >= 0) {
                         Chat o = new Chat();
                         o = (Chat) lista.getModel().getElementAt(index);
-                        System.out.println("Kliknieto: " + o.toString());
+
 
                         //TODO: for testing ----------------------------
-                        ArrayList<Integer> arr = new ArrayList<>();
-                        for(int i = 1; i <=6 ;i++) arr.add(i);
-                        o.setMessages(arr);
-                        o.save();
+//                        ArrayList<Integer> arr = new ArrayList<>();
+//                        for(int i = 1; i <=6 ;i++) arr.add(i);
+//                        o.setMessages(arr);
+//                        o.save();
                         // ---------------------------------------------
 
                         try {
-                            messageList.setModel(readAllMessages(o.getId()));
+                            System.out.println("Kliknieto: " + o.toString());
                             organizName.setText(client.getDataBase().getChat(o.getId()).toString());
                             organDescrip.setText(client.getDataBase().getChat(o.getId()).getBio());
+                           // messageList.setModel(readAllMessages(o.getId()));
                         }catch (Exception p){
                             JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
                         }

@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 public class ServerThread extends ClientThread implements Runnable{
     private UpdateCenter updateCenter;
@@ -119,7 +122,7 @@ public class ServerThread extends ClientThread implements Runnable{
                 if(status){
                     message.setCmd("updateGroup:true");
                     updateCenter.addUpdate(message);
-                    send(message);
+                   // send(message);
                 }
                 else {
                     message.setCmd("updateGroup:false");
@@ -127,6 +130,12 @@ public class ServerThread extends ClientThread implements Runnable{
                 }
                 return;
             }
+            case "getChats":{
+                if(dataBase.getIdSet() == null) return;
+                Set<Integer> ids = dataBase.getIdSet().keySet();
+                updateCenter.sendUpdate(actualUser.getId(),new ArrayList<>(ids));
+            }
+                break;
         }
     }
     @Override

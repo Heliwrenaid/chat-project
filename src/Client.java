@@ -124,6 +124,13 @@ public class Client {
         }
 
     }
+
+    public void getAllChats(){
+        Message message = new Message();
+        message.setCmd("getChats");
+        message.setUserId(getActualUser().getId());
+        send(message);
+    }
     public void joinChat(Chat chat){
         if(chat == null) {
             System.out.println("'chat' is null");

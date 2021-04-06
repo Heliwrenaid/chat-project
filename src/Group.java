@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Group extends Chat implements Serializable {
-    // 'user','admin','banned'
-    HashMap <Integer,String> users = new HashMap<>();
     private int ownerId;
     private String groupType;
 
@@ -123,6 +121,7 @@ public class Group extends Chat implements Serializable {
         save();
         return true;
     }
+
     @Override
     public boolean takeAction(Message message){
         switch (message.getSubCmd()){

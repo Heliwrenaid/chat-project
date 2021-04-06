@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Chat implements Serializable {
     protected String name;
@@ -15,6 +16,7 @@ public class Chat implements Serializable {
     protected FileContainer avatar;
     protected int id = 0;
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
+    protected HashMap<Integer,String> users = new HashMap<>(); // 'user','admin','banned'
     protected PermissionManager permManager = new PermissionManager();
 
 
@@ -110,7 +112,13 @@ public class Chat implements Serializable {
         this.messageDir = dir + File.separator + "messages";
     }
 
-
+    public void updateChat(Chat chat){
+        // client side
+        if(chat.getName() != null) setName(chat.getName());
+        if(chat.getBio() != null) setBio(chat.getBio());
+        if(chat.getAvatar() != null) setAvatar(chat.getAvatar());
+        save();
+    }
     @Override
     public String toString() {
         return "Chat: " +name +'\n';
@@ -221,6 +229,19 @@ public class Chat implements Serializable {
     public void setMessages(ArrayList<Integer> messages) {
         this.messages = messages;
     }
+
+    public FileContainer getAvatar() {
+        return avatar;
+    }
+
+    public HashMap<Integer, String> getUsers() {
+        return users;
+    }
+
+    public void setUsers(HashMap<Integer, String> users) {
+        this.users = users;
+    }
+
     /*
     public static void main(String [] args){
         Chat chat = new Chat();

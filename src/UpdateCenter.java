@@ -55,27 +55,30 @@ public class UpdateCenter extends Thread{
         while (true){
             try {
                 Thread.sleep(200);
+                for (int id:tasks.keySet()){
+                    if(actualUsers.containsKey(id)){
+                        sendUpdate(id,tasks.get(id));
+                        tasks.remove(id);
+                    }
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-            for (int id:tasks.keySet()){
-                if(actualUsers.containsKey(id)){
-                    sendUpdate(id,tasks.get(id));
-                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
     public void sendUpdate(int userId,ArrayList<Integer> arr){
         if (arr == null) return;
+        UpdateContainer updateContainer = new UpdateContainer();
         for (int i:arr){
             Chat chat = dataBase.getChat(i);
             if(chat != null) {
-              //  chat.setCmd("updateChat");
-                stm.getServerThread(userId).send(chat);
+                updateContainer.add(chat);
             }
-
         }
-        tasks.remove(userId);
+        updateContainer.calculateAmount();
+        stm.getServerThread(userId).send(updateContainer);
 
     }
 }

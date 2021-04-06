@@ -32,6 +32,8 @@ public class ClientThread extends FileTransferManager{
                 break;
             case "Channel": takeAction((Channel) obj);
                 break;
+            case "UpdateContainer": takeAction((UpdateContainer) obj);
+                break;
         }
     }
     public void takeAction(FileContainer fileContainer){
@@ -142,6 +144,24 @@ public class ClientThread extends FileTransferManager{
             }
         }
     }
+    public void takeAction(UpdateContainer updateContainer){
+        if (updateContainer.getAmount() == 0) return;
+        if (updateContainer.hasChats()){
+            for(Chat chat : updateContainer.getChats()){
+                Chat oldChat = dataBase.getChat(chat.getId());
+                if(oldChat != null){
+                    oldChat.updateChat(chat);
+                }
+                else {
+                    if(chat instanceof Group)
+                        dataBase.createGroup((Group)chat);
+                    if(chat instanceof User)
+                        dataBase.updateUser((User) chat);
+                }
+            }
+        }
+
+    }
 
     public User getActualUser() {
         return actualUser;
@@ -150,4 +170,13 @@ public class ClientThread extends FileTransferManager{
         actualUser = User.loadUser(actualUser.getSavePath());
     }
 
+    public void updateChat(Chat chat){
+        Chat oldChat = dataBase.getChat(chat.getId());
+        oldChat.setName(chat.getName());
+        oldChat.setBio(chat.getBio());
+        //oldChat.setMessages(chat.getMessages());
+        oldChat.setUsers(chat.getUsers());
+
+    }
 }
+

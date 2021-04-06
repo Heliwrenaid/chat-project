@@ -18,6 +18,7 @@ public class JoinOrgGUI extends JFrame {
     private JComboBox comboBox1;
     private JButton filterButton;
     private JPanel nextPanel;
+    private JButton download;
     private Client client;
 
     public JoinOrgGUI(Color darker, Color lighter, Client client) {
@@ -58,6 +59,12 @@ public class JoinOrgGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 organizationList.setModel(readAllChat());
+            }
+        });
+        download.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                client.getAllChats();
             }
         });
     }

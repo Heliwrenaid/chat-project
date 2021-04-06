@@ -45,6 +45,7 @@ public class DataBase implements Serializable{
         return new User(email,name,password,newId,mainDir,bio,avatarSrc,null);
     }
     public boolean createUser(User user){
+        // in client side
         if (user == null) return false;
         if(emails.containsKey(user.getEmail())){
             System.out.println("In DataBase.createUser(): " +user.getEmail() + " already exists ... Aborting.");

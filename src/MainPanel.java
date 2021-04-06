@@ -14,8 +14,6 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-
 public class MainPanel extends JFrame {
 
     private JPanel leftFrame;
@@ -65,7 +63,7 @@ public class MainPanel extends JFrame {
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
         messageList.setCellRenderer(new MessageRenderer(client.getDataBase()));
-
+        setTitle(client.getActualUser().getName());
 //        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
 //            @Override
 //            public void windowClosing(java.awt.event.WindowEvent windowEvent) {

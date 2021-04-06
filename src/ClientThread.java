@@ -64,9 +64,9 @@ public class ClientThread extends FileTransferManager{
                 return;
             }
             case "messageResponse":{
-                if(!message.isValid()) return;
+                //if(!message.isValid()) return;
                 //if(!dataBase.verify(message)) return;
-                if(message.getUserId() != actualUser.getId()) return; //TODO: dobre ?? dobre
+               // if(message.getUserId() != actualUser.getId()) return; //TODO: dobre ?? dobre
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 chat.addMessageClient(message);
@@ -81,6 +81,20 @@ public class ClientThread extends FileTransferManager{
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 boolean status = chat.takeAction(message);
+
+                // only for joining User
+//                boolean status2 = true;
+//                if(chat instanceof User){
+//                    int destId = message.getDestId();
+//                    int destUserId = message.getDestUserId();
+//                    message.setDestId(destUserId);
+//                    message.setDestUserId(destId);
+//
+//                    Chat chat2 = dataBase.getChat(message.getDestId());
+//                    if(chat == null) return;
+//                    status2 = chat.takeAction(message);
+//                }
+
                 if (status) {
                     reloadActualUser();
                     System.out.println("ClientThread: GroupManagement: operation successful");

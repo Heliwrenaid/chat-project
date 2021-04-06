@@ -15,7 +15,7 @@ public class Client {
     private String mainDir = null;
     private String dataBasePath = null;
     private String host = "localhost";
-    private int port = 2600;
+    private int port = 2700;
 
     public Client(String mainDir){
         try {
@@ -104,7 +104,11 @@ public class Client {
         if(obj != null) clientThread.send(obj);
         else System.out.println("Client.send(): 'obj' is null");
     }
-    public void sendMessage(Message message){
+    public void sendMessage(String text, int destId){
+        Message message = new Message();
+        message.setMessage(text);
+        message.setUserId(getActualUser().getId());
+        message.setDestId(destId);
         message.setCmd("messageRequest");
         send(message);
     }

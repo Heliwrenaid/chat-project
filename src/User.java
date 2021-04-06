@@ -1,9 +1,5 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class User extends Chat implements Serializable {
 
@@ -57,6 +53,82 @@ public class User extends Chat implements Serializable {
         subscribedChats.remove((Object)id);
         save();
     }
+
+    @Override
+    public boolean takeAction(Message message){
+        switch (message.getSubCmd()){
+            case "join": return addUser(message.getDestUserId());
+            case "leave": return removeUser(message.getDestUserId(),message.getExecId());
+            case "banUser": return banUser(message.getDestUserId(),message.getExecId());
+            case "unbanUser": return unbanUser(message.getDestUserId(),message.getExecId());
+            default: return false;
+        }
+    }
+    public boolean addUser(int userId){
+        if(users.containsKey(userId)){
+            // banned user can't join
+            return false;
+        }
+        else {
+            users.put(userId,"user");
+            subscribeChat(userId);
+            save();
+            return true;
+        }
+    }
+
+    public boolean removeUser(int userId, int execId){
+        if(!users.containsKey(userId)){
+            return false;
+        }
+        else {
+            if(userId == execId){
+                users.remove(userId);
+                User user = getUser(userId);
+                if(user == null){
+                    return false;
+                }
+                user.unsubscribeChat(id);
+                save();
+                return true;
+            }
+            return false;
+        }
+    }
+    public boolean banUser(int userId, int execId){
+        if(!users.containsKey(execId)) return false;
+        if(!users.containsKey(userId)) return false;
+        if(execId == id){
+            users.remove(userId);
+            users.put(userId,"banned");
+            User user = getUser(userId);
+            if(user == null){
+                return false;
+            }
+            user.unsubscribeChat(id);
+            save();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean unbanUser(int userId, int execId){
+        if(!users.containsKey(execId)) return false;
+        if(!users.containsKey(userId)) return false;
+        if(execId == id ){
+            users.remove(userId);
+            save();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    void save(){
+        if(avatar != null) saveAvatar();
+        Functions.save(this,dir+File.separator + "info");
+    }
+
     public static User loadUser(String path){
         return (User) Functions.getObject(path);
     }

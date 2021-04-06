@@ -14,6 +14,8 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+
 public class MainPanel extends JFrame {
 
     private JPanel leftFrame;
@@ -63,7 +65,7 @@ public class MainPanel extends JFrame {
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
         messageList.setCellRenderer(new MessageRenderer(client.getDataBase()));
-        setTitle(client.getActualUser().getName());
+
 //        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
 //            @Override
 //            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -186,7 +188,6 @@ public class MainPanel extends JFrame {
                         Chat o = new Chat();
                         o = (Chat) lista.getModel().getElementAt(index);
 
-
                         //TODO: for testing ----------------------------
 //                        ArrayList<Integer> arr = new ArrayList<>();
 //                        for(int i = 1; i <=6 ;i++) arr.add(i);
@@ -198,7 +199,7 @@ public class MainPanel extends JFrame {
                             System.out.println("Kliknieto: " + o.toString());
                             organizName.setText(client.getDataBase().getChat(o.getId()).toString());
                             organDescrip.setText(client.getDataBase().getChat(o.getId()).getBio());
-                           // messageList.setModel(readAllMessages(o.getId()));
+                            messageList.setModel(readAllMessages(o.getId()));
                         }catch (Exception p){
                             JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
                         }
@@ -292,7 +293,6 @@ public class MainPanel extends JFrame {
 
     public DefaultListModel <Chat> readAllChat() {
         ArrayList <Integer> subscribedChats  =  client.getActualUser().getSubscribedChats();
-
         DefaultListModel <Chat> chatList = new DefaultListModel<>();
 
         for(int m : subscribedChats){

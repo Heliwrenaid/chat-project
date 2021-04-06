@@ -88,7 +88,21 @@ public class ServerThread extends ClientThread implements Runnable{
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 boolean status = chat.takeAction(message);
-                if(status){
+
+                // only for joining User
+                boolean status2 = true;
+
+                if(chat instanceof User){
+                    int destId = message.getDestId();
+                    int destUserId = message.getDestUserId();
+                    message.setDestId(destUserId);
+                    message.setDestUserId(destId);
+
+                    Chat chat2 = dataBase.getChat(message.getDestId());
+                    if(chat2 == null) return;
+                    status2 = chat2.takeAction(message);
+                }
+                if(status && status2){
                     reloadActualUser();
                     message.setCmd("groupManagement:true");
                 }

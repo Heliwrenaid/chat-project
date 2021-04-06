@@ -43,6 +43,7 @@ public class Chat implements Serializable {
     public Chat(){
         generateDirs();
     }
+
     void save(){
         if(avatar != null) saveAvatar();
         Functions.save(this,dir+File.separator + "info");

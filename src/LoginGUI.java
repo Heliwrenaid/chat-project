@@ -11,7 +11,7 @@ public class LoginGUI extends JFrame {
     private JButton signInButton;
 
     private JButton signUpButton;
-    private Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData2");
+    private Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
 
     public LoginGUI() {
         signInButton.addActionListener(new ActionListener() {

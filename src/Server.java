@@ -85,6 +85,11 @@ public class Server extends Thread{
                 break;
             if (p.equals("d"))
                 continue; //debug here
+            if (p.equals("q")){
+                User user2 = server.getDataBase().getUser(2);
+                User user3 = server.getDataBase().getUser(3);
+            }
+
             if (p.equals("send")){
                 System.out.println(server.stm.getServerThread(2).getThreadId());
                 server.stm.getServerThread(2).send(new Message("test","a","b","c"));
@@ -94,4 +99,8 @@ public class Server extends Thread{
         server.saveDataBase();
     }
 
+
+    public DataBase getDataBase() {
+        return dataBase;
+    }
 }

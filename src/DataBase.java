@@ -42,7 +42,7 @@ public class DataBase implements Serializable{
         emails.put(email,newId);
         idSet.put(newId,"users");
         save();
-        return new User(email,name,password,newId,mainDir,bio,avatarSrc,null);
+        return new User(email,name,password,newId,mainDir,bio,avatarSrc,null,null);
     }
     public boolean createUser(User user){
         // in client side
@@ -54,7 +54,7 @@ public class DataBase implements Serializable{
         else {
 
         }
-        new User(user.getEmail(), user.getName(), user.getPassword(), user.getId(), mainDir, user.getBio(), user.getAvatarSrc(),user.getSubscribedChats());
+        new User(user.getEmail(), user.getName(), user.getPassword(), user.getId(), mainDir, user.getBio(), user.getAvatarSrc(),user.getSubscribedChats(),user.getMessages());
         save();
         return true;
     }
@@ -65,7 +65,7 @@ public class DataBase implements Serializable{
             idSet.put(user.getId(),"users");
             emails.put(user.getEmail(), user.getId());
         }
-        new User(user.getEmail(), user.getName(), user.getPassword(), user.getId(), mainDir, user.getBio(), user.getAvatarSrc(),user.getSubscribedChats());
+        new User(user.getEmail(), user.getName(), user.getPassword(), user.getId(), mainDir, user.getBio(), user.getAvatarSrc(),user.getSubscribedChats(),user.getMessages());
         save();
         System.out.println("In DataBase.updateUser(): " +user.getEmail() + " was updated");
 

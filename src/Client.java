@@ -110,6 +110,7 @@ public class Client {
         message.setUserId(getActualUser().getId());
         message.setDestId(destId);
         message.setCmd("messageRequest");
+
         send(message);
     }
     public boolean transmissionIsActive(){

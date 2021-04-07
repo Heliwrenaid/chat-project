@@ -9,14 +9,18 @@ public class User extends Chat implements Serializable {
     private ArrayList <Integer> subscribedChats = new ArrayList<>();
 
 
-    public User(String email,String name, String password,int id,String mainDir,String bio,String avatarSrc,ArrayList<Integer> subsChats) {
+    public User(String email,String name, String password,int id,String mainDir,String bio,String avatarSrc,ArrayList<Integer> subsChats,ArrayList<Integer> messages) {
         super(mainDir + File.separator + "users" + File.separator + id,id, avatarSrc);
         this.email = email;
         this.name = name;
+
         this.password = password;
         this.savePath = dir + File.separator + "info";
         if(subsChats != null)
             this.subscribedChats = subsChats;
+
+        if(messages != null)
+            this.messages = messages;
 
         if (bio != null) {
             this.bio = bio;

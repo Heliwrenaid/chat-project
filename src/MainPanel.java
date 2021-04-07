@@ -51,6 +51,7 @@ public class MainPanel extends JFrame {
     private JList messageList;
     private int actualGroupId;
     private JScrollPane scrollpane;
+    private boolean status=true;
 
     private volatile boolean execute=true;
     private Client client;
@@ -187,6 +188,12 @@ public class MainPanel extends JFrame {
                     if (index >= 0) {
                         Chat o = new Chat();
                         o = (Chat) lista.getModel().getElementAt(index);
+                        if(o instanceof User){
+                            status=false;
+                        }
+                        else {
+                            status=true;
+                        }
                         actualGroupId=o.getId();
                         //TODO: for testing ----------------------------
 //                        ArrayList<Integer> arr = new ArrayList<>();
@@ -199,7 +206,6 @@ public class MainPanel extends JFrame {
                             System.out.println("Kliknieto: " + o.toString());
                             organizName.setText(client.getDataBase().getChat(o.getId()).toString());
                             organDescrip.setText(client.getDataBase().getChat(o.getId()).getBio());
-                            messageList.setModel(readAllMessages(o.getId()));
                         }catch (Exception p){
                             JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
                         }
@@ -316,6 +322,33 @@ public class MainPanel extends JFrame {
         return messageList;
     }
 
+    public DefaultListModel <Object> readAllUserMessages(int userId) {
+        ArrayList <Integer> messages  =  client.getDataBase().getChat(userId).getMessages();
+        DefaultListModel <Object> messageList = new DefaultListModel<>();
+
+        for(int m : messages){
+            if(!messageList.contains(m)) {
+                Object p = client.getDataBase().getChat(userId).getMessage(m);
+                int id=0;
+                switch (p.getClass().getName()) {
+                    case "FileContainer": {
+                        id = ((FileContainer) p).getUserId();
+                    }
+                    break;
+                    case "Message": {
+                        id = ((Message) p).getUserId();
+                    }
+                    break;
+                }
+                if(id==client.getActualUser().getId()){
+                    messageList.addElement(client.getDataBase().getChat(userId).getMessage(m));
+                }
+            }
+        }
+        return messageList;
+    }
+
+
     void startRefreshing(){
         Runnable listener = new Runnable() {
             public void run() {
@@ -335,9 +368,14 @@ public class MainPanel extends JFrame {
         if(listGroup.getModel().getSize()!=client.getActualUser().getSubscribedChats().size()) {
             listGroup.setModel(readAllChat());
         }
-        if(actualGroupId!=0) {
+        if(actualGroupId!=0 ) {
+            if(status)
             messageList.setModel(readAllMessages(actualGroupId));
+            else {
+                messageList.setModel(readAllUserMessages(actualGroupId));
+            }
         }
+
         listGroup.setCellRenderer(new ChatRenderer());
         infoField.setText("Hello " + client.getActualUser().getName() + "!");
         ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140,93,Image.SCALE_DEFAULT));

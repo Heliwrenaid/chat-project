@@ -66,7 +66,6 @@ public class ClientThread extends FileTransferManager{
             case "messageResponse":{
                 //if(!message.isValid()) return;
                 //if(!dataBase.verify(message)) return;
-               // if(message.getUserId() != actualUser.getId()) return; //TODO: dobre ?? dobre
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 chat.addMessageClient(message);

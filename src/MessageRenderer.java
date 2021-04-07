@@ -71,11 +71,12 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Object>{
         ImageIcon imageIcon = new ImageIcon(new ImageIcon(avatarSrc).getImage().getScaledInstance(20,17,Image.SCALE_DEFAULT));
         // src https://stackoverflow.com/questions/6714045/how-to-resize-jlabel-imageicon
         label.setIcon(imageIcon);
-        label.setText(name + ":  ");
-
+        //label.setText(name + ":  ");
+        //label.setText("<html>Name: " + name + "<br/>Age: " + name);
         textArea.setText(text);
-        int width = list.getWidth();
-        // this is just to lure the textArea's internal sizing mechanism into action
+        //int width = list.getWidth();
+        int width = list.getWidth() - iconPanel.getWidth();
+         //this is just to lure the textArea's internal sizing mechanism into action
         if (width > 0)
             textArea.setSize(width, Short.MAX_VALUE);
 

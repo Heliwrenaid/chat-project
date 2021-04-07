@@ -49,7 +49,7 @@ public class MainPanel extends JFrame {
     private JButton personButton;
     private JButton groupManagement;
     private JList messageList;
-
+    private int actualGroupId;
     private JScrollPane scrollpane;
 
     private volatile boolean execute=true;
@@ -76,7 +76,7 @@ public class MainPanel extends JFrame {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textMessageArea.append(client.getActualUser().getName() + ": " + chatField.getText() + "\n\n");
+                client.sendMessage(chatField.getText(),actualGroupId);
                 chatField.setText("");
             }
         });
@@ -187,7 +187,7 @@ public class MainPanel extends JFrame {
                     if (index >= 0) {
                         Chat o = new Chat();
                         o = (Chat) lista.getModel().getElementAt(index);
-
+                        actualGroupId=o.getId();
                         //TODO: for testing ----------------------------
 //                        ArrayList<Integer> arr = new ArrayList<>();
 //                        for(int i = 1; i <=6 ;i++) arr.add(i);
@@ -311,7 +311,6 @@ public class MainPanel extends JFrame {
         for(int m : messages){
             if(!messageList.contains(m)) {
                 messageList.addElement(client.getDataBase().getChat(groupId).getMessage(m));
-
             }
         }
         return messageList;
@@ -335,6 +334,9 @@ public class MainPanel extends JFrame {
     void refresh(){
         if(listGroup.getModel().getSize()!=client.getActualUser().getSubscribedChats().size()) {
             listGroup.setModel(readAllChat());
+        }
+        if(actualGroupId!=0) {
+            messageList.setModel(readAllMessages(actualGroupId));
         }
         listGroup.setCellRenderer(new ChatRenderer());
         infoField.setText("Hello " + client.getActualUser().getName() + "!");

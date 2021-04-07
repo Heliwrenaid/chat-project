@@ -53,7 +53,7 @@ public class MainPanel extends JFrame {
     private Chat actualGroup;
     private JScrollPane scrollpane;
     private boolean status=true;
-
+    private boolean refreshStatus=true;
     private volatile boolean execute=true;
     private Client client;
 
@@ -377,6 +377,12 @@ public class MainPanel extends JFrame {
             public void run() {
                 while (execute) {
                     try {
+                        if(searchMsgField.getText().equals("") || searchMsgField.getText().equals("Search...")){
+                            refreshStatus=true;
+                        }
+                        else {
+                            refreshStatus=false;
+                        }
                         refresh();
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
@@ -397,7 +403,7 @@ public class MainPanel extends JFrame {
                 //System.out.println(messageList.getModel().getSize() + " " + actualGroup.getMessages().size());
                 ArrayList<Integer> arr = client.getDataBase().getChat(actualGroupId).getMessages();
                 if(arr != null) {
-                    if (messageList.getModel().getSize() != arr.size()) {
+                    if (messageList.getModel().getSize() != arr.size() && refreshStatus) {
                         if (status)
                             messageList.setModel(readAllMessages(actualGroupId));
                         else {

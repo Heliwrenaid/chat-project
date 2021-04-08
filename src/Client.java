@@ -113,6 +113,34 @@ public class Client {
 
         send(message);
     }
+    public void sendFile(String filePath, int destId){
+        FileContainer fileContainer = new FileContainer(filePath);
+        fileContainer.setUserId(getActualUser().getId());
+        fileContainer.setDestId(destId);
+        fileContainer.setCmd("sendFile");
+        send(fileContainer);
+    }
+    public void getFile(FileContainer file){
+        System.out.println(file.getOriginalFileName() + " is being downloaded");
+        int fileName = Integer.parseInt(file.getFilename());
+        int destId = file.getDestId();
+        Message message = new Message();
+        message.setUserId(getActualUser().getId());
+        message.setDestId(destId);
+        message.setInfo(fileName);
+        message.setCmd("getFile");
+        send(message);
+    }
+    public boolean checkIfFileIsDownloaded(FileContainer file){
+        Chat chat = dataBase.getChat(file.getDestId());
+        if(chat == null) return false;
+
+        String filePath = chat.getFileDir() + File.separator + file.getOriginalFileName();
+        if(Files.exists(Paths.get(filePath))){
+            return true;
+        }
+        else return false;
+    }
     public boolean transmissionIsActive(){
         if(clientThread == null) return false;
         if(socket == null) return false;
@@ -265,14 +293,21 @@ public class Client {
 //        fileContainer.setDestId(1);
 //        client.send(fileContainer);
 
-        client.signUp("q","Michal","1234","afk",null);
-        client.signIn("q","1234");
-        System.out.println(client.getActualUser().getSubscribedChats());
+        //client.signUp("q","Michal","1234","afk",null);
+        //client.signIn("q","1234");
+       // System.out.println(client.getActualUser().getSubscribedChats());
        // client.sendMessage(new Message("text",2,2));
-        //client.createGroup("Group Name","bio","group");
-        Chat chat = client.dataBase.getChat(3);
-        client.leaveChat(chat);
-        client.saveDataBase();
-        System.out.println(client.getActualUser().getSubscribedChats());
+     //   client.createGroup("Group Name","bio","src\\Icons\\wolf.jpg","group");
+      //  Chat chat = client.dataBase.getChat(3);
+       // client.leaveChat(chat);
+
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+       // client.sendFile("src\\Icons\\wolf.jpg",3);
+        //client.saveDataBase();
+        //System.out.println(client.getActualUser().getSubscribedChats());
     }
 }

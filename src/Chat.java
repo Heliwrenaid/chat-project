@@ -57,6 +57,7 @@ public class Chat implements Serializable {
              */
             int newId = nextMessageId();
             messages.add(newId);
+            message.setInfo(newId);
 
             try {
                 System.out.print("Saving Message with id: " + newId + " ... ");
@@ -97,7 +98,26 @@ public class Chat implements Serializable {
         }
         return 0;
     }
+    public void addFileClient(FileContainer fileContainer){
+        fileContainer.setDestinationDirectory(getMessageDir());
+        fileContainer.setMetadataExt("");
+        fileContainer.saveFileMetadata();
+        messages.add(Integer.valueOf(fileContainer.getFilename()));
+        save();
+    }
+    public void addFile(FileContainer fileContainer){
+        int newId = nextMessageId();
+        messages.add(newId);
+        fileContainer.setFilename(Integer.toString(newId));
 
+        fileContainer.setDestinationDirectory(getFileDir());
+        fileContainer.saveFileData();
+
+        fileContainer.setDestinationDirectory(getMessageDir());
+        fileContainer.setMetadataExt("");
+        fileContainer.saveFileMetadata();
+        save();
+    }
 
     void createDirectories(){
         try {
@@ -119,6 +139,13 @@ public class Chat implements Serializable {
         if(chat.getBio() != null) setBio(chat.getBio());
         if(chat.getAvatar() != null) setAvatar(chat.getAvatar());
         save();
+    }
+    public ArrayList<Integer> getSubscribers(){
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i: users.keySet()){
+            if(!users.get(i).equals("banned")) arr.add(i);
+        }
+        return arr;
     }
     @Override
     public String toString() {

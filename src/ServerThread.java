@@ -1,7 +1,7 @@
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Set;
 
 public class ServerThread extends ClientThread implements Runnable{
@@ -22,20 +22,23 @@ public class ServerThread extends ClientThread implements Runnable{
 
     @Override
     public void takeAction(FileContainer fileContainer){
-        if(!fileContainer.isValid()) return;
-//        if(!dataBase.verify(fileContainer)) return;
+        switch (fileContainer.getCmd()) {
+            case "sendFile": {
+                if (!fileContainer.isValid()) return;
+//              if(!dataBase.verify(fileContainer)) return;
 
-        Chat chat= dataBase.getChat(fileContainer.getDestId());
-        if(chat == null) {
-            System.out.println("In ServerThread.takeAction(): chat doesn't exist");
-            return;
+                Chat chat = dataBase.getChat(fileContainer.getDestId());
+                if (chat == null) {
+                    return;
+                }
+                chat.addFile(fileContainer);
+
+                fileContainer.setFileData(null);
+                fileContainer.setCmd("sendFile:true");
+                send(fileContainer);
+                return;
+            }
         }
-        fileContainer.setDestinationDirectory(chat.getFileDir());
-        fileContainer.setFilename(Integer.toString(chat.nextMessageId()));
-        fileContainer.saveFileData();
-        fileContainer.saveFileMetadata();
-
-
     }
 
     @Override
@@ -81,7 +84,7 @@ public class ServerThread extends ClientThread implements Runnable{
                     status = true;
                     message.setInfo(newId);
                     message.setCmd("messageResponse");
-                    send(message);
+                    updateCenter.addUpdate(message);
                 }
 
                 // chating with User --------------------------------
@@ -96,7 +99,7 @@ public class ServerThread extends ClientThread implements Runnable{
                         status2 = true;
                         message.setInfo(newId);
                         message.setCmd("messageResponse");
-                        send(message);
+                        updateCenter.addUpdate(message);
                     }
                 } else status2 = true;
                 // --------------------------------------------------
@@ -172,9 +175,24 @@ public class ServerThread extends ClientThread implements Runnable{
             case "getChats":{
                 if(dataBase.getIdSet() == null) return;
                 Set<Integer> ids = dataBase.getIdSet().keySet();
-                updateCenter.sendUpdate(actualUser.getId(),new ArrayList<>(ids));
+                updateCenter.sendGroupsUpdate(actualUser.getId(),new ArrayList<>(ids));
             }
                 break;
+            case "getFile":{
+                if (actualUser.getId() != message.getUserId()) return;
+                Chat chat = dataBase.getChat(message.getDestId());
+                if (chat == null) return;
+                if (!chat.getMessages().contains(message.getInfo())) return;
+
+                Object obj = chat.getMessage(message.getInfo());
+                if(obj instanceof FileContainer){
+                    FileContainer file = (FileContainer) obj;
+                    file.writeFileData(chat.getFileDir() + File.separator + message.getInfo());
+                    file.setCmd("getFile:true");
+                    send(file);
+                }
+                return;
+            }
         }
     }
     @Override

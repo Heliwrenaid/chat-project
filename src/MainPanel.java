@@ -94,8 +94,10 @@ public class MainPanel extends JFrame {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                client.sendMessage(chatField.getText(),actualGroupId);
-                chatField.setText("");
+                if(!chatField.getText().equals("")) {
+                    client.sendMessage(chatField.getText(), actualGroupId);
+                    chatField.setText("");
+                }
             }
         });
 
@@ -239,8 +241,20 @@ public class MainPanel extends JFrame {
                 if (e.getClickCount() == 2) {
                     int index = lista.locationToIndex(e.getPoint());
                     if (index >= 0) {
-                        Object o = lista.getModel().getElementAt(index);
-                        System.out.println("Kliknieto: " + o.toString());
+                        Object obj = lista.getModel().getElementAt(index);
+                        if (obj instanceof FileContainer){
+                            FileContainer file = (FileContainer) obj;
+                            //client.getFile(file);
+                            if(client.checkIfFileIsDownloaded(file)){
+                                // buttony: redownload, save as, cancel
+                                // file.getOriginalFileName() is already download
+                            }
+                            else {
+                                // button: download, cancel
+                               // client.getFile(file);
+                            }
+                            //TODO: tutaj
+                        }
                     }
                 }
             }
@@ -278,9 +292,7 @@ public class MainPanel extends JFrame {
                 JFileChooser fc = new JFileChooser();
                 if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
                     File plik = fc.getSelectedFile();
-                    FileContainer fileContainer = new FileContainer(plik.getAbsolutePath());
-                    fileContainer.setDestId(1);
-                    client.send(fileContainer);
+                    client.sendFile(plik.getAbsolutePath(),actualGroupId);
                 }
             }
         });
@@ -334,7 +346,8 @@ public class MainPanel extends JFrame {
 
         for(int m : messages){
             if(!messageList.contains(m)) {
-                messageList.addElement(client.getDataBase().getChat(groupId).getMessage(m));
+                Object obj = client.getDataBase().getChat(groupId).getMessage(m);
+                if(obj != null) messageList.addElement(obj);
             }
         }
         return messageList;
@@ -363,7 +376,8 @@ public class MainPanel extends JFrame {
                         break;
                     }
                     if (id == client.getActualUser().getId() || actualGroupId == id1) {
-                        messageList.addElement(client.getDataBase().getChat(userId).getMessage(m));
+                        Object obj = client.getDataBase().getChat(userId).getMessage(m);
+                        if(obj != null) messageList.addElement(obj);
                     }
                 }
             }
@@ -394,23 +408,26 @@ public class MainPanel extends JFrame {
         new Thread(listener).start();
     }
     void refresh(){
-       // try {
+        try {
             if (listGroup.getModel().getSize() != client.getActualUser().getSubscribedChats().size()) {
                 listGroup.setModel(readAllChat());
             }
 
             if (actualGroupId != 0) {
                 //System.out.println(messageList.getModel().getSize() + " " + actualGroup.getMessages().size());
-                ArrayList<Integer> arr = client.getDataBase().getChat(actualGroupId).getMessages();
-                if(arr != null) {
-                    if (messageList.getModel().getSize() != arr.size() && refreshStatus) {
-                        if (status)
-                            messageList.setModel(readAllMessages(actualGroupId));
-                        else {
-                            messageList.setModel(readAllUserMessages(actualGroupId));
-                        }
-                    }
-                }
+               Chat chat = client.getDataBase().getChat(actualGroupId);
+               if(chat != null) {
+                   ArrayList<Integer> arr = chat.getMessages();
+                   if (arr != null) {
+                       if (messageList.getModel().getSize() != arr.size() && refreshStatus) {
+                           if (status)
+                               messageList.setModel(readAllMessages(actualGroupId));
+                           else {
+                               messageList.setModel(readAllUserMessages(actualGroupId));
+                           }
+                       }
+                   }
+               }
             }
 
             listGroup.setCellRenderer(new ChatRenderer());
@@ -418,9 +435,9 @@ public class MainPanel extends JFrame {
             ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140, 93, Image.SCALE_DEFAULT));
             avatarIcon.setIcon(icon);
             bioLabel.setText(client.getActualUser().getBio());
-       // } catch (NullPointerException e){
-      //      System.out.println(e.getMessage());
-      //  }
+        } catch (NullPointerException e){
+            System.out.println(e.getMessage());
+        }
 
     }
 

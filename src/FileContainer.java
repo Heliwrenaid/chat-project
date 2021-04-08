@@ -12,36 +12,29 @@ public class FileContainer implements Serializable{
     private int userId=0;
     private int destId=0;
     private String metadataExt = "";
+    private String cmd;
 
     public FileContainer(String filePath) {
         srcFilePath = filePath;
         fileName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.length());
         destDir = filePath.substring(0, filePath.lastIndexOf("\\") + 1);
         originalFileName = fileName;
-
-        File file = new File(srcFilePath);
-        if (file.isFile()) {
-            try {
-                DataInputStream diStream = new DataInputStream(new FileInputStream(file));
-                long len = (int) file.length();
-                byte[] fileBytes = new byte[(int) len];
-                int read = 0;
-                int numRead = 0;
-                while (read < fileBytes.length && (numRead = diStream.read(fileBytes, read, fileBytes.length - read)) >= 0) {
-                    read = read + numRead;
-                }
-                fileSize = len;
-                fileData = fileBytes;
-                status = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                status = false;
-            }
-        } else {
-            System.out.println("Specified path not point to a file");
-            status = false;
-        }
+        writeFileData(srcFilePath);
     }
+
+    // copy without fileData -> for saving metadata
+    public FileContainer(FileContainer file) {
+        this.destDir = file.getDestinationDirectory();
+        this.srcFilePath = file.getSrcFilePath();
+        this.fileName = file.getFilename();
+        this.originalFileName = file.getOriginalFileName();
+        this.fileSize = file.getFileSize();
+        this.status = file.getStatus();
+        this.userId = file.getUserId();
+        this.destId = file.getDestId();
+        this.metadataExt = file.getMetadataExt();
+    }
+
 
     public void saveFileData(){
         String outputFilePath = destDir + File.separator + fileName;
@@ -71,17 +64,53 @@ public class FileContainer implements Serializable{
 
     }
     public void saveFileMetadata(){
-        fileData = null;
         try {
             FileOutputStream file = new FileOutputStream(destDir+File.separator+fileName+ metadataExt);
             ObjectOutputStream output = new ObjectOutputStream(file);
-            output.writeObject(this);
+            output.writeObject(new FileContainer(this));
             output.close();
         } catch (Exception e) {
             System.out.println("In FileContainer.saveFileMetadata() error occurred: "+ e.getMessage());
         }
     }
+    public void writeFileData(String filePath){
+        File file = new File(filePath);
+        if (file.isFile()) {
+            try {
+                DataInputStream diStream = new DataInputStream(new FileInputStream(file));
+                long len = (int) file.length();
+                byte[] fileBytes = new byte[(int) len];
+                int read = 0;
+                int numRead = 0;
+                while (read < fileBytes.length && (numRead = diStream.read(fileBytes, read, fileBytes.length - read)) >= 0) {
+                    read = read + numRead;
+                }
+                fileSize = len;
+                fileData = fileBytes;
+                status = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                status = false;
+            }
+        } else {
+            System.out.println("Specified path not point to a file");
+            status = false;
+        }
+    }
+    public boolean isValid(){
+        if (fileData == null) return false;
+        if (fileSize == 0) return false;
+        if (destId == 0) return false;
+        if (fileName == null) return false;
+        return true;
+    }
 
+    @Override
+    public String toString() {
+        return originalFileName;
+    }
+
+    // Getters and setters ---------------------------------------------------------------
     public String getDestinationDirectory() {
         return destDir;
     }
@@ -158,16 +187,11 @@ public class FileContainer implements Serializable{
         this.originalFileName = originalFileName;
     }
 
-    public boolean isValid(){
-        if (fileData == null) return false;
-        if (fileSize == 0) return false;
-        if (destId == 0) return false;
-        if (fileName == null) return false;
-        return true;
+    public String getCmd() {
+        return cmd;
     }
 
-    @Override
-    public String toString() {
-        return originalFileName;
+    public void setCmd(String cmd) {
+        this.cmd = cmd;
     }
 }

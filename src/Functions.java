@@ -63,7 +63,7 @@ public class Functions {
             object = (Object) objStream.readObject();
             objStream.close();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e);
+            System.out.println(e); //TODO: może zakomentować xd
         }
         return object;
     }

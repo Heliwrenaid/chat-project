@@ -12,13 +12,7 @@ public class ClientThread extends FileTransferManager{
         startReading();
     }
     public ClientThread(){}
-    public void send(FileContainer fileContainer){
-        if(fileContainer.getStatus() == false){
-            System.out.println("in Client/Server Thread.send(): fileContainer has status: false");
-            return;
-        }
-        send(fileContainer);
-    }
+
     @Override
     public void takeAction(Object obj){
         switch (obj.getClass().getName()){
@@ -37,9 +31,30 @@ public class ClientThread extends FileTransferManager{
         }
     }
     public void takeAction(FileContainer fileContainer){
-        System.out.println("testyyyy");
-        fileContainer.setDestinationDirectory(actualUser.getFileDir());
-        fileContainer.saveFileData();
+        switch (fileContainer.getCmd()) {
+            case "sendFile:true": {
+                Chat chat = dataBase.getChat(fileContainer.getDestId());
+                if (chat == null) {
+                    System.out.println("ClientThread.takeAction(FileContainer): 'chat' is null");
+                    return;
+                }
+                chat.addFileClient(fileContainer);
+                System.out.println(fileContainer.getOriginalFileName() + " was sent");
+                return;
+            }
+            case "getFile:true":{
+                Chat chat = dataBase.getChat(fileContainer.getDestId());
+                if (chat == null) {
+                    System.out.println("ClientThread.takeAction(FileContainer): 'chat' is null");
+                    return;
+                }
+                fileContainer.setDestinationDirectory(chat.getFileDir());
+                fileContainer.setFilename(fileContainer.getOriginalFileName());
+                fileContainer.saveFileData();
+                System.out.println(fileContainer.getOriginalFileName() + " is downloaded");
+                return;
+            }
+        }
     }
 
     public void takeAction(Group group){
@@ -173,7 +188,13 @@ public class ClientThread extends FileTransferManager{
                 }
             }
         }
-
+        if (updateContainer.hasMessages()){
+            for(Message message : updateContainer.getMessages()){
+                Chat chat = dataBase.getChat(message.getDestId());
+                if(chat == null) return;
+                chat.addMessageClient(message);
+            }
+        }
     }
 
     public User getActualUser() {

@@ -2,12 +2,17 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
+import javax.tools.JavaFileManager;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -67,6 +72,7 @@ public class MainPanel extends JFrame {
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
         messageList.setCellRenderer(new MessageRenderer(client.getDataBase()));
+        setTitle("Account: "+client.getActualUser().getName());
 
 //        ComponentListener l = new ComponentAdapter() {
 //
@@ -95,8 +101,14 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!chatField.getText().equals("")) {
-                    client.sendMessage(chatField.getText(), actualGroupId);
-                    chatField.setText("");
+                    if(actualGroup!=null) {
+                        client.sendMessage(chatField.getText(), actualGroupId);
+                        chatField.setText("");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please select your chat from list. (double click)");
+                        chatField.setText("");
+                    }
                 }
             }
         });
@@ -149,7 +161,7 @@ public class MainPanel extends JFrame {
                     chatField.setBackground(Color.lightGray);
 
                     messageList.setBackground(Color.lightGray);
-                    scrollpane.setBackground(Color.lightGray);
+
 
 
                 } else {
@@ -162,9 +174,8 @@ public class MainPanel extends JFrame {
                     listGroup.setBackground(Color.WHITE);
                     searchMsgField.setBackground(Color.WHITE);
                     chatField.setBackground(Color.WHITE);
-
                     messageList.setBackground(Color.white);
-                    scrollpane.setBackground(Color.white);
+
 
                 }
             }
@@ -227,7 +238,7 @@ public class MainPanel extends JFrame {
                             organizName.setText(client.getDataBase().getChat(o.getId()).toString());
                             organDescrip.setText(client.getDataBase().getChat(o.getId()).getBio());
                         }catch (Exception p){
-                            JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
+                            JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any chats!");
                         }
                     }
                 }
@@ -244,14 +255,55 @@ public class MainPanel extends JFrame {
                         Object obj = lista.getModel().getElementAt(index);
                         if (obj instanceof FileContainer){
                             FileContainer file = (FileContainer) obj;
-                            //client.getFile(file);
+
                             if(client.checkIfFileIsDownloaded(file)){
+                                Object[] options = {"Redownload",
+                                        "Save as",
+                                        "Cancel"};
+                                int n = JOptionPane.showOptionDialog(mainPanel,
+                                        "What would you like to do with your file ?",
+                                        "Important question",
+                                        JOptionPane.YES_NO_CANCEL_OPTION,
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        options,
+                                        options[2]);
                                 // buttony: redownload, save as, cancel
                                 // file.getOriginalFileName() is already download
+                                if(n==0){
+                                    client.getFile(file);
+                                }
+                                if(n==1){
+//                                    Functions.saveFile(new JFileChooser(),file);
+                                   JFileChooser fileChooser= new JFileChooser();
+                                    if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                                        String destinationPath=fileChooser.getSelectedFile().getAbsolutePath();
+                                        try {
+                                            Chat chat = client.getDataBase().getChat(file.getDestId());
+                                            Files.copy(Paths.get(chat.getFileDir()+File.separator+file.getOriginalFileName()), Paths.get(destinationPath));
+                                        }
+                                        catch (Exception exe){
+                                            System.out.println("ERROR in copying file");
+                                    }
+                                    }
+                                }
                             }
                             else {
                                 // button: download, cancel
                                // client.getFile(file);
+                                Object[] options = {"Download",
+                                        "Cancel"};
+                                int n = JOptionPane.showOptionDialog(mainPanel,
+                                        "What would you like to do with your file",
+                                        "Important question",
+                                        JOptionPane.YES_NO_CANCEL_OPTION,
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        options,
+                                        options[2]);
+                                if(n==0){
+                                    client.getFile(file);
+                                }
                             }
                             //TODO: tutaj
                         }
@@ -268,7 +320,7 @@ public class MainPanel extends JFrame {
                     client.getActualUser().unsubscribeChat(o.getId());
                     client.leaveChat(o);
                 }catch (Exception exc){
-                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! ");
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please select your chat from list ! (double click)");
                 }
             }
         });
@@ -282,18 +334,24 @@ public class MainPanel extends JFrame {
                     f.pack();
                     f.setVisible(true);
                 }catch (Exception exc){
-                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please try again ! ");
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please select your chat from list ! (double click) ");
                 }
             }
         });
         FileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = new JFileChooser();
-                if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
-                    File plik = fc.getSelectedFile();
-                    client.sendFile(plik.getAbsolutePath(),actualGroupId);
+                if(actualGroup!=null) {
+                    JFileChooser fc = new JFileChooser();
+                    if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                        File plik = fc.getSelectedFile();
+                        client.sendFile(plik.getAbsolutePath(), actualGroupId);
+                    }
                 }
+                else {
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR! Please select your group from list! (double click)");
+                }
+
             }
         });
         groupManagement.addActionListener(new ActionListener() {
@@ -305,7 +363,7 @@ public class MainPanel extends JFrame {
                     f.pack();
                     f.setVisible(true);
                 }catch (Exception exception){
-                    JOptionPane.showMessageDialog(mainPanel,"ERROR! Please try again !");
+                    JOptionPane.showMessageDialog(mainPanel,"ERROR! Please select your chat from list (double click) !");
 
                 }
             }
@@ -412,6 +470,9 @@ public class MainPanel extends JFrame {
             if (listGroup.getModel().getSize() != client.getActualUser().getSubscribedChats().size()) {
                 listGroup.setModel(readAllChat());
             }
+
+                actualGroup=(Chat)listGroup.getSelectedValue();
+
 
             if (actualGroupId != 0) {
                 //System.out.println(messageList.getModel().getSize() + " " + actualGroup.getMessages().size());

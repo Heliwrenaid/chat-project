@@ -166,7 +166,6 @@ public class ClientThread extends FileTransferManager{
                 System.out.println("ClientThread.takeAction(User): " + user.getEmail() + " is sign in");
                 dataBase.updateUser(user);
                 actualUser = dataBase.getUser(user.getId());
-                //TODO: will it delete messages & files ??
                 event.unblock();
                 return;
             }
@@ -174,6 +173,7 @@ public class ClientThread extends FileTransferManager{
     }
     public void takeAction(UpdateContainer updateContainer){
         if (updateContainer.getAmount() == 0) return;
+        System.out.println("\n-------- UpdateContainer is received ---------");
         if (updateContainer.hasChats()){
             for(Chat chat : updateContainer.getChats()){
                 Chat oldChat = dataBase.getChat(chat.getId());
@@ -195,6 +195,7 @@ public class ClientThread extends FileTransferManager{
                 chat.addMessageClient(message);
             }
         }
+        System.out.println("----------------------------------------------\n");
     }
 
     public User getActualUser() {

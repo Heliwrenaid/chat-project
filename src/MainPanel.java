@@ -484,6 +484,7 @@ public class MainPanel extends JFrame {
                            if (status)
                                messageList.setModel(readAllMessages(actualGroupId));
                            else {
+                               System.out.println("wwwwwwww");
                                messageList.setModel(readAllUserMessages(actualGroupId));
                            }
                        }

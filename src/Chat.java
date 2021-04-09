@@ -1,5 +1,6 @@
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +83,12 @@ public class Chat implements Serializable {
             zapisz 'message' do pliku o nazwie 'newId' w folderze messages
              */
             int newId = message.getInfo();
-            messages.add(newId);
+            if(messages.contains(newId)){ //TODO: debug: czy messageDir jest dobry ??
+                if(Files.exists(Path.of(messageDir + File.separator + newId))){ //TODO: porobi FileContainer?? w Message
+                    return 0;
+                }
+            }
+            else messages.add(newId);
             try {
                 System.out.print("Saving Message with id: " + message.getInfo() + " ... ");
                 FileOutputStream file = new FileOutputStream(messageDir+File.separator+newId);

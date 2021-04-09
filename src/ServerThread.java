@@ -117,7 +117,7 @@ public class ServerThread extends ClientThread implements Runnable{
                 if(chat == null) return;
                 boolean status = chat.takeAction(message);
 
-                // only for joining User
+                // only for joining User ----------------------
                 boolean status2 = true;
 
                 if(chat instanceof User){
@@ -130,6 +130,7 @@ public class ServerThread extends ClientThread implements Runnable{
                     if(chat2 == null) return;
                     status2 = chat2.takeAction(message);
                 }
+                // --------------------------------------------
                 if(status && status2){
                     reloadActualUser();
                     message.setCmd("groupManagement:true");
@@ -137,7 +138,8 @@ public class ServerThread extends ClientThread implements Runnable{
                 else {
                     message.setCmd("groupManagement:false");
                 }
-                send(message);
+                updateCenter.addUpdate(message);
+                //send(message);
                 return;
             }
             case "updateUser":{
@@ -175,7 +177,7 @@ public class ServerThread extends ClientThread implements Runnable{
             case "getChats":{
                 if(dataBase.getIdSet() == null) return;
                 Set<Integer> ids = dataBase.getIdSet().keySet();
-                updateCenter.sendGroupsUpdate(actualUser.getId(),new ArrayList<>(ids));
+                updateCenter.sendChatsUpdate(actualUser.getId(),new ArrayList<>(ids));
             }
                 break;
             case "getFile":{

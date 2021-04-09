@@ -87,7 +87,7 @@ public class Server extends Thread{
                 continue; //debug here
             if (p.equals("q")){
                 User user2 = server.getDataBase().getUser(2);
-                User user3 = server.getDataBase().getUser(3);
+                User user4 = server.getDataBase().getUser(4);
             }
 
             if (p.equals("send")){

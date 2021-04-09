@@ -8,7 +8,7 @@ public class UpdateCenter{
     private ServerThreadManager stm;
     private HashMap<Integer,Integer> actualUsers; // [userId, threadId] (from stm)
 
-    private HashMap<Integer,ArrayList<Integer>> tasks = new HashMap<>(); // [taskId=userId,destIds], destIds -> [users,groups]
+    private HashMap<Integer,ArrayList<Integer>> chats = new HashMap<>(); // [userId,destIds], destIds -> [users,groups]
     private HashMap<Integer,ArrayList<String>> messages = new HashMap<>(); // [userId, paths to messages]
 
     public UpdateCenter(DataBase dataBase, ServerThreadManager stm) {
@@ -41,27 +41,46 @@ public class UpdateCenter{
         if(chat == null) return;
         switch (message.getCmd()){
             case "updateGroup:true":{
-                addTasks(chat.getSubscribers(),message.getDestId());
+                addChats(chat.getSubscribers(),message.getDestId());
             } break;
             case "messageResponse":{
                 String messagePath = chat.getMessageDir() +
                         File.separator + message.getInfo(); //getInfo -> newNextId
-                addMessages(chat.getSubscribers(),messagePath);
+                addMessage(chat.getSubscribers(),messagePath);
             } break;
-        }
-    }
-    public void addTasks(ArrayList<Integer> ids, int destId){
-        if (ids == null) return;
-        for(int id: ids){
-            if(tasks.containsKey(id)) tasks.get(id).add(destId);
-            else {
-                ArrayList<Integer> arr = new ArrayList<>();
-                arr.add(destId);
-                tasks.put(id,arr);
+            case "groupManagement:true":{
+                switch (message.getSubCmd()){
+                    case "join":{
+                        addChats(chat.getSubscribers(),message.getUserId());
+                        ArrayList <Integer> messageIds = new ArrayList<>();
+                        messageIds.addAll(chat.getMessages());
+                        if(messageIds != null){
+                            String messageDir = chat.getMessageDir();
+                            ArrayList <String> messagePaths = new ArrayList<>();
+                            for(int i : messageIds){
+                                messagePaths.add(messageDir + File.separator + i);
+                            }
+                            addMessages(message.getUserId(),messagePaths);
+                        }
+                    }
+                    break;
+                }
+                break;
             }
         }
     }
-    public void addMessages(ArrayList<Integer> ids, String messagePath){
+    public void addChats(ArrayList<Integer> ids, int destId){
+        if (ids == null) return;
+        for(int id: ids){
+            if(chats.containsKey(id)) chats.get(id).add(destId);
+            else {
+                ArrayList<Integer> arr = new ArrayList<>();
+                arr.add(destId);
+                chats.put(id,arr);
+            }
+        }
+    }
+    public void addMessage(ArrayList<Integer> ids, String messagePath){
         if (ids == null) return;
         for(int id: ids){
             if(messages.containsKey(id)) messages.get(id).add(messagePath);
@@ -69,6 +88,16 @@ public class UpdateCenter{
                 ArrayList<String> arr = new ArrayList<>();
                 arr.add(messagePath);
                 messages.put(id,arr);
+            }
+        }
+    }
+    public void addMessages(int userId, ArrayList<String> messagePaths){
+        if (messagePaths == null) return;
+        if(!messages.containsKey(userId)){
+            messages.put(userId,messagePaths);
+        } else {
+            for(String path : messagePaths){
+                if(!messages.get(userId).contains(path)) messages.get(userId).add(path);
             }
         }
     }
@@ -80,11 +109,11 @@ public class UpdateCenter{
                 while (true){
                     try {
                         Thread.sleep(200);
-                        iterator = tasks.keySet().iterator();
+                        iterator = chats.keySet().iterator();
                         while (iterator.hasNext()){
                             id = iterator.next();
                             if(actualUsers.containsKey(id)){
-                                sendGroupsUpdate(id,tasks.get(id));
+                                sendChatsUpdate(id, chats.get(id));
                                 iterator.remove();
                             }
                         }
@@ -124,7 +153,7 @@ public class UpdateCenter{
         };
         new Thread(listener).start();
     }
-    public void sendGroupsUpdate(int userId, ArrayList<Integer> arr){
+    public void sendChatsUpdate(int userId, ArrayList<Integer> arr){
         if (arr == null) return;
         UpdateContainer updateContainer = new UpdateContainer();
         for (int i:arr){

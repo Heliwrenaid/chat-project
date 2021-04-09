@@ -11,9 +11,10 @@ public class LoginGUI extends JFrame {
     private JButton signInButton;
 
     private JButton signUpButton;
-    private Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData1");
+    private Client client = null;
 
-    public LoginGUI() {
+    public LoginGUI(Client client) {
+        if(this.client == null) this.client = client;
         signInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,9 +52,15 @@ public class LoginGUI extends JFrame {
             }
         });
     }
+
+    public JPanel getLoginMain() {
+        return loginMain;
+    }
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame("LoginGUI");
-        frame.setContentPane(new LoginGUI().loginMain);
+        Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData1","localhost",2700);
+        JFrame frame = new JFrame(client.getMainDir());
+        frame.setContentPane(new LoginGUI(client).loginMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

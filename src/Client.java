@@ -17,14 +17,15 @@ public class Client {
     private String host = "localhost";
     private int port = 2700;
 
-    public Client(String mainDir){
+    public Client(String mainDir,String host, int port){
         try {
+            if(host != null) this.host = host;
+            this.port = port;
             this.mainDir = mainDir;
             this.dataBasePath = mainDir + File.separator + "db";
             if (!Files.isDirectory(Paths.get(mainDir)))
                 Files.createDirectory(Paths.get(mainDir));
             loadDataBase(dataBasePath);
-
         } catch (UnknownHostException ex) {
             System.out.println("Server not found: " + ex.getMessage());
         } catch (IOException ex) {
@@ -285,8 +286,12 @@ public class Client {
         return event;
     }
 
+    public String getMainDir() {
+        return mainDir;
+    }
+
     public static void main(String[] args) {
-        Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData");
+        Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData","localhost",2700);
         client.startTransmission();
 
 //        FileContainer fileContainer = new FileContainer("C:\\Users\\Dell\\Pictures\\PE\\ak.png");

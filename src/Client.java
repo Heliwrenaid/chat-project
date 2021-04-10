@@ -15,7 +15,7 @@ public class Client {
     private String mainDir = null;
     private String dataBasePath = null;
     private String host = "localhost";
-    private int port = 2700;
+    private int port = 2900;
 
     public Client(String mainDir,String host, int port){
         try {

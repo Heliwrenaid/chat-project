@@ -299,7 +299,7 @@ public class MainPanel extends JFrame {
                                         JOptionPane.QUESTION_MESSAGE,
                                         null,
                                         options,
-                                        options[2]);
+                                        options[1]);
                                 if(n==0){
                                     client.getFile(file);
                                 }
@@ -473,7 +473,7 @@ public class MainPanel extends JFrame {
                 listGroup.setModel(readAllChat());
             }
 
-                actualGroup=(Chat)listGroup.getSelectedValue();
+            actualGroup=(Chat)listGroup.getSelectedValue();
 
 
             if (actualGroupId != 0) {
@@ -482,11 +482,13 @@ public class MainPanel extends JFrame {
                if(chat != null) {
                    ArrayList<Integer> arr = chat.getMessages();
                    if (arr != null) {
-                       if (messageList.getModel().getSize() != arr.size() && refreshStatus) {
-                           if (status)
-                               messageList.setModel(readAllMessages(actualGroupId));
-                           else {
-                               messageList.setModel(readAllUserMessages(actualGroupId));
+                       if (checkStatus(messageList,arr)) {
+                           if(refreshStatus) {
+                               if (status) {
+                                   messageList.setModel(readAllMessages(actualGroupId));
+                               } else {
+                                   messageList.setModel(readAllUserMessages(actualGroupId));
+                               }
                            }
                        }
                    }
@@ -501,6 +503,26 @@ public class MainPanel extends JFrame {
         } catch (NullPointerException e){
             System.out.println(e.getMessage());
         }
+
+    }
+    public boolean checkStatus(JList listGroupa,ArrayList<Integer> arrayList){
+        int temp =0;
+        if(listGroupa.getModel().getSize()!=arrayList.size() ){
+            return true;
+        }
+        else {
+            if(listGroupa.getModel().getSize()>arrayList.size() ){
+                temp=listGroupa.getModel().getSize();
+            }
+            else {
+                temp=arrayList.size();
+            }
+            
+            if(!client.getDataBase().getChat(actualGroupId).getMessage(1).equals(listGroupa.getModel().getElementAt(1))){
+                return true;
+            }
+        }
+        return false;
 
     }
 

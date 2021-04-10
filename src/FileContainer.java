@@ -13,6 +13,8 @@ public class FileContainer implements Serializable{
     private int destId=0;
     private String metadataExt = "";
     private String cmd;
+    private String info;
+    private String info1; // when chating with User
 
     public FileContainer(String filePath) {
         srcFilePath = filePath;
@@ -33,8 +35,20 @@ public class FileContainer implements Serializable{
         this.userId = file.getUserId();
         this.destId = file.getDestId();
         this.metadataExt = file.getMetadataExt();
+        this.info = file.getInfo();
+        this.info1 = file.getInfo1();
     }
-
+    public void print(){
+        System.out.println("-------Print FileContainer-------");
+        System.out.println("cmd: " + cmd);
+        System.out.println("fileName: " + fileName);
+        System.out.println("originalFileName: " + originalFileName);
+        System.out.println("userId: " + userId);
+        System.out.println("destId: " + destId);
+        System.out.println("info: " + info);
+        System.out.println("info1: " + info1);
+        System.out.println("---------------------------");
+    }
 
     public void saveFileData(){
         String outputFilePath = destDir + File.separator + fileName;
@@ -104,6 +118,7 @@ public class FileContainer implements Serializable{
         if (fileName == null) return false;
         return true;
     }
+
 
     @Override
     public String toString() {
@@ -193,5 +208,21 @@ public class FileContainer implements Serializable{
 
     public void setCmd(String cmd) {
         this.cmd = cmd;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getInfo1() {
+        return info1;
+    }
+
+    public void setInfo1(String info1) {
+        this.info1 = info1;
     }
 }

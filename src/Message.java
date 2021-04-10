@@ -120,6 +120,9 @@ public class Message implements Serializable {
     public void setFile(String filePath) {
         this.file = new FileContainer(filePath);
     }
+    public void setFileContainer(FileContainer fileContainer){
+        file = fileContainer;
+    }
 
     // -------------- extra getters & setters ---------------
     public String getEmail(){

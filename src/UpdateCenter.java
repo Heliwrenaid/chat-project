@@ -61,8 +61,7 @@ public class UpdateCenter{
 
                         // send all messages from Chat to joined User
                         if(chat instanceof User) return;
-                        ArrayList <Integer> messageIds = new ArrayList<>();
-                        messageIds.addAll(chat.getMessages());
+                        ArrayList <Integer> messageIds = chat.getMessages();
                         if(messageIds != null){
                             String messageDir = chat.getMessageDir();
                             ArrayList <String> messagePaths = new ArrayList<>();
@@ -100,6 +99,16 @@ public class UpdateCenter{
 //            }
 //            break;
         }
+    }
+    public void addUpdate(FileContainer fileContainer){
+        Message message = new Message();
+        message.setFileContainer(fileContainer);
+        message.setUserId(fileContainer.getUserId());
+        message.setDestId(fileContainer.getDestId());
+        message.setInfo(Integer.parseInt(fileContainer.getFilename()));
+        message.setCmd("messageResponse");
+        message.setSubCmd("FileMetaData");
+        addUpdate(message);
     }
     public void addChat(ArrayList<Integer> ids, int destId){
         if (ids == null) return;
@@ -209,8 +218,8 @@ public class UpdateCenter{
         if (arr == null) return;
         UpdateContainer updateContainer = new UpdateContainer();
         for (String path:arr){
-            Message message = (Message) Functions.getObject(path);
-            updateContainer.add(message);
+            Object obj =  Functions.getObject(path);
+            updateContainer.add(obj);
         }
         updateContainer.calculateAmount();
         stm.getServerThread(userId).send(updateContainer);
@@ -234,8 +243,8 @@ public class UpdateCenter{
                         String messagePath;
                         for(int i : messageIds){
                             messagePath = messageDir + File.separator + i;
-                            Message message = (Message) Functions.getObject(messagePath);
-                            updateContainer.add(message);
+                            Object obj = Functions.getObject(messagePath);
+                            updateContainer.add(obj);
                         }
                     }
                     if(safeMode) updateContainer.add(chat);

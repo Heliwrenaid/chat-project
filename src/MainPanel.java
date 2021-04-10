@@ -405,7 +405,6 @@ public class MainPanel extends JFrame {
             if(!messageList.contains(m)) {
                 Object obj = client.getDataBase().getChat(groupId).getMessage(m);
                 if(obj != null) {
-                    ((Message)obj).print();
                     messageList.addElement(obj);}
             }
         }
@@ -422,24 +421,21 @@ public class MainPanel extends JFrame {
                 Object p = client.getDataBase().getChat(userId).getMessage(m);
                 if(p != null) {
                     int id = 0;
-                    int id1 = 0;
                     int id2 = 0;
                     switch (p.getClass().getName()) {
                         case "FileContainer": {
                             id = ((FileContainer) p).getUserId();
-                            id1 = ((FileContainer) p).getDestId();
+                            id2 = Integer.parseInt(((FileContainer) p).getInfo1());
                         }
                         break;
                         case "Message": {
-                            ((Message)p).print();
+                           // ((Message)p).print();
                             id = ((Message) p).getUserId();
-                            id1 = ((Message) p).getDestId();
                             id2 = ((Message) p).getInfo1();
                         }
                         break;
                     }
                     if (((client.getActualUser().getId() == id || client.getActualUser().getId() == id2) && ( actualGroupId == id || actualGroupId == id2))){// &&
-                         //   ( id == client.getActualUser().getId() || id1 == client.getActualUser().getId() || id2 == client.getActualUser().getId()))) {
                         Object obj = client.getDataBase().getChat(userId).getMessage(m);
                         if(obj != null) messageList.addElement(obj);
                     }

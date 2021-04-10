@@ -26,16 +26,33 @@ public class ServerThread extends ClientThread implements Runnable{
             case "sendFile": {
                 if (!fileContainer.isValid()) return;
 //              if(!dataBase.verify(fileContainer)) return;
-
+                fileContainer.setInfo1(Integer.toString(fileContainer.getDestId()));
                 Chat chat = dataBase.getChat(fileContainer.getDestId());
                 if (chat == null) {
                     return;
                 }
                 chat.addFile(fileContainer);
 
-                fileContainer.setFileData(null);
-                fileContainer.setCmd("sendFile:true");
-                send(fileContainer);
+                // copy file metadata
+                FileContainer fileCopy = new FileContainer(fileContainer);
+
+                fileCopy.setCmd("sendFile:true");
+                updateCenter.addUpdate(fileCopy);
+
+                if(chat instanceof User){
+                    fileContainer.setInfo1(Integer.toString(fileContainer.getDestId()));
+                    fileContainer.setDestId(fileContainer.getUserId());
+                    Chat chat2 = dataBase.getChat(fileContainer.getDestId());
+                    if (chat2 == null) {
+                        return;
+                    }
+                    chat2.addFile(fileContainer);
+
+                    fileContainer.setFileData(null);
+                    fileContainer.setCmd("sendFile:true");
+                    updateCenter.addUpdate(fileContainer);
+                }
+                //send(fileContainer);
                 return;
             }
         }
@@ -107,7 +124,7 @@ public class ServerThread extends ClientThread implements Runnable{
                 // --------------------------------------------------
 
                 if(status && status2){
-
+                    //TODO: send messageReq: true??
                 }
                 return;
             }

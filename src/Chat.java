@@ -108,14 +108,16 @@ public class Chat implements Serializable {
         fileContainer.setDestinationDirectory(getMessageDir());
         fileContainer.setMetadataExt("");
         fileContainer.saveFileMetadata();
-        messages.add(Integer.valueOf(fileContainer.getFilename()));
+        int id = Integer.valueOf(fileContainer.getFilename());
+        if(!messages.contains(id))
+            messages.add(id);
         save();
     }
     public void addFile(FileContainer fileContainer){
         int newId = nextMessageId();
         messages.add(newId);
         fileContainer.setFilename(Integer.toString(newId));
-
+        fileContainer.setInfo(Integer.toString(newId));
         fileContainer.setDestinationDirectory(getFileDir());
         fileContainer.saveFileData();
 

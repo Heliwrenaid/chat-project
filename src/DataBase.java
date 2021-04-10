@@ -71,6 +71,11 @@ public class DataBase implements Serializable{
 
         return true;
     }
+    public boolean checkIfUserExists(String email){
+        if(emails == null) return false;
+        if(emails.containsKey(email)) return true;
+         else return false;
+    }
     public Group createGroup(Group group,int ownerId){
         int freeId = freeId();
         idSet.put(freeId,"groups");

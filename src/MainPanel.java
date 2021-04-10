@@ -116,6 +116,7 @@ public class MainPanel extends JFrame {
         info.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                client.downloadAllData();
                 JOptionPane.showMessageDialog(info, "Project created for JPWP. AGH University of Science and Technology.\n Contact:\n Jan Sciga-sciga@student.agh.edu.pl \n Michał Kurdziel- mkurdziel@student.agh.edu.pl ");
             }
         });
@@ -223,8 +224,7 @@ public class MainPanel extends JFrame {
                         // ---------------------------------------------
 
                         try {
-                            Chat o = new Chat();
-                            o = (Chat) lista.getModel().getElementAt(index);
+                            Chat o = (Chat) lista.getModel().getElementAt(index);
                             if(o instanceof User){
                                 status=false;
                             }
@@ -233,7 +233,6 @@ public class MainPanel extends JFrame {
                             }
                             actualGroup = o;
                             actualGroupId=o.getId();
-
                             System.out.println("Kliknieto: " + o.toString());
                             organizName.setText(client.getDataBase().getChat(o.getId()).toString());
                             organDescrip.setText(client.getDataBase().getChat(o.getId()).getBio());
@@ -394,18 +393,20 @@ public class MainPanel extends JFrame {
                 chatList.addElement(client.getDataBase().getChat(m));
             }
         }
-       // listGroup.setCellRenderer();
         return chatList;
     }
 
     public DefaultListModel <Object> readAllMessages(int groupId) {
+        System.out.println("groupMessages -------------- : " + groupId);
         ArrayList <Integer> messages  =  client.getDataBase().getChat(groupId).getMessages();
         DefaultListModel <Object> messageList = new DefaultListModel<>();
 
         for(int m : messages){
             if(!messageList.contains(m)) {
                 Object obj = client.getDataBase().getChat(groupId).getMessage(m);
-                if(obj != null) messageList.addElement(obj);
+                if(obj != null) {
+                    ((Message)obj).print();
+                    messageList.addElement(obj);}
             }
         }
         return messageList;
@@ -414,13 +415,15 @@ public class MainPanel extends JFrame {
     public DefaultListModel <Object> readAllUserMessages(int userId) {
         ArrayList <Integer> messages  =  client.getDataBase().getChat(userId).getMessages();
         DefaultListModel <Object> messageList = new DefaultListModel<>();
-
+        System.out.println("UserMessages -------------------- : " + userId);
         for(int m : messages){
             if(!messageList.contains(m)) {
+
                 Object p = client.getDataBase().getChat(userId).getMessage(m);
                 if(p != null) {
                     int id = 0;
                     int id1 = 0;
+                    int id2 = 0;
                     switch (p.getClass().getName()) {
                         case "FileContainer": {
                             id = ((FileContainer) p).getUserId();
@@ -428,12 +431,15 @@ public class MainPanel extends JFrame {
                         }
                         break;
                         case "Message": {
+                            ((Message)p).print();
                             id = ((Message) p).getUserId();
                             id1 = ((Message) p).getDestId();
+                            id2 = ((Message) p).getInfo1();
                         }
                         break;
                     }
-                    if (id == client.getActualUser().getId() || actualGroupId == id1) {
+                    if (((client.getActualUser().getId() == id || client.getActualUser().getId() == id2) && ( actualGroupId == id || actualGroupId == id2))){// &&
+                         //   ( id == client.getActualUser().getId() || id1 == client.getActualUser().getId() || id2 == client.getActualUser().getId()))) {
                         Object obj = client.getDataBase().getChat(userId).getMessage(m);
                         if(obj != null) messageList.addElement(obj);
                     }
@@ -484,7 +490,6 @@ public class MainPanel extends JFrame {
                            if (status)
                                messageList.setModel(readAllMessages(actualGroupId));
                            else {
-                               System.out.println("wwwwwwww");
                                messageList.setModel(readAllUserMessages(actualGroupId));
                            }
                        }

@@ -26,10 +26,11 @@ public class UpdateCenter{
     public ServerThreadManager getStm() {
         return stm;
     }
-    public void addActualUser(int userId,int threadId){
-        if(actualUsers == null) return;
-        if(actualUsers.containsKey(userId)) return;
+    public boolean addActualUser(int userId,int threadId){
+        if(actualUsers == null) return false;
+        if(actualUsers.containsKey(userId)) return false;
         actualUsers.put(userId,threadId);
+        return true;
     }
     public void removeActualUser(int userId){
         if(actualUsers == null) return;
@@ -37,13 +38,15 @@ public class UpdateCenter{
         actualUsers.remove(userId);
     }
     public void addUpdate(Message message){
-        Chat chat = dataBase.getChat(message.getDestId());
-        if(chat == null) return;
         switch (message.getCmd()){
             case "updateGroup:true":{
-                addChats(chat.getSubscribers(),message.getDestId());
+                Chat chat = dataBase.getChat(message.getDestId());
+                if(chat == null) return;
+                addChat(chat.getSubscribers(),message.getDestId());
             } break;
             case "messageResponse":{
+                Chat chat = dataBase.getChat(message.getDestId());
+                if(chat == null) return;
                 String messagePath = chat.getMessageDir() +
                         File.separator + message.getInfo(); //getInfo -> newNextId
                 addMessage(chat.getSubscribers(),messagePath);
@@ -51,7 +54,13 @@ public class UpdateCenter{
             case "groupManagement:true":{
                 switch (message.getSubCmd()){
                     case "join":{
-                        addChats(chat.getSubscribers(),message.getUserId());
+                        Chat chat = dataBase.getChat(message.getDestId());
+                        if(chat == null) return;
+                        // send joined User to all members of Chat
+                        addChat(chat.getSubscribers(),message.getUserId());
+
+                        // send all messages from Chat to joined User
+                        if(chat instanceof User) return;
                         ArrayList <Integer> messageIds = new ArrayList<>();
                         messageIds.addAll(chat.getMessages());
                         if(messageIds != null){
@@ -65,11 +74,34 @@ public class UpdateCenter{
                     }
                     break;
                 }
-                break;
             }
+                break;
+//            case "downloadUserData":{
+//                User user = dataBase.getUser(message.getUserId());
+//                if(user == null) return;
+//                // send all subscribed Chats to User
+//                addChats(user.getId(),user.getSubscribedChats());
+//
+//                // send all messages from all subscribed Chats to User
+//                for (int chatId : user.getSubscribedChats()){
+//                    Chat chat1 = dataBase.getChat(chatId);
+//
+//                    ArrayList <Integer> messageIds = new ArrayList<>();
+//                    messageIds.addAll(chat1.getMessages());
+//                    if(messageIds != null){
+//                        String messageDir = chat1.getMessageDir();
+//                        ArrayList <String> messagePaths = new ArrayList<>();
+//                        for(int i : messageIds){
+//                            messagePaths.add(messageDir + File.separator + i);
+//                        }
+//                        addMessages(user.getId(),messagePaths);
+//                    }
+//                }
+//            }
+//            break;
         }
     }
-    public void addChats(ArrayList<Integer> ids, int destId){
+    public void addChat(ArrayList<Integer> ids, int destId){
         if (ids == null) return;
         for(int id: ids){
             if(chats.containsKey(id)) chats.get(id).add(destId);
@@ -77,6 +109,16 @@ public class UpdateCenter{
                 ArrayList<Integer> arr = new ArrayList<>();
                 arr.add(destId);
                 chats.put(id,arr);
+            }
+        }
+    }
+    public void addChats(int userId, ArrayList<Integer> chatIds){
+        if (chatIds == null) return;
+        if(!chats.containsKey(userId)){
+            chats.put(userId,chatIds);
+        } else {
+            for(int id : chatIds){
+                if(!chats.get(userId).contains(id)) chats.get(userId).add(id);
             }
         }
     }
@@ -172,5 +214,37 @@ public class UpdateCenter{
         }
         updateContainer.calculateAmount();
         stm.getServerThread(userId).send(updateContainer);
+    }
+    public UpdateContainer genUpdateContainer(boolean safeMode, ArrayList<Integer> chats, ArrayList<Integer> chatsForMessagesSync){
+        if(chats == null && chatsForMessagesSync == null) return null;
+        UpdateContainer updateContainer = new UpdateContainer();
+        if(chats != null){
+            for(int chatId : chats){
+                Chat chat = dataBase.getChat(chatId);
+                updateContainer.add(chat);
+            }
+        }
+        if(chatsForMessagesSync != null){
+            for(int chatId : chatsForMessagesSync){
+                Chat chat = dataBase.getChat(chatId);
+                if(chat != null){
+                    ArrayList <Integer> messageIds = chat.getMessages();
+                    if(messageIds != null){
+                        String messageDir = chat.getMessageDir();
+                        String messagePath;
+                        for(int i : messageIds){
+                            messagePath = messageDir + File.separator + i;
+                            Message message = (Message) Functions.getObject(messagePath);
+                            updateContainer.add(message);
+                        }
+                    }
+                    if(safeMode) updateContainer.add(chat);
+                }
+            }
+        }
+
+        updateContainer.calculateAmount();
+        if (updateContainer.getAmount() == 0) return null;
+        return updateContainer;
     }
 }

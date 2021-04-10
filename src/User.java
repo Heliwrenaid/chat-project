@@ -74,6 +74,7 @@ public class User extends Chat implements Serializable {
             return false;
         }
         else {
+            if(userId == id) return false;
             users.put(userId,"user");
             subscribeChat(userId);
             save();

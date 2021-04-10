@@ -180,6 +180,13 @@ public class Client {
 
         send(message);
     }
+    public void downloadAllData(){
+        Message message = new Message();
+        message.setCmd("downloadUserData");
+        message.setUserId(getActualUser().getId());
+        message.setPassword(getActualUser().getPassword());
+        send(message);
+    }
     public void leaveChat(Chat chat){
         if(chat == null) {
             System.out.println("'chat' is null");

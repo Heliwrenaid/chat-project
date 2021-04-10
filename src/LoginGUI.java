@@ -58,7 +58,7 @@ public class LoginGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData1","localhost",2700);
+        Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData111","localhost",2700);
         JFrame frame = new JFrame(client.getMainDir());
         frame.setContentPane(new LoginGUI(client).loginMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

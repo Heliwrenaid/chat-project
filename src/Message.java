@@ -29,6 +29,7 @@ public class Message implements Serializable {
         System.out.println("userId: " + userId);
         System.out.println("destId: " + destId);
         System.out.println("info: " + info);
+        System.out.println("info1: " + info1);
         System.out.println("---------------------------");
     }
     public boolean isValid(){
@@ -81,7 +82,13 @@ public class Message implements Serializable {
     }
 
     public int getDestId() {
-       return Integer.valueOf(destId);
+        int a;
+        try {
+            a = Integer.parseInt(destId);
+        } catch (NumberFormatException e){
+            return 0;
+        }
+       return a;
     }
 
     public void setDestId(int destId) {
@@ -95,6 +102,17 @@ public class Message implements Serializable {
     public void setInfo(int info) {
         this.info = Integer.toString(info);
     }
+
+
+    public int getInfo1() {
+        return Integer.valueOf(info1);
+    }
+
+    public void setInfo1(int info) {
+        this.info1 = Integer.toString(info);
+    }
+
+
     public FileContainer getFile() {
         return file;
     }

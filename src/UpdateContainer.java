@@ -7,10 +7,14 @@ public class UpdateContainer implements Serializable {
     private ArrayList<Message> messages = new ArrayList<>();
 
     public void add(Chat chat){
-        if(chat != null) chats.add(chat);
+        if(chat != null) {
+            if(!chats.contains(chat)) chats.add(chat);
+        }
     }
     public void add(Message message){
-        if(message != null) messages.add(message);
+        if(message != null) {
+            if(!messages.contains(message)) messages.add(message);
+        }
     }
     public void calculateAmount(){
         amount = chats.size() + messages.size();

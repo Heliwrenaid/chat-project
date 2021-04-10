@@ -4,6 +4,7 @@ public class ClientThread extends FileTransferManager{
     protected DataBase dataBase;
     protected User actualUser = null;
     private Event event = null;
+    private boolean debug = true;
 
     public ClientThread(Socket socket, DataBase dataBase,Event event) {
         this.socket = socket;
@@ -164,6 +165,14 @@ public class ClientThread extends FileTransferManager{
             }
             case "signIn:true":{
                 System.out.println("ClientThread.takeAction(User): " + user.getEmail() + " is sign in");
+                if(!dataBase.checkIfUserExists(user.getEmail())){
+                    System.out.println("ClientThread.takeAction(User): " + "Downloading all user data");
+                    Message message = new Message();
+                    message.setCmd("downloadUserData");
+                    message.setUserId(user.getId());
+                    message.setPassword(user.getPassword());
+                    send(message);
+                }
                 dataBase.updateUser(user);
                 actualUser = dataBase.getUser(user.getId());
                 event.unblock();
@@ -193,6 +202,7 @@ public class ClientThread extends FileTransferManager{
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 chat.addMessageClient(message);
+                if(debug) message.print();
             }
         }
         System.out.println("----------------------------------------------\n");
@@ -201,7 +211,7 @@ public class ClientThread extends FileTransferManager{
     public User getActualUser() {
         return actualUser;
     }
-    public void reloadActualUser(){
+    public void reloadActualUser() {
         actualUser = User.loadUser(actualUser.getSavePath());
     }
 

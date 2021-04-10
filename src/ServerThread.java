@@ -45,20 +45,20 @@ public class ServerThread extends ClientThread implements Runnable{
     public void takeAction(Message message){
         switch (message.getCmd()){
             case "signIn":{
-
-                boolean login;
+                boolean login = false;
                 User user = dataBase.getUser(message.getEmail());
                 if (user == null)
                     login = false;
-                else if (user.getEmail().equals(message.getEmail())
-                        && user.getPassword().equals(message.getPassword()))
-                    login = true;
-                else
-                    login = false;
+                else  {
+                    if (user.getEmail().equals(message.getEmail())
+                            && user.getPassword().equals(message.getPassword()))
+                        login = updateCenter.addActualUser(user.getId(),threadId);
+                    else
+                        login = false;
+                }
 
                 if(login){
                     System.out.println(message.getEmail() + " is signed in");
-                    updateCenter.addActualUser(user.getId(),threadId);
                     actualUser = user;
                     user.setCmd("signIn:true");
                     send(user);
@@ -79,6 +79,7 @@ public class ServerThread extends ClientThread implements Runnable{
                 boolean status = false;
                 boolean status2 = false;
                 if(chat.verify(message)){
+                    message.setInfo1(message.getDestId());
                     int newId = chat.addMessage(message);
                     if (newId == 0) return;
                     status = true;
@@ -89,6 +90,7 @@ public class ServerThread extends ClientThread implements Runnable{
 
                 // chating with User --------------------------------
                 if(chat instanceof User){
+                    message.setInfo1(message.getDestId());
                     message.setDestId(message.getUserId());
                     Chat chat2 = dataBase.getChat(message.getDestId());
                     if(chat2 == null) return;
@@ -139,7 +141,7 @@ public class ServerThread extends ClientThread implements Runnable{
                     message.setCmd("groupManagement:false");
                 }
                 updateCenter.addUpdate(message);
-                //send(message);
+                send(message);
                 return;
             }
             case "updateUser":{
@@ -195,6 +197,14 @@ public class ServerThread extends ClientThread implements Runnable{
                 }
                 return;
             }
+            case "downloadUserData":{
+                User user = dataBase.getUser(message.getUserId());
+                if(user == null) return;
+                if(!user.getPassword().equals(message.getPassword())) return;
+                UpdateContainer uc = updateCenter.genUpdateContainer(
+                        true,user.getSubscribedChats(),user.getSubscribedChats());
+                send(uc);
+            }
         }
     }
     @Override
@@ -243,7 +253,8 @@ public class ServerThread extends ClientThread implements Runnable{
     @Override
     public void stop(){
         try {
-            updateCenter.removeActualUser(actualUser.getId());
+            if(actualUser != null)
+                updateCenter.removeActualUser(actualUser.getId());
             isRunning = false;
             output.close();
             socket.close();

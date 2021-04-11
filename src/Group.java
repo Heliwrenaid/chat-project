@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class Group extends Chat implements Serializable {
     private int ownerId;
-    private String groupType;
 
     public Group(Group group,String mainDir, String avatarSrc) {
         super(mainDir,group.id,avatarSrc);
@@ -167,14 +166,6 @@ public class Group extends Chat implements Serializable {
 
     public void setUsers(HashMap<Integer, String> users) {
         this.users = users;
-    }
-
-    public String getGroupType() {
-        return groupType;
-    }
-
-    public void setGroupType(String groupType) {
-        this.groupType = groupType;
     }
 
 }

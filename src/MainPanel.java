@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,13 +89,17 @@ public class MainPanel extends JFrame {
 //        };
 //        messageList.addComponentListener(l);
         //add(new JScrollPane(messageList));
-
-//        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-//            @Override
-//            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-//                execute=false;
-//            }
-//        });
+        
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if(client.transmissionIsActive()) {
+                    execute=false;
+                    client.logout();
+                    dispose();
+                }
+            }
+        });
 
 
         sendButton.addActionListener(new ActionListener() {
@@ -405,6 +410,7 @@ public class MainPanel extends JFrame {
             if(!messageList.contains(m)) {
                 Object obj = client.getDataBase().getChat(groupId).getMessage(m);
                 if(obj != null) {
+                    System.out.println("ssss");
                     messageList.addElement(obj);}
             }
         }
@@ -474,26 +480,15 @@ public class MainPanel extends JFrame {
             }
 
             actualGroup=(Chat)listGroup.getSelectedValue();
-
-
-            if (actualGroupId != 0) {
-                //System.out.println(messageList.getModel().getSize() + " " + actualGroup.getMessages().size());
-               Chat chat = client.getDataBase().getChat(actualGroupId);
-               if(chat != null) {
-                   ArrayList<Integer> arr = chat.getMessages();
-                   if (arr != null) {
-                       if (checkStatus(messageList,arr)) {
-                           if(refreshStatus) {
-                               if (status) {
-                                   messageList.setModel(readAllMessages(actualGroupId));
-                               } else {
-                                   messageList.setModel(readAllUserMessages(actualGroupId));
-                               }
-                           }
-                       }
+             if (checkStatus()) {
+               if(refreshStatus) {
+                   if (status) {
+                       messageList.setModel(readAllMessages(actualGroupId));
+                   } else {
+                       messageList.setModel(readAllUserMessages(actualGroupId));
                    }
                }
-            }
+           }
 
             listGroup.setCellRenderer(new ChatRenderer());
             infoField.setText("Hello " + client.getActualUser().getName() + "!");
@@ -505,21 +500,47 @@ public class MainPanel extends JFrame {
         }
 
     }
-    public boolean checkStatus(JList listGroupa,ArrayList<Integer> arrayList){
-        int temp =0;
-        if(listGroupa.getModel().getSize()!=arrayList.size() ){
+    public boolean checkStatus(){
+        if (actualGroupId == 0) return false;
+        Chat chat = client.getDataBase().getChat(actualGroupId);
+        if(chat == null) return false;
+        ArrayList<Integer> arrayList = chat.getMessages();
+        if (arrayList == null) return false;
+
+        ListModel listModel = messageList.getModel();
+        int minSize = -1;
+        if(listModel.getSize() != arrayList.size() ){
             return true;
         }
         else {
-            if(listGroupa.getModel().getSize()>arrayList.size() ){
-                temp=listGroupa.getModel().getSize();
+            if(listModel.getSize() > arrayList.size() ){
+                minSize = arrayList.size();
             }
             else {
-                temp=arrayList.size();
+               minSize = listModel.getSize();
             }
-            
-            if(!client.getDataBase().getChat(actualGroupId).getMessage(1).equals(listGroupa.getModel().getElementAt(1))){
-                return true;
+            if(listModel != null){
+                for(int i = 0; i < minSize; i++){
+                    Object obj = chat.getMessage(i+1);
+                    Object listObj = listModel.getElementAt(i);
+                    if(obj != null) {
+                        if (obj.getClass().getName() != listObj.getClass().getName()) return true;
+                        if (obj instanceof Message){
+                            Message message = (Message) obj;
+                            Message listMessage = (Message) listObj;
+                            if (!message.getMessage().equals(listMessage.getMessage())) return true;
+                            if (message.getInfo1() != listMessage.getInfo1()) return true;
+                            if (message.getUserId() != listMessage.getUserId()) return true;
+                        }
+                        if (obj instanceof FileContainer){
+                            FileContainer fc = (FileContainer) obj;
+                            FileContainer listFc = (FileContainer) listObj;
+                            if (! fc.getOriginalFileName().equals(listFc.getOriginalFileName())) return true;
+                            if(! fc.getInfo1().equals(listFc.getInfo1())) return true;
+                            if (fc.getUserId() != listFc.getUserId()) return true;
+                        }
+                    }
+                }
             }
         }
         return false;

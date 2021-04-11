@@ -31,7 +31,8 @@ public class ServerThread extends ClientThread implements Runnable{
                 if (chat == null) {
                     return;
                 }
-                chat.addFile(fileContainer);
+                if(! chat.addFile(fileContainer)) return;
+
 
                 // copy file metadata
                 FileContainer fileCopy = new FileContainer(fileContainer);
@@ -46,7 +47,7 @@ public class ServerThread extends ClientThread implements Runnable{
                     if (chat2 == null) {
                         return;
                     }
-                    chat2.addFile(fileContainer);
+                    if(! chat2.addFile(fileContainer)) return;
 
                     fileContainer.setFileData(null);
                     fileContainer.setCmd("sendFile:true");

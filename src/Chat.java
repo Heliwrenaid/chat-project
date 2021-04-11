@@ -16,9 +16,9 @@ public class Chat implements Serializable {
     protected String avatarSrc;
     protected FileContainer avatar;
     protected int id = 0;
+    protected String groupType = "user";
     protected ArrayList<Integer> messages = new ArrayList<Integer>();
     protected HashMap<Integer,String> users = new HashMap<>(); // 'user','admin','banned'
-    protected PermissionManager permManager = new PermissionManager();
 
 
     public Chat(String dir,int id, String avatarSrc) {
@@ -49,59 +49,62 @@ public class Chat implements Serializable {
         if(avatar != null) saveAvatar();
         Functions.save(this,dir+File.separator + "info");
     }
-    int addMessage(Message message){
-        if (permManager.checkPerm(message)){
-            /*
-            int newId = nextMessageId();
-            dodaj newId do 'messages'
-            zapisz 'message' do pliku o nazwie 'newId' w folderze messages
-             */
-            int newId = nextMessageId();
-            messages.add(newId);
-            message.setInfo(newId);
-
-            try {
-                System.out.print("Saving Message with id: " + newId + " ... ");
-                FileOutputStream file = new FileOutputStream(messageDir+File.separator+newId);
-                ObjectOutputStream output = new ObjectOutputStream(file);
-                output.writeObject(message);
-                output.close();
-                System.out.println("Saved !");
-                save();
-                return newId;
-            } catch (Exception e) {
-                System.out.println("Error in Chat.addMessage(): " + e.getMessage());
+    public int addMessage(Message message){
+        /*
+        int newId = nextMessageId();
+        dodaj newId do 'messages'
+        zapisz 'message' do pliku o nazwie 'newId' w folderze messages
+         */
+        if(groupType.equals("channel")){
+            if (users.get(message.getUserId()).equals("user")){
+                return 0;
             }
+        }
+
+        int newId = nextMessageId();
+        messages.add(newId);
+        message.setInfo(newId);
+
+        try {
+            System.out.print("Saving Message with id: " + newId + " ... ");
+            FileOutputStream file = new FileOutputStream(messageDir+File.separator+newId);
+            ObjectOutputStream output = new ObjectOutputStream(file);
+            output.writeObject(message);
+            output.close();
+            System.out.println("Saved !");
+            save();
+            return newId;
+        } catch (Exception e) {
+            System.out.println("Error in Chat.addMessage(): " + e.getMessage());
         }
         return 0;
     }
-    int addMessageClient(Message message){
-        if (permManager.checkPerm(message)){
-            /*
-            int newId = nextMessageId();
-            dodaj newId do 'messages'
-            zapisz 'message' do pliku o nazwie 'newId' w folderze messages
-             */
-            int newId = message.getInfo();
-            if(messages.contains(newId)){ //TODO: debug: czy messageDir jest dobry ??
-                if(Files.exists(Path.of(messageDir + File.separator + newId))){ //TODO: porobi FileContainer?? w Message
-                    return 0;
-                }
-            }
-            else messages.add(newId);
-            try {
-                System.out.print("Saving Message with id: " + message.getInfo() + " ... ");
-                FileOutputStream file = new FileOutputStream(messageDir+File.separator+newId);
-                ObjectOutputStream output = new ObjectOutputStream(file);
-                output.writeObject(message);
-                output.close();
-                System.out.println("Saved !");
-                save();
-                return newId;
-            } catch (Exception e) {
-                System.out.println("Error in Chat.addMessage(): " + e.getMessage());
+    public int addMessageClient(Message message){
+        /*
+        int newId = nextMessageId();
+        dodaj newId do 'messages'
+        zapisz 'message' do pliku o nazwie 'newId' w folderze messages
+         */
+        int newId = message.getInfo();
+        if(messages.contains(newId)){
+            if(Files.exists(Path.of(messageDir + File.separator + newId))){
+                return 0;
             }
         }
+        else messages.add(newId);
+        try {
+            System.out.print("Saving Message with id: " + message.getInfo() + " ... ");
+            FileOutputStream file = new FileOutputStream(messageDir+File.separator+newId);
+            ObjectOutputStream output = new ObjectOutputStream(file);
+            output.writeObject(message);
+            output.close();
+            System.out.println("Saved !");
+            save();
+            return newId;
+        } catch (Exception e) {
+            System.out.println("Error in Chat.addMessage(): " + e.getMessage());
+        }
+
         return 0;
     }
     public void addFileClient(FileContainer fileContainer){
@@ -113,7 +116,12 @@ public class Chat implements Serializable {
             messages.add(id);
         save();
     }
-    public void addFile(FileContainer fileContainer){
+    public boolean addFile(FileContainer fileContainer){
+        if(groupType.equals("channel")){
+            if (users.get(fileContainer.getUserId()).equals("user")){
+                return false;
+            }
+        }
         int newId = nextMessageId();
         messages.add(newId);
         fileContainer.setFilename(Integer.toString(newId));
@@ -125,6 +133,7 @@ public class Chat implements Serializable {
         fileContainer.setMetadataExt("");
         fileContainer.saveFileMetadata();
         save();
+        return true;
     }
 
     void createDirectories(){
@@ -278,6 +287,13 @@ public class Chat implements Serializable {
         this.users = users;
     }
 
+    public String getGroupType() {
+        return groupType;
+    }
+
+    public void setGroupType(String groupType) {
+        this.groupType = groupType;
+    }
     /*
     public static void main(String [] args){
         Chat chat = new Chat();

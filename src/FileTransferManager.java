@@ -41,9 +41,14 @@ public class FileTransferManager{
             public void run() {
                 Object obj;
                 while (!socket.isClosed()) {
-                    obj = read();
-                    if(obj != null){
-                        takeAction(obj);
+                    try {
+                        obj = read();
+                        Thread.sleep(200);
+                        if(obj != null){
+                            takeAction(obj);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }

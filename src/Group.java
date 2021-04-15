@@ -34,10 +34,12 @@ public class Group extends Chat implements Serializable {
     }
 
     public boolean removeUser(int userId, int execId){
+        if(userId == ownerId && execId != ownerId) return false;
         if(!users.containsKey(userId)){
             return false;
         }
         else {
+            if(users.get(userId).equals("banned")) return false;
             if(users.get(execId).equals("admin") || userId == execId){
                 users.remove(userId);
                 User user = getUser(userId);
@@ -83,6 +85,7 @@ public class Group extends Chat implements Serializable {
         }
     }
     public boolean banUser(int userId, int execId){
+        if(userId == ownerId) return false;
         if(!users.containsKey(execId)) return false;
         if(!users.containsKey(userId)) return false;
         if(execId == ownerId || users.get(execId).equals("admin")){

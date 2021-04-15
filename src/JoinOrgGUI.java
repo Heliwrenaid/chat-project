@@ -79,15 +79,15 @@ public class JoinOrgGUI extends JFrame {
             if (filter.equals("All")) {
                 chatList.addElement(client.getDataBase().getChat(entry.getKey()));
             } else if (filter.equals("Channels")) {
-                if (client.getDataBase().getChat(entry.getKey()).getGroupType().equals("channel")) {
+                if (entry.getValue().equals("channels")) {
                     chatList.addElement(client.getDataBase().getChat(entry.getKey()));
                 }
             } else if (filter.equals("Groups")) {
-                if (client.getDataBase().getChat(entry.getKey()).getGroupType().equals("group")) {
+                if (entry.getValue().equals("groups")) {
                     chatList.addElement(client.getDataBase().getChat(entry.getKey()));
                 }
             } else if (filter.equals("Users")) {
-                if (client.getDataBase().getChat(entry.getKey()).getGroupType().equals("user")) {
+                if (entry.getValue().equals("users")) {
                     chatList.addElement(client.getDataBase().getChat(entry.getKey()));
                 }
             }

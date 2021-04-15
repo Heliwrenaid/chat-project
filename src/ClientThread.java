@@ -200,18 +200,30 @@ public class ClientThread extends FileTransferManager{
         }
         if (updateContainer.hasMessages()){
             for(Message message : updateContainer.getMessages()){
-                Chat chat = dataBase.getChat(message.getDestId());
-                if(chat == null) return;
-                chat.addMessageClient(message);
                 if(debug) message.print();
+                switch (message.getCmd()){
+                    case "groupManagement:true":{
+                        Chat chat = dataBase.getChat(message.getDestId());
+                        if(chat == null) return;
+                        if (chat.takeAction(message)) {
+                            reloadActualUser();
+                        }
+                    }
+                    break;
+                    default:{
+                        Chat chat = dataBase.getChat(message.getDestId());
+                        if(chat == null) return;
+                        chat.addMessageClient(message);
+                    }
+                }
             }
         }
         if(updateContainer.hasFiles()){
             for (FileContainer file : updateContainer.getFiles()){
+                if(debug) file.print();
                 Chat chat = dataBase.getChat(file.getDestId());
                 if(chat == null) return;
                 chat.addFileClient(file);
-                if(debug) file.print();
             }
         }
         System.out.println("----------------------------------------------\n");

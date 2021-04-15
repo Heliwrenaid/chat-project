@@ -10,13 +10,14 @@ public class UpdateCenter{
 
     private HashMap<Integer,ArrayList<Integer>> chats = new HashMap<>(); // [userId,destIds], destIds -> [users,groups]
     private HashMap<Integer,ArrayList<String>> messages = new HashMap<>(); // [userId, paths to messages]
-
+    private HashMap<Integer,ArrayList<Message>> storedMessages = new HashMap<>(); // [userId,Message array]
     public UpdateCenter(DataBase dataBase, ServerThreadManager stm) {
         this.dataBase = dataBase;
         this.stm = stm;
         this.actualUsers = stm.getActualUsers();
         startGroupSynchronization();
         startMessageSynchronization();
+        startStoredMessageSynchronization();
     }
 
     public DataBase getDataBase() {
@@ -75,32 +76,27 @@ public class UpdateCenter{
                         }
                     }
                     break;
+                    case "banUser":
+                    case "leave":{
+                        Chat chat = dataBase.getChat(message.getDestId());
+                        if(chat == null) return;
+                        // send message to user that was kicked
+                        ArrayList <Integer> deletedUser = new ArrayList<>();
+                        deletedUser.add(message.getInfo());
+                        addStoredMessage(deletedUser,message);
+                        // send Message to all member of Chat
+                        addStoredMessage(chat.getSubscribers(),message);
+
+                    }
+                        break;
+                    default:{
+                        Chat chat = dataBase.getChat(message.getDestId());
+                        if(chat == null) return;
+                        // send Message to all member of Chat
+                        addStoredMessage(chat.getSubscribers(),message);
+                    }
                 }
             }
-                break;
-//            case "downloadUserData":{
-//                User user = dataBase.getUser(message.getUserId());
-//                if(user == null) return;
-//                // send all subscribed Chats to User
-//                addChats(user.getId(),user.getSubscribedChats());
-//
-//                // send all messages from all subscribed Chats to User
-//                for (int chatId : user.getSubscribedChats()){
-//                    Chat chat1 = dataBase.getChat(chatId);
-//
-//                    ArrayList <Integer> messageIds = new ArrayList<>();
-//                    messageIds.addAll(chat1.getMessages());
-//                    if(messageIds != null){
-//                        String messageDir = chat1.getMessageDir();
-//                        ArrayList <String> messagePaths = new ArrayList<>();
-//                        for(int i : messageIds){
-//                            messagePaths.add(messageDir + File.separator + i);
-//                        }
-//                        addMessages(user.getId(),messagePaths);
-//                    }
-//                }
-//            }
-//            break;
         }
     }
     public void addUpdate(FileContainer fileContainer){
@@ -145,6 +141,17 @@ public class UpdateCenter{
             }
         }
     }
+    public void addStoredMessage(ArrayList<Integer> ids, Message message){
+        if (ids == null) return;
+        for(int id: ids){
+            if(storedMessages.containsKey(id)) storedMessages.get(id).add(message);
+            else {
+                ArrayList<Message> arr = new ArrayList<>();
+                arr.add(message);
+                storedMessages.put(id,arr);
+            }
+        }
+    }
     public void addMessages(int userId, ArrayList<String> messagePaths){
         if (messagePaths == null) return;
         if(!messages.containsKey(userId)){
@@ -162,6 +169,7 @@ public class UpdateCenter{
                 int id;
                 while (true){
                     try {
+                        Thread.sleep(50);
                         iterator = chats.keySet().iterator();
                         while (iterator.hasNext()){
                             id = iterator.next();
@@ -185,11 +193,36 @@ public class UpdateCenter{
                 int id;
                 while (true){
                     try {
+                        Thread.sleep(50);
                         iterator = messages.keySet().iterator();
                         while (iterator.hasNext()){
                             id = iterator.next();
                             if(actualUsers.containsKey(id)){
                                 sendMessagesUpdate(id,messages.get(id));
+                                iterator.remove();
+                            }
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread(listener).start();
+    }
+    public void startStoredMessageSynchronization(){
+        Runnable listener = new Runnable() {
+            public void run() {
+                Iterator<Integer> iterator;
+                int id;
+                while (true){
+                    try {
+                        Thread.sleep(50);
+                        iterator = storedMessages.keySet().iterator();
+                        while (iterator.hasNext()){
+                            id = iterator.next();
+                            if(actualUsers.containsKey(id)){
+                                sendStoredMessagesUpdate(id,storedMessages.get(id));
                                 iterator.remove();
                             }
                         }
@@ -217,6 +250,15 @@ public class UpdateCenter{
         for (String path:arr){
             Object obj =  Functions.getObject(path);
             updateContainer.add(obj);
+        }
+        updateContainer.calculateAmount();
+        stm.getServerThread(userId).send(updateContainer);
+    }
+    public void sendStoredMessagesUpdate(int userId, ArrayList<Message> arr){
+        if (arr == null) return;
+        UpdateContainer updateContainer = new UpdateContainer();
+        for (Message message:arr){
+            updateContainer.add(message);
         }
         updateContainer.calculateAmount();
         stm.getServerThread(userId).send(updateContainer);

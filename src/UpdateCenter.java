@@ -59,6 +59,9 @@ public class UpdateCenter{
                         // send joined User to all members of Chat
                         addChat(chat.getSubscribers(),message.getUserId());
 
+                        //send Chat to all members of this Chat
+                        addChat(chat.getSubscribers(),chat.getId());
+
                         // send all messages from Chat to joined User
                         if(chat instanceof User) return;
                         ArrayList <Integer> messageIds = chat.getMessages();
@@ -159,7 +162,6 @@ public class UpdateCenter{
                 int id;
                 while (true){
                     try {
-                        Thread.sleep(200);
                         iterator = chats.keySet().iterator();
                         while (iterator.hasNext()){
                             id = iterator.next();
@@ -168,8 +170,6 @@ public class UpdateCenter{
                                 iterator.remove();
                             }
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -185,7 +185,6 @@ public class UpdateCenter{
                 int id;
                 while (true){
                     try {
-                        Thread.sleep(200);
                         iterator = messages.keySet().iterator();
                         while (iterator.hasNext()){
                             id = iterator.next();
@@ -194,8 +193,6 @@ public class UpdateCenter{
                                 iterator.remove();
                             }
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     } catch (Exception e){
                         e.printStackTrace();
                     }

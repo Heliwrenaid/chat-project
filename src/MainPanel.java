@@ -73,7 +73,7 @@ public class MainPanel extends JFrame {
         avatarIcon.setIcon(icon);
         bioLabel.setText(client.getActualUser().getBio());
         messageList.setCellRenderer(new MessageRenderer(client.getDataBase()));
-        setTitle("Account: "+client.getActualUser().getName());
+        setTitle("Account: "+client.getActualUser().getName() + ", id: " +  client.getActualUser().getId());
 
 //        ComponentListener l = new ComponentAdapter() {
 //

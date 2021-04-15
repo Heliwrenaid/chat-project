@@ -185,6 +185,7 @@ public class ClientThread extends FileTransferManager{
         System.out.println("\n-------- UpdateContainer is received (" + updateContainer.getAmount()+ ") ---------");
         if (updateContainer.hasChats()){
             for(Chat chat : updateContainer.getChats()){
+                if(debug) System.out.println("Received: chat with id: " + chat.getId());
                 Chat oldChat = dataBase.getChat(chat.getId());
                 if(oldChat != null){
                     oldChat.updateChat(chat);

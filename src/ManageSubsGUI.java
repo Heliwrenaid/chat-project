@@ -40,6 +40,12 @@ public class ManageSubsGUI extends JFrame {
                 dispose();
             }
         });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+               dispose();
+            }
+        });
         subscriberList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

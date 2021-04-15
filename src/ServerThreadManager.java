@@ -20,8 +20,16 @@ public class ServerThreadManager{
         if (!actualUsers.containsKey(userId)) return null;
         return serverThreads.get(actualUsers.get(userId));
     }
+    public void deleteServerThread(int threadId){
+        if(serverThreads == null) return;
+        if(serverThreads.containsKey(threadId)) serverThreads.remove(threadId);
+    }
 
     public HashMap<Integer, Integer> getActualUsers() {
         return actualUsers;
+    }
+
+    public HashMap<Integer, ServerThread> getServerThreads() {
+        return serverThreads;
     }
 }

@@ -155,6 +155,8 @@ public class Chat implements Serializable {
         if(chat.getName() != null) setName(chat.getName());
         if(chat.getBio() != null) setBio(chat.getBio());
         if(chat.getAvatar() != null) setAvatar(chat.getAvatar());
+        if(chat.getUsers() != null) setUsers(chat.getUsers());
+        if(chat.getMessages() != null) setMessages(chat.getMessages());
         save();
     }
     public ArrayList<Integer> getSubscribers(){

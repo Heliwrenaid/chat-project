@@ -8,25 +8,40 @@ public class User extends Chat implements Serializable {
     private String savePath;
     private ArrayList <Integer> subscribedChats = new ArrayList<>();
 
+    //create User
+    public User(String email,String name, String password, String bio, String avatarSrc) {
+        super();
+        this.name = name;
+        this.password = password;
+        this.bio = bio;
+        this.avatarSrc = avatarSrc;
+        this.email = email;
+    }
 
-    public User(String email,String name, String password,int id,String mainDir,String bio,String avatarSrc,ArrayList<Integer> subsChats,ArrayList<Integer> messages) {
+    //create User from DataBase
+    public User(String email,String name, String password,int id,String mainDir,String bio,String avatarSrc) {
         super(mainDir + File.separator + "users" + File.separator + id,id, avatarSrc);
         this.email = email;
         this.name = name;
-
         this.password = password;
         this.savePath = dir + File.separator + "info";
-        if(subsChats != null)
-            this.subscribedChats = subsChats;
-
-        if(messages != null)
-            this.messages = messages;
-
         if (bio != null) {
             this.bio = bio;
         } else {
             this.bio = "Basic personal info";
         }
+        save();
+    }
+    // updateUser in DataBase
+    public User(User user,String mainDir){
+        super(mainDir + File.separator + "users" + File.separator + user.getId(),user.getId(), user.getAvatarSrc());
+        updateChat(user);
+        this.email = user.getEmail();
+        this.name = user.getName();
+        this.password = user.getPassword();
+        this.savePath = dir + File.separator + "info";
+        if(user.getSubscribedChats() != null)
+            this.subscribedChats = user.getSubscribedChats();
         save();
     }
 
@@ -36,15 +51,6 @@ public class User extends Chat implements Serializable {
     }
 
     public User (){
-    }
-
-    public User(String email,String name, String password, String bio, String avatarSrc) {
-        super();
-        this.name = name;
-        this.password = password;
-        this.bio = bio;
-        this.avatarSrc = avatarSrc;
-        this.email = email;
     }
 
     public void subscribeChat(int id){

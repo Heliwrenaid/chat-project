@@ -16,8 +16,13 @@ public class ServerThread extends ClientThread implements Runnable{
 
     @Override
     public void run() {
-        //TODO: wątek w wątku -> moze przeznaczyć na send() ??
-        startReading();
+        Object obj;
+        while (!socket.isClosed()) {
+            obj = read();
+            if(obj != null){
+                takeAction(obj);
+            }
+        }
     }
 
     @Override
@@ -276,6 +281,7 @@ public class ServerThread extends ClientThread implements Runnable{
             isRunning = false;
             output.close();
             socket.close();
+
             System.out.println("Socket is closed");
         } catch (IOException e) {
             e.printStackTrace();

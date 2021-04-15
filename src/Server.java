@@ -3,7 +3,6 @@ import java.net.*;
 
 public class Server extends Thread{
 
-    private String host;
     private int port;
     private boolean isEnabled = false;
     private DataBase dataBase;
@@ -12,9 +11,8 @@ public class Server extends Thread{
     private ServerThreadManager stm;
     private UpdateCenter updateCenter;
 
-    public Server(String host, int port, String mainDir) {
+    public Server(int port, String mainDir) {
         this.mainDir = mainDir;
-        this.host = host;
         this.port = port;
         this.dataBasePath = mainDir + File.separator + "db";
         loadDataBase(dataBasePath);
@@ -64,10 +62,19 @@ public class Server extends Thread{
     }
 
     public static void main(String args[]){
-        if (args.length < 2) return;
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
-        Server server = new Server(host,port,System.getProperty("user.home") + File.separator + "ServerData");
+        if (args.length < 1){
+            System.out.println("Please specify port");
+            return;
+        }
+        int port;
+        try {
+            port = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e){
+            System.out.println("Podany port nie jest typu 'int'");
+            return;
+        }
+
+        Server server = new Server(port,System.getProperty("user.home") + File.separator + "ServerData");
         server.dataBase.createUser("admin@o.pl","admin","admin","im dumb admin",null);
         //server.dataBase.createGroup(); //TODO
        Chat chat =  server.dataBase.getChat(1);

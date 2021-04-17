@@ -185,7 +185,7 @@ public class ClientThread extends FileTransferManager{
         System.out.println("\n-------- UpdateContainer is received (" + updateContainer.getAmount()+ ") ---------");
         if (updateContainer.hasChats()){
             for(Chat chat : updateContainer.getChats()){
-                if(debug) System.out.println("Received: chat with id: " + chat.getId());
+                if(debug) System.out.println("Received: " + chat.getGroupType()+ " with id: " + chat.getId());
                 Chat oldChat = dataBase.getChat(chat.getId());
                 if(oldChat != null){
                     oldChat.updateChat(chat);
@@ -193,8 +193,10 @@ public class ClientThread extends FileTransferManager{
                 else {
                     if(chat instanceof Group)
                         dataBase.createGroup((Group)chat);
-                    if(chat instanceof User)
+                    if(chat instanceof User) {
                         dataBase.updateUser((User) chat);
+                        reloadActualUser();
+                    }
                 }
             }
         }
@@ -226,6 +228,7 @@ public class ClientThread extends FileTransferManager{
                 chat.addFileClient(file);
             }
         }
+        event.triggerAction("refreshChatList");
         System.out.println("----------------------------------------------\n");
     }
 

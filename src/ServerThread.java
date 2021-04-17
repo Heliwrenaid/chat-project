@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class ServerThread extends ClientThread implements Runnable{
-    private UpdateCenter updateCenter;
-    private int threadId;
+    private final UpdateCenter updateCenter;
+    private final int threadId;
     public ServerThread(Socket socket,UpdateCenter updateCenter,int threadId) {
         this.socket = socket;
         this.updateCenter = updateCenter;
@@ -59,7 +59,7 @@ public class ServerThread extends ClientThread implements Runnable{
                     updateCenter.addUpdate(fileContainer);
                 }
                 //send(fileContainer);
-                return;
+
             }
         }
     }
@@ -99,13 +99,10 @@ public class ServerThread extends ClientThread implements Runnable{
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
 
-                boolean status = false;
-                boolean status2 = false;
                 if(chat.verify(message)){
                     message.setInfo1(message.getDestId());
                     int newId = chat.addMessage(message);
                     if (newId == 0) return;
-                    status = true;
                     message.setInfo(newId);
                     message.setCmd("messageResponse");
                     updateCenter.addUpdate(message);
@@ -121,39 +118,34 @@ public class ServerThread extends ClientThread implements Runnable{
                     if(chat2.verify(message)){
                         int newId = chat2.addMessage(message);
                         if (newId == 0) return;
-                        status2 = true;
                         message.setInfo(newId);
                         message.setCmd("messageResponse");
                         updateCenter.addUpdate(message);
                     }
-                } else status2 = true;
+                }
                 // --------------------------------------------------
 
-                if(status && status2){
-                    //TODO: send messageReq: true??
-                }
-                return;
             }
 
             case "groupManagement": {
-               // if(!message.isValid()) return; TODO: sprawdza dla roznyych cmd?
-                //if(!dataBase.verify(message)) return;
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 boolean status = chat.takeAction(message);
 
-                // only for joining User ----------------------
+                // only when joining User ----------------------
                 boolean status2 = true;
-
                 if(chat instanceof User){
-                    int destId = message.getDestId();
-                    int destUserId = message.getDestUserId();
-                    message.setDestId(destUserId);
-                    message.setDestUserId(destId);
+                    Message messageCopy = new Message(message);
+                    messageCopy.setDestId(message.getDestUserId());
+                    messageCopy.setDestUserId(message.getDestId());
 
-                    Chat chat2 = dataBase.getChat(message.getDestId());
+                    Chat chat2 = dataBase.getChat(messageCopy.getDestId());
                     if(chat2 == null) return;
-                    status2 = chat2.takeAction(message);
+                    status2 = chat2.takeAction(messageCopy);
+                    if(status2) {
+                        messageCopy.setCmd("groupManagement:true");
+                        updateCenter.addUpdate(messageCopy);
+                    }
                 }
                 // --------------------------------------------
                 if(status && status2){
@@ -184,7 +176,13 @@ public class ServerThread extends ClientThread implements Runnable{
             }
             case "updateGroup":{
                 boolean status = false;
-                Group chat = (Group)dataBase.getChat(message.getDestId());
+                Group chat = null;
+                try {
+                    chat = (Group) dataBase.getChat(message.getDestId());
+                } catch (ClassCastException e){
+                    e.printStackTrace();
+                }
+
                 if(chat != null){
                     status = chat.updateGroup(message);
                 }

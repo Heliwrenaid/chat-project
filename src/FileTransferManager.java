@@ -29,7 +29,9 @@ public class FileTransferManager{
             if(isRunning) stop();
         } catch (SocketException e){
            if(isRunning) stop();
-        } catch (IOException e) {
+        } catch (StreamCorruptedException e){
+            e.printStackTrace();
+         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -42,8 +44,8 @@ public class FileTransferManager{
                 Object obj;
                 while (!socket.isClosed()) {
                     try {
+                        Thread.sleep(180);
                         obj = read();
-                        Thread.sleep(200);
                         if(obj != null){
                             takeAction(obj);
                         }

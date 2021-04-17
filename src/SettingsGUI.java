@@ -55,7 +55,6 @@ public class SettingsGUI extends JFrame{
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               // haslo=JOptionPane.showInternalInputDialog(settingsPanel,"Wprowadź stare hasło!");
                 String haslo = JOptionPane.showInputDialog(settingsPanel,"Confirm old password: ");
                 if(haslo.equals(client.getActualUser().getPassword())){
                     if(wolfRadioButton.isSelected() && animal == null)

@@ -3,7 +3,13 @@ import java.awt.*;
 import java.io.File;
 
 public class ChatRenderer extends JLabel implements ListCellRenderer<Chat>{
-
+    private String mode = "default";
+    private Chat group;
+    public ChatRenderer(Chat group,String mode){
+        this.group = group;
+        this.mode = mode;
+        setOpaque(true);
+    }
     public ChatRenderer(){
         setOpaque(true);
     }
@@ -14,7 +20,15 @@ public class ChatRenderer extends JLabel implements ListCellRenderer<Chat>{
         String avatarSrc = null;
         if(chat != null){
             avatarSrc = chat.getAvatarSrc();
-            text = chat.getName();
+            if(mode.equals("displayRole")){
+                if (group == null){
+                    text = chat.getName() + "  " + "error";
+                }
+                text = chat.getName() + "  " + group.getUsers().get(chat.getId());
+            } else{
+                text = chat.getName();
+            }
+
         }
         else {
             text = "Error 404: Chat not found";

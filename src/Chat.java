@@ -166,6 +166,8 @@ public class Chat implements Serializable {
         }
         return arr;
     }
+
+
     @Override
     public String toString() {
         return "Chat: " +name +'\n';

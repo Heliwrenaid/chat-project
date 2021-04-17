@@ -1,25 +1,11 @@
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-import javax.tools.JavaFileManager;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 
 
 public class MainPanel extends JFrame {
@@ -74,21 +60,6 @@ public class MainPanel extends JFrame {
         bioLabel.setText(client.getActualUser().getBio());
         messageList.setCellRenderer(new MessageRenderer(client.getDataBase()));
         setTitle("Account: "+client.getActualUser().getName() + ", id: " +  client.getActualUser().getId());
-
-//        ComponentListener l = new ComponentAdapter() {
-//
-//            @Override
-//            public void componentResized(ComponentEvent e) {
-//                // next line possible if list is of type JXList
-//                 //messageList.invalidateCellSizeCache();
-//                // for core: force cache invalidation by temporarily setting fixed height
-//                messageList.setFixedCellHeight(10);
-//                messageList.setFixedCellHeight(-1);
-//            }
-//
-//        };
-//        messageList.addComponentListener(l);
-        //add(new JScrollPane(messageList));
         
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -220,14 +191,6 @@ public class MainPanel extends JFrame {
                 if (e.getClickCount() == 2) {
                     int index = lista.locationToIndex(e.getPoint());
                     if (index >= 0) {
-
-                        //TODO: for testing ----------------------------
-//                        ArrayList<Integer> arr = new ArrayList<>();
-//                        for(int i = 1; i <=6 ;i++) arr.add(i);
-//                        o.setMessages(arr);
-//                        o.save();
-                        // ---------------------------------------------
-
                         try {
                             Chat o = (Chat) lista.getModel().getElementAt(index);
                             if(o instanceof User){
@@ -321,7 +284,6 @@ public class MainPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Chat o = (Chat) listGroup.getSelectedValue();
-                    client.getActualUser().unsubscribeChat(o.getId());
                     client.leaveChat(o);
                 }catch (Exception exc){
                     JOptionPane.showMessageDialog(mainPanel,"ERROR ! Please select your chat from list ! (double click)");
@@ -332,8 +294,11 @@ public class MainPanel extends JFrame {
         personButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+               try {
                     Chat o = (Chat) listGroup.getSelectedValue();
+                    if (o == null || o instanceof User){ // User management
+                        o = client.getActualUser();
+                    }
                     JFrame f = new ManageSubsGUI(mainPanel.getBackground(), listGroup.getBackground(),client,o.getId());
                     f.pack();
                     f.setVisible(true);
@@ -363,12 +328,12 @@ public class MainPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Chat o = (Chat) listGroup.getSelectedValue();
+                    if (o instanceof User) throw new Exception();
                     JFrame f = new GroupSettingsGUI(mainPanel.getBackground(), listGroup.getBackground(), client, o.getId());
                     f.pack();
                     f.setVisible(true);
                 }catch (Exception exception){
                     JOptionPane.showMessageDialog(mainPanel,"ERROR! Please select your chat from list (double click) !");
-
                 }
             }
         });
@@ -410,7 +375,6 @@ public class MainPanel extends JFrame {
             if(!messageList.contains(m)) {
                 Object obj = client.getDataBase().getChat(groupId).getMessage(m);
                 if(obj != null) {
-                    System.out.println("ssss");
                     messageList.addElement(obj);}
             }
         }
@@ -473,8 +437,17 @@ public class MainPanel extends JFrame {
         };
         new Thread(listener).start();
     }
-    void refresh(){
+    public void refresh(){
         try {
+            // second refresh mechanism
+            if(client.getEvent().isActionTriggered("refreshChatList")){
+                if (status) {
+                    messageList.setModel(readAllMessages(actualGroupId));
+                } else {
+                    messageList.setModel(readAllUserMessages(actualGroupId));
+                }
+            }
+
             if (listGroup.getModel().getSize() != client.getActualUser().getSubscribedChats().size()) {
                 listGroup.setModel(readAllChat());
             }
@@ -495,6 +468,7 @@ public class MainPanel extends JFrame {
             ImageIcon icon = new ImageIcon(new ImageIcon(client.getActualUser().getAvatarSrc()).getImage().getScaledInstance(140, 93, Image.SCALE_DEFAULT));
             avatarIcon.setIcon(icon);
             bioLabel.setText(client.getActualUser().getBio());
+
         } catch (NullPointerException e){
             System.out.println(e.getMessage());
         }

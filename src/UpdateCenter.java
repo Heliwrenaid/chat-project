@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class UpdateCenter{
-    private DataBase dataBase;
-    private ServerThreadManager stm;
+    private final DataBase dataBase;
+    private final ServerThreadManager stm;
     private HashMap<Integer,Integer> actualUsers; // [userId, threadId] (from stm)
 
     private HashMap<Integer,ArrayList<Integer>> chats = new HashMap<>(); // [userId,destIds], destIds -> [users,groups]
@@ -39,6 +39,7 @@ public class UpdateCenter{
         actualUsers.remove(userId);
     }
     public void addUpdate(Message message){
+        if(message == null) return;
         switch (message.getCmd()){
             case "updateGroup:true":{
                 Chat chat = dataBase.getChat(message.getDestId());
@@ -57,6 +58,18 @@ public class UpdateCenter{
                     case "join":{
                         Chat chat = dataBase.getChat(message.getDestId());
                         if(chat == null) return;
+
+                        if(chat instanceof User){
+                            // send private Message to second User
+                            addStoredMessage(message.getDestId(),message);
+
+                            // send User data to second User
+                            Chat user = dataBase.getChat(message.getDestUserId());
+                            if(user == null) return;
+                            addChat(message.getDestId(),message.getDestUserId());
+                            return;
+                        }
+
                         // send joined User to all members of Chat
                         addChat(chat.getSubscribers(),message.getUserId());
 
@@ -64,7 +77,6 @@ public class UpdateCenter{
                         addChat(chat.getSubscribers(),chat.getId());
 
                         // send all messages from Chat to joined User
-                        if(chat instanceof User) return;
                         ArrayList <Integer> messageIds = chat.getMessages();
                         if(messageIds != null){
                             String messageDir = chat.getMessageDir();
@@ -80,10 +92,20 @@ public class UpdateCenter{
                     case "leave":{
                         Chat chat = dataBase.getChat(message.getDestId());
                         if(chat == null) return;
+
+                        if (chat instanceof User){
+                            // send private Message to second User
+                            addStoredMessage(message.getDestId(),message);
+
+                            // send User data to second User
+                            Chat user = dataBase.getChat(message.getDestUserId());
+                            if(user == null) return;
+                            addChat(message.getDestId(),message.getDestUserId());
+                            return;
+                        }
+
                         // send message to user that was kicked
-                        ArrayList <Integer> deletedUser = new ArrayList<>();
-                        deletedUser.add(message.getInfo());
-                        addStoredMessage(deletedUser,message);
+                        addStoredMessage(message.getInfo(),message);
                         // send Message to all member of Chat
                         addStoredMessage(chat.getSubscribers(),message);
 
@@ -92,7 +114,19 @@ public class UpdateCenter{
                     default:{
                         Chat chat = dataBase.getChat(message.getDestId());
                         if(chat == null) return;
-                        // send Message to all member of Chat
+
+                        if(chat instanceof User){
+                            // send private Message to second User
+                            addStoredMessage(message.getDestId(),message);
+
+                            // send User data to second User
+                            Chat user = dataBase.getChat(message.getDestUserId());
+                            if(user == null) return;
+                            addChat(message.getDestId(),message.getDestUserId());
+                            return;
+                        }
+
+                        // send Message to all members of Chat
                         addStoredMessage(chat.getSubscribers(),message);
                     }
                 }
@@ -120,6 +154,15 @@ public class UpdateCenter{
             }
         }
     }
+    public void addChat(int userId, int destId){
+            if(chats.containsKey(userId)) chats.get(userId).add(destId);
+            else {
+                ArrayList<Integer> arr = new ArrayList<>();
+                arr.add(destId);
+                chats.put(userId,arr);
+            }
+        }
+
     public void addChats(int userId, ArrayList<Integer> chatIds){
         if (chatIds == null) return;
         if(!chats.containsKey(userId)){
@@ -152,6 +195,16 @@ public class UpdateCenter{
             }
         }
     }
+    public void addStoredMessage(int userId, Message message){
+        if(storedMessages.containsKey(userId)){
+            storedMessages.get(userId).add(message);
+        }
+        else {
+            ArrayList<Message> arr = new ArrayList<>();
+            arr.add(message);
+            storedMessages.put(userId,arr);
+        }
+    }
     public void addMessages(int userId, ArrayList<String> messagePaths){
         if (messagePaths == null) return;
         if(!messages.containsKey(userId)){
@@ -162,6 +215,8 @@ public class UpdateCenter{
             }
         }
     }
+
+
     public void startGroupSynchronization(){
         Runnable listener = new Runnable() {
             public void run() {

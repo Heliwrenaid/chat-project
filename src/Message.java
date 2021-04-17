@@ -20,6 +20,15 @@ public class Message implements Serializable {
         this.userId = Integer.toString(userId);
         this.destId = Integer.toString(destId);
     }
+    public Message(Message message){
+        cmd = message.cmd;
+        this.message = message.message;
+        userId = message.userId;
+        destId = message.destId;
+        info = message.info;
+        file = message.file;
+        info1 = message.info1;
+    }
     public Message(){}
 
     public void print(){

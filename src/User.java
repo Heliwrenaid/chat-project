@@ -89,49 +89,53 @@ public class User extends Chat implements Serializable {
     }
 
     public boolean removeUser(int userId, int execId){
-        if(!users.containsKey(userId)){
-            return false;
-        }
-        else {
-            if(userId == execId){
+        if(execId == userId){
+            if(users.containsKey(userId))
                 users.remove(userId);
-                User user = getUser(userId);
-                if(user == null){
-                    return false;
-                }
-                user.unsubscribeChat(id);
-                save();
-                return true;
-            }
-            return false;
-        }
-    }
-    public boolean banUser(int userId, int execId){
-        if(!users.containsKey(execId)) return false;
-        if(!users.containsKey(userId)) return false;
-        if(execId == id){
-            users.remove(userId);
-            users.put(userId,"banned");
-            User user = getUser(userId);
-            if(user == null){
-                return false;
-            }
-            user.unsubscribeChat(id);
-            save();
+            unsubscribeChat(userId);
             return true;
         }
-        return false;
+        users.remove(userId);
+        unsubscribeChat(userId);
+        save();
+        return true;
+    }
+    public boolean banUser(int userId, int execId){
+        if(execId == userId){
+            if (users.containsKey(userId)){
+                users.remove(userId);
+                users.put(userId,"banned you");
+            }
+            unsubscribeChat(userId);
+            return true;
+        }
+        users.remove(userId);
+        users.put(userId,"banned");
+        unsubscribeChat(userId);
+        save();
+        return true;
     }
 
     public boolean unbanUser(int userId, int execId){
-        if(!users.containsKey(execId)) return false;
-        if(!users.containsKey(userId)) return false;
-        if(execId == id ){
-            users.remove(userId);
-            save();
-            return true;
+        if(execId != userId ){
+            if(execId == id){
+                if(users.containsKey(userId)) {
+                    if(!users.get(userId).equals("banned you")) {
+                        users.remove(userId);
+                        save();
+                        return true;
+                    } else return false;
+                } else return false;
+            } else return false;
+        } else{
+            if(users.containsKey(userId)){
+               if ( users.get(userId).equals("banned you")){
+                    users.remove(userId);
+                    save();
+               } else return false;
+            }
         }
-        return false;
+        return true;
     }
 
     @Override

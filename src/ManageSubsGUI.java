@@ -22,7 +22,8 @@ public class ManageSubsGUI extends JFrame {
         setContentPane(mainPanel);
         this.client = client;
         groupId = chatId;
-        subscriberList.setCellRenderer(new ChatRenderer());
+        Chat group = client.getDataBase().getChat(groupId);
+        subscriberList.setCellRenderer(new ChatRenderer(group,"displayRole"));
         mainPanel.setBackground(lighter);
         subscriberList.setBackground(darker);
         upLabel.setBackground(lighter);
@@ -56,41 +57,42 @@ public class ManageSubsGUI extends JFrame {
                     if (index >= 0) {
                         User o = (User) lista.getModel().getElementAt(index);
                         System.out.println("Kliknieto: " + o.toString());
-                        try {
+                      //  try {
                             //src: https://www.tutorialspoint.com/java-program-to-set-jcombobox-in-joptionpane
-                            JPanel panel = new JPanel(new GridBagLayout());
-                            Object[] sports = { "Promote", "Demote", "Remove/Leave", "Ban","Unban"};
-                            JComboBox comboBox = new JComboBox(sports);
+
+                            JComboBox comboBox;
+                            if(group instanceof User){
+                                Object[] actions = { "Ban","Unban"};
+                                comboBox = new JComboBox(actions);
+                            } else {
+                                Object[] actions = { "Promote", "Demote", "Remove/Leave", "Ban","Unban"};
+                                comboBox = new JComboBox(actions);
+                            }
+
 
                             comboBox.setSelectedIndex(1);
                             JOptionPane.showMessageDialog(null, comboBox, "Team management",
                                     JOptionPane.QUESTION_MESSAGE);
 
-                            String decision=(String)comboBox.getSelectedItem();
+                            String decision = (String)comboBox.getSelectedItem();
                             if(decision.equals("Promote")){
-                                Group group = (Group) client.getDataBase().getChat(groupId);
                                 client.addAdmin(group,o.getId());
                             }
                             else if(decision.equals("Demote")){
-                                Group group = (Group) client.getDataBase().getChat(groupId);
                                 client.removeAdmin(group,o.getId());
                             }
                             else if(decision.equals("Remove/Leave")){
-                                Group group = (Group) client.getDataBase().getChat(groupId);
                                 client.removeUser(group,o.getId());
-
                             }
                             else if(decision.equals("Ban")){
-                                Group group = (Group) client.getDataBase().getChat(groupId);
                                 client.banUser(group,o.getId());
                             }
                             else if(decision.equals("Unban")){
-                                Group group = (Group) client.getDataBase().getChat(groupId);
                                 client.unbanUser(group,o.getId());
                             }
-                        }catch (Exception p){
-                            JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
-                        }
+                      //  }catch (Exception p){
+                      //      JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
+                       // }
                     }
                 }
             }
@@ -98,7 +100,7 @@ public class ManageSubsGUI extends JFrame {
     }
 
     public DefaultListModel <Chat> readAllChat() {
-        Group group = (Group) client.getDataBase().getChat(groupId);
+        Chat group =  client.getDataBase().getChat(groupId);
         HashMap<Integer, String> idSet = group.getUsers();
         DefaultListModel<Chat> chatList = new DefaultListModel<>();
         for (Map.Entry<Integer, String> entry : idSet.entrySet()) {

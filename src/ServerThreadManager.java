@@ -7,9 +7,11 @@ public class ServerThreadManager{
     private HashMap<Integer,Integer> actualUsers = new HashMap<>(); // [userId, threadId]
     private HashMap<Integer,ServerThread> serverThreads = new HashMap<>(); // [threadId, ServerThread]
     private ThreadPoolExecutor executor;
+
     public ServerThreadManager(int nThreads) {
-       executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(nThreads);
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(nThreads);
     }
+
     public void createThread(Socket socket, UpdateCenter updateCenter){
         int newId = Functions.freeId(serverThreads.keySet());
         ServerThread serverThread = new ServerThread(socket,updateCenter,newId);

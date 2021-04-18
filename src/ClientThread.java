@@ -25,8 +25,6 @@ public class ClientThread extends FileTransferManager{
                 break;
             case "Group": takeAction((Group) obj);
                 break;
-            case "Channel": takeAction((Channel) obj);
-                break;
             case "UpdateContainer": takeAction((UpdateContainer) obj);
                 break;
         }
@@ -80,8 +78,6 @@ public class ClientThread extends FileTransferManager{
                 return;
             }
             case "messageResponse":{
-                //if(!message.isValid()) return;
-                //if(!dataBase.verify(message)) return;
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 chat.addMessageClient(message);
@@ -92,23 +88,9 @@ public class ClientThread extends FileTransferManager{
                 return;
             }
             case "groupManagement:true":{
-                //if(!message.isValid()) return;
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 boolean status = chat.takeAction(message);
-
-                // only for joining User
-//                boolean status2 = true;
-//                if(chat instanceof User){
-//                    int destId = message.getDestId();
-//                    int destUserId = message.getDestUserId();
-//                    message.setDestId(destUserId);
-//                    message.setDestUserId(destId);
-//
-//                    Chat chat2 = dataBase.getChat(message.getDestId());
-//                    if(chat == null) return;
-//                    status2 = chat.takeAction(message);
-//                }
 
                 if (status) {
                     reloadActualUser();
@@ -234,20 +216,11 @@ public class ClientThread extends FileTransferManager{
         System.out.println("----------------------------------------------\n");
     }
 
-    public User getActualUser() {
-        return actualUser;
-    }
     public void reloadActualUser() {
         actualUser = User.loadUser(actualUser.getSavePath());
     }
-
-    public void updateChat(Chat chat){
-        Chat oldChat = dataBase.getChat(chat.getId());
-        oldChat.setName(chat.getName());
-        oldChat.setBio(chat.getBio());
-        //oldChat.setMessages(chat.getMessages());
-        oldChat.setUsers(chat.getUsers());
-
+    public User getActualUser() {
+        return actualUser;
     }
 }
 

@@ -32,7 +32,6 @@ public class ManageSubsGUI extends JFrame {
         upLabel.setText(client.getDataBase().getChat(chatId).getName());
         downLabel.setText("Manage your team !");
 
-
         subscriberList.setModel(readAllChat());
 
         cancelButton.addActionListener(new ActionListener() {
@@ -57,7 +56,7 @@ public class ManageSubsGUI extends JFrame {
                     if (index >= 0) {
                         User o = (User) lista.getModel().getElementAt(index);
                         System.out.println("Kliknieto: " + o.toString());
-                      //  try {
+                        try {
                             //src: https://www.tutorialspoint.com/java-program-to-set-jcombobox-in-joptionpane
 
                             JComboBox comboBox;
@@ -90,9 +89,9 @@ public class ManageSubsGUI extends JFrame {
                             else if(decision.equals("Unban")){
                                 client.unbanUser(group,o.getId());
                             }
-                      //  }catch (Exception p){
-                      //      JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
-                       // }
+                        }catch (Exception p){
+                            JOptionPane.showMessageDialog(mainPanel,"ERROR! There aren't any groups!");
+                        }
                     }
                 }
             }

@@ -30,7 +30,6 @@ public class ServerThread extends ClientThread implements Runnable{
         switch (fileContainer.getCmd()) {
             case "sendFile": {
                 if (!fileContainer.isValid()) return;
-//              if(!dataBase.verify(fileContainer)) return;
                 fileContainer.setInfo1(Integer.toString(fileContainer.getDestId()));
                 Chat chat = dataBase.getChat(fileContainer.getDestId());
                 if (chat == null) {
@@ -59,7 +58,6 @@ public class ServerThread extends ClientThread implements Runnable{
                     updateCenter.addUpdate(fileContainer);
                 }
                 //send(fileContainer);
-
             }
         }
     }
@@ -173,7 +171,6 @@ public class ServerThread extends ClientThread implements Runnable{
                 updateCenter.addUpdate(message);
                 send(message);
                 return;
-                // not send if false
             }
             case "updateGroup":{
                 boolean status = false;
@@ -190,7 +187,6 @@ public class ServerThread extends ClientThread implements Runnable{
                 if(status){
                     message.setCmd("updateGroup:true");
                     updateCenter.addUpdate(message);
-                   // send(message);
                 }
                 else {
                     message.setCmd("updateGroup:false");
@@ -245,7 +241,6 @@ public class ServerThread extends ClientThread implements Runnable{
                         newUser.setCmd("signUp:true");
                         send(newUser);
                     }
-
                 }
                 return;
             }

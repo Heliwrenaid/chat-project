@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 
 public class FileContainer implements Serializable{
     private String destDir;
@@ -126,6 +125,7 @@ public class FileContainer implements Serializable{
     }
 
     // Getters and setters ---------------------------------------------------------------
+
     public String getDestinationDirectory() {
         return destDir;
     }

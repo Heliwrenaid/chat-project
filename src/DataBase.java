@@ -1,15 +1,11 @@
 import java.io.*;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-
 
 public class DataBase implements Serializable{
     private String mainDir;
     private String userDir;
-    // Strings: 'users', 'groups', 'channels'
-    private HashMap<Integer,String> idSet = new HashMap<>();
+    private HashMap<Integer,String> idSet = new HashMap<>(); // Strings: 'users', 'groups'
     private HashMap <String,Integer> emails = new HashMap<>();
     public DataBase(String mainDir) {
         this.mainDir = mainDir;
@@ -18,8 +14,7 @@ public class DataBase implements Serializable{
         save();
     }
 
-    void createDirectories(){
-        //function for creating directories
+    public void createDirectories(){
         try {
             Files.createDirectories(Paths.get(mainDir + File.separator + "users"));
             Files.createDirectories(Paths.get(mainDir + File.separator + "groups"));
@@ -29,7 +24,7 @@ public class DataBase implements Serializable{
         }
     }
 
-    int freeId(){
+    public int freeId(){
         return Functions.freeId(idSet);
     }
 
@@ -99,36 +94,16 @@ public class DataBase implements Serializable{
         group.saveAvatar();
         saveGroup(group);
         User user = getUser(group.getOwnerId());
-        if (user != null){ //TODO: potrzebne?
-           // user.subscribeChat(group.getId());
+        if (user != null){
             user.save();
         }
         save();
-    }
-    void delete(int id){
-        //TODO: jak User to czy usunac ze wszystkich grup
-        if (!idSet.containsKey(id)){
-            System.out.println("In Database.delete(): " + id + " isn't in idSet");
-            return;
-        }
-        String directory = mainDir+File.separator+idSet.get(id)+File.separator+id;
-        idSet.remove(id);
-        File dir = new File(directory);
-
-        for (File file: dir.listFiles())
-            if (!file.isDirectory())
-                file.delete();
-        try{
-            Files.deleteIfExists(Paths.get(directory));
-        }
-        catch (Exception e){
-            e.getMessage();
-        }
     }
 
     void save(){
       Functions.save(this,mainDir+File.separator+"db");
     }
+
     void saveGroup(Group group){
         Functions.save(group,mainDir + File.separator + "groups" + File.separator + group.getId() + File.separator + "info");
     }
@@ -136,7 +111,7 @@ public class DataBase implements Serializable{
     public User getUser(int id) {
         return (User) Functions.getObject(mainDir+ File.separator+"users"+File.separator+id + File.separator + "info");
     }
-    User getUser(String email){
+    public User getUser(String email){
         if(emails != null)
             if(emails.containsKey(email)){
                 return getUser(emails.get(email));
@@ -144,18 +119,14 @@ public class DataBase implements Serializable{
         return null;
     }
 
-    Group getGroup(int id)  {
+    public Group getGroup(int id)  {
         return (Group) Functions.getObject(mainDir+ File.separator+"groups"+File.separator+id + File.separator + "info");
     }
 
-    Channel getChannel(int id)  {
-        return (Channel) Functions.getObject(mainDir+ File.separator+"channels"+File.separator+id + File.separator + "info");
-    }
     public Chat getChat(int id){
         if(!idSet.containsKey(id)) return null;
         if(idSet.get(id).equals("users")) return getUser(id);
         if(idSet.get(id).equals("groups")) return getGroup(id);
-        if(idSet.get(id).equals("channels")) return getChannel(id);
         return null;
     }
     static DataBase loadData(String filename) {
@@ -216,18 +187,6 @@ public class DataBase implements Serializable{
     public void setUserDir(String userDir) {
         this.userDir = userDir;
     }
-
-    public static void main(String[] args){
-        DataBase db = loadData(System.getProperty("user.home") + File.separator + "DB\\db\\db");
-        System.out.println(db.idSet.keySet());
-        //db.createUser("jan","1234",null,null);
-        db.delete(4);
-       // User jan = db.getUser(1);
-       System.out.println(db.idSet.keySet());
-      //  System.out.println(jan.getName() + " ; " + jan.getId() + " ; " + jan.getBio());
-        db.save();
-    }
-
 
 }
 

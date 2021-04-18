@@ -63,6 +63,11 @@ public class Message implements Serializable {
             file = new FileContainer(avatarSrc);
     }
 
+    @Override
+    public String toString() {
+        return message;
+    }
+
     // ---------------- getters & setters -----------------
 
     public String getCmd() {
@@ -121,7 +126,6 @@ public class Message implements Serializable {
         this.info1 = Integer.toString(info);
     }
 
-
     public FileContainer getFile() {
         return file;
     }
@@ -129,6 +133,7 @@ public class Message implements Serializable {
     public void setFile(String filePath) {
         this.file = new FileContainer(filePath);
     }
+
     public void setFileContainer(FileContainer fileContainer){
         file = fileContainer;
     }
@@ -137,13 +142,17 @@ public class Message implements Serializable {
     public String getEmail(){
         return message;
     }
+
     public void setEmail(String message) {
         this.message = message;
     }
+
     public String getPassword() { return destId; }
+
     public void setPassword(String message) {
         this.destId = message;
     }
+
     public void setSubCmd(String cmd){
         //for managing groups
         this.message = cmd;
@@ -158,6 +167,7 @@ public class Message implements Serializable {
     public void setExecId(int execId){
         this.userId = Integer.toString(execId);
     }
+
     public int getDestUserId(){
         //for managing groups
         return Integer.valueOf(info);
@@ -165,15 +175,12 @@ public class Message implements Serializable {
     public void setDestUserId(int userId){
         this.info = Integer.toString(userId);
     }
+
     public String getName(){
         return message;
     }
+
     public String getBio(){
         return info;
-    }
-
-    @Override
-    public String toString() {
-        return message;
     }
 }

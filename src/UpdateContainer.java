@@ -54,6 +54,8 @@ public class UpdateContainer implements Serializable {
         return false;
     }
 
+    // getters and setters -------------------------------------
+
     public ArrayList<Chat> getChats() {
         return chats;
     }
@@ -61,6 +63,7 @@ public class UpdateContainer implements Serializable {
     public ArrayList<Message> getMessages() {
         return messages;
     }
+
     public ArrayList<FileContainer> getFiles() {
         return files;
     }

@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Group extends Chat implements Serializable {
@@ -9,13 +8,42 @@ public class Group extends Chat implements Serializable {
         super(mainDir,group.id,avatarSrc);
 
     }
-    public Group(){}
     public Group(String name, String bio,String avatarSrc){
         // create group from Client.createGroup(...)
         super(name,bio,avatarSrc);
-
     }
-//
+    public Group(){}
+
+    public void createOwner(int ownerId){
+        this.ownerId = ownerId;
+        users.put(ownerId,"admin");
+        User user = getUser(ownerId);
+        if(user == null){
+            return;
+        }
+        user.subscribeChat(id);
+    }
+
+    public void save(){
+        saveAvatar();
+        Functions.save(this,dir+File.separator+"info");
+    }
+
+    // group management -------------------------------------------
+
+    @Override
+    public boolean takeAction(Message message){
+        switch (message.getSubCmd()){
+            case "join": return addUser(message.getDestUserId());
+            case "leave": return removeUser(message.getDestUserId(),message.getExecId());
+            case "addAdmin": return addAdmin(message.getDestUserId(),message.getExecId());
+            case "removeAdmin": return removeAdmin(message.getDestUserId(),message.getExecId());
+            case "banUser": return banUser(message.getDestUserId(),message.getExecId());
+            case "unbanUser": return unbanUser(message.getDestUserId(),message.getExecId());
+            default: return false;
+        }
+    }
+
     public boolean addUser(int userId){
         if(users.containsKey(userId)){
             // banned user can't join
@@ -124,37 +152,8 @@ public class Group extends Chat implements Serializable {
         return true;
     }
 
-    @Override
-    public boolean takeAction(Message message){
-        switch (message.getSubCmd()){
-            case "join": return addUser(message.getDestUserId());
-            case "leave": return removeUser(message.getDestUserId(),message.getExecId());
-            case "addAdmin": return addAdmin(message.getDestUserId(),message.getExecId());
-            case "removeAdmin": return removeAdmin(message.getDestUserId(),message.getExecId());
-            case "banUser": return banUser(message.getDestUserId(),message.getExecId());
-            case "unbanUser": return unbanUser(message.getDestUserId(),message.getExecId());
-            default: return false;
-        }
-    }
-    public void p(){
-        System.out.println("group");
-    }
-    public void createOwner(int ownerId){
-        this.ownerId = ownerId;
-        users.put(ownerId,"admin");
-        User user = getUser(ownerId);
-        if(user == null){
-            return;
-        }
-        user.subscribeChat(id);
-    }
 
-    public void save(){
-        saveAvatar();
-        Functions.save(this,dir+File.separator+"info");
-    }
-
-
+    // getters and setters ----------------------------------------
     public int getOwnerId() {
         return ownerId;
     }

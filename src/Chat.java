@@ -17,9 +17,8 @@ public class Chat implements Serializable {
     protected FileContainer avatar;
     protected int id = 0;
     protected String groupType = "user";
-    protected ArrayList<Integer> messages = new ArrayList<Integer>();
+    protected ArrayList<Integer> messages = new ArrayList<>();
     protected HashMap<Integer,String> users = new HashMap<>(); // 'user','admin','banned'
-
 
     public Chat(String dir,int id, String avatarSrc) {
         this.id = id;
@@ -36,10 +35,7 @@ public class Chat implements Serializable {
         this.name = name;
         this.bio = bio;
         attachAvatar(avatarSrc);
-        generateDirs(); //??
-        //createDirectories(); TODO:??
-
-
+        generateDirs();
     }
     public Chat(){
         generateDirs();
@@ -50,17 +46,11 @@ public class Chat implements Serializable {
         Functions.save(this,dir+File.separator + "info");
     }
     public int addMessage(Message message){
-        /*
-        int newId = nextMessageId();
-        dodaj newId do 'messages'
-        zapisz 'message' do pliku o nazwie 'newId' w folderze messages
-         */
         if(groupType.equals("channel")){
             if (users.get(message.getUserId()).equals("user")){
                 return 0;
             }
         }
-
         int newId = nextMessageId();
         messages.add(newId);
         message.setInfo(newId);
@@ -80,11 +70,6 @@ public class Chat implements Serializable {
         return 0;
     }
     public int addMessageClient(Message message){
-        /*
-        int newId = nextMessageId();
-        dodaj newId do 'messages'
-        zapisz 'message' do pliku o nazwie 'newId' w folderze messages
-         */
         int newId = message.getInfo();
         if(messages.contains(newId)){
             if(Files.exists(Path.of(messageDir + File.separator + newId))){
@@ -167,21 +152,38 @@ public class Chat implements Serializable {
         return arr;
     }
 
+    public void saveAvatar(){
+        this.avatarSrc = dir + File.separator + "avatar.png";
+        avatar.setDestinationDirectory(dir);
+        avatar.setFilename("avatar.png");
+        avatar.saveFileData();
+    }
+    public void attachAvatar(String avatarPath){
+        // when create group
+        avatar = new FileContainer(avatarPath);
+    }
 
     @Override
     public String toString() {
         return "Chat: " +name +'\n';
     }
+
     int nextMessageId(){
         return Functions.nextId(messages);
+    }
+
+    public Object getMessage(int id){
+        return Functions.getObject(messageDir+File.separator+id);
     }
 
     public User getUser(int id) {
         return (User) Functions.getObject(rootDir+ File.separator+"users"+File.separator+id + File.separator + "info");
     }
-    public String getDir() {
-        return dir;
+    public boolean verify(Object obj){
+        return true;
     }
+
+    // getters and setters ---------------------------------------
 
     public String getFileDir() {
         return fileDir;
@@ -190,13 +192,10 @@ public class Chat implements Serializable {
     public String getMessageDir() {
         return messageDir;
     }
-    public Object getMessage(int id){
-        return Functions.getObject(messageDir+File.separator+id);
+    public String getDir() {
+        return dir;
     }
-    public boolean verify(Object obj){
-        //TODO
-        return true;
-    }
+
     public String getBio() {
         return bio;
     }
@@ -204,6 +203,7 @@ public class Chat implements Serializable {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
     public int getId() {
         return id;
     }
@@ -215,7 +215,6 @@ public class Chat implements Serializable {
     public void setFileDir(String fileDir) {
         this.fileDir = fileDir;
     }
-
     public void setMessageDir(String messageDir) {
         this.messageDir = messageDir;
     }
@@ -223,6 +222,7 @@ public class Chat implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -230,6 +230,7 @@ public class Chat implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getCmd() {
         return cmd;
     }
@@ -237,6 +238,7 @@ public class Chat implements Serializable {
     public void setCmd(String cmd) {
         this.cmd = cmd;
     }
+
     public boolean takeAction(Message message){
        return true;
     }
@@ -261,16 +263,6 @@ public class Chat implements Serializable {
         this.avatarSrc = avatarSrc;
     }
 
-    public void saveAvatar(){
-        this.avatarSrc = dir + File.separator + "avatar.png";
-        avatar.setDestinationDirectory(dir);
-        avatar.setFilename("avatar.png");
-        avatar.saveFileData();
-    }
-    public void attachAvatar(String avatarPath){
-        // when create group
-        avatar = new FileContainer(avatarPath);
-    }
     public void setAvatar(FileContainer fileContainer){
         this.avatar = fileContainer;
     }
@@ -298,14 +290,4 @@ public class Chat implements Serializable {
     public void setGroupType(String groupType) {
         this.groupType = groupType;
     }
-    /*
-    public static void main(String [] args){
-        Chat chat = new Chat();
-        Message message = new Message("a","b","c","d");
-        //chat.addMessage()
-        chat.messages.add(chat.nextMessageId());
-        System.out.println(chat.nextMessageId());
-
-    }
-*/
 }

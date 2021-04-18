@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="145930cb-a544-4ea9-8e86-74a462c218a4" name="Default Changelist" comment="">
+    <list default="true" id="a2864f9c-28a7-4507-93ea-b919a83350a9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Channel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Chat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileTransferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileTransferManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Functions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Functions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GenMes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Group.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/JoinOrgGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JoinOrgGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ManageSubsGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ManageSubsGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MessageRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MessageRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PermissionManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerThreadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerThreadManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Te.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestObjSerialization.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UpdateCenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UpdateCenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UpdateContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UpdateContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/del.bat" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,22 +58,29 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1r2YLYC3fYneHVxWvMI5bN9OCn2" />
+  <component name="ProjectId" id="1rCxnIpLwUhDQlEJJCJ36Opb7bv" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Application.SetupWizard">
+  <component name="RunManager" selected="Application.LoginGUI">
+    <configuration name="LoginGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="LoginGUI" />
+      <module name="chat-project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Server" />
       <module name="chat-project" />
-      <option name="PROGRAM_PARAMETERS" value="localhost 2700" />
+      <option name="PROGRAM_PARAMETERS" value="2700" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -42,41 +92,119 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
       <item itemvalue="Application.Server" />
+      <item itemvalue="Application.LoginGUI" />
       <item itemvalue="Application.SetupWizard" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SetupWizard" />
+        <item itemvalue="Application.LoginGUI" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.SetupWizard" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="145930cb-a544-4ea9-8e86-74a462c218a4" name="Default Changelist" comment="" />
-      <created>1618175600146</created>
+      <changelist id="a2864f9c-28a7-4507-93ea-b919a83350a9" name="Default Changelist" comment="" />
+      <created>1618494044409</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1618175600146</updated>
-      <workItem from="1618175604288" duration="429000" />
+      <updated>1618494044409</updated>
+      <workItem from="1618494047117" duration="2087000" />
+      <workItem from="1618507549263" duration="6877000" />
+      <workItem from="1618516133584" duration="3839000" />
+      <workItem from="1618520733037" duration="2581000" />
+      <workItem from="1618583307194" duration="1032000" />
+      <workItem from="1618597874932" duration="7871000" />
+      <workItem from="1618611257066" duration="3785000" />
+      <workItem from="1618650663853" duration="12933000" />
+      <workItem from="1618670343339" duration="4130000" />
+      <workItem from="1618748243428" duration="8379000" />
+      <workItem from="1618757900163" duration="525000" />
+      <workItem from="1618759414245" duration="4155000" />
+      <workItem from="1618763775573" duration="1479000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1618494172593">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1618494172593" />
+    <state x="466" y="254" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1618653458265">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="466" y="254" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1366.728@0.0.1366.728" timestamp="1618653458265" />
+    <state width="1323" height="223" key="GridCell.Tab.0.bottom" timestamp="1618765261530">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1618765261530" />
+    <state width="1323" height="223" key="GridCell.Tab.0.center" timestamp="1618765261520">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1618765261520" />
+    <state width="1323" height="223" key="GridCell.Tab.0.left" timestamp="1618765261520">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1618765261520" />
+    <state width="1323" height="223" key="GridCell.Tab.0.right" timestamp="1618765261530">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1618765261530" />
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1618765261530">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1618765261530" />
+    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1618765261530">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1618765261530" />
+    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1618765261530">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1618765261530" />
+    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1618765261530">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1618765261530" />
+    <state x="235" y="93" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1618764483878">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="235" y="93" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1366.728@0.0.1366.728" timestamp="1618764483878" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1618666550471">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1618666550471" />
   </component>
 </project>

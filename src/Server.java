@@ -3,11 +3,11 @@ import java.net.*;
 
 public class Server extends Thread{
 
-    private int port;
+    private final int port;
     private boolean isEnabled = false;
     private DataBase dataBase;
-    private String mainDir;
-    private String dataBasePath;
+    private final String mainDir;
+    private final String dataBasePath;
     private ServerThreadManager stm;
     private UpdateCenter updateCenter;
 
@@ -46,6 +46,7 @@ public class Server extends Thread{
     public void saveDataBase() {
        dataBase.save();
     }
+
     public void loadDataBase(String dataBasePath) {
         dataBase = DataBase.loadData(dataBasePath);
         if(dataBase != null){
@@ -61,7 +62,7 @@ public class Server extends Thread{
         stm.createThread(clientSocket,updateCenter);
     }
 
-    public static void main(String args[]){
+    public static void main(String[] args){
         if (args.length < 1){
             System.out.println("Please specify port");
             return;
@@ -70,7 +71,7 @@ public class Server extends Thread{
         try {
             port = Integer.parseInt(args[0]);
         } catch (NumberFormatException e){
-            System.out.println("Podany port nie jest typu 'int'");
+            System.out.println("Server.main: Given port is not 'int'");
             return;
         }
 
@@ -80,30 +81,20 @@ public class Server extends Thread{
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true){
-            String p = null;
+            String input = null;
             try {
-                p = reader.readLine();
+                input = reader.readLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (p.equals("x"))
+            if (input.equals("x"))
                 break;
-            if (p.equals("d"))
+            if (input.equals("d"))
                 continue; //debug here
-            if (p.equals("q")){
-                User user2 = server.getDataBase().getUser(2);
-                User user4 = server.getDataBase().getUser(4);
-            }
-
-            if (p.equals("send")){
-                System.out.println(server.stm.getServerThread(2).getThreadId());
-                server.stm.getServerThread(2).send(new Message("test","a","b","c"));
-            }
-            if(p.equals("s")) server.saveDataBase();
+            if(input.equals("s")) server.saveDataBase();
         }
         server.saveDataBase();
     }
-
 
     public DataBase getDataBase() {
         return dataBase;

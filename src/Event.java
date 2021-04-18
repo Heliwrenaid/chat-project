@@ -2,7 +2,6 @@ public class Event {
     private int blocker = 0;
     private String actionName = null;
     public void block(){
-        //TODO: set timeout
         while(true){
             if(blocker > 0) break;
             try {

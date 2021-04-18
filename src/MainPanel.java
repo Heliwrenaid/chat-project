@@ -272,7 +272,6 @@ public class MainPanel extends JFrame {
                                     client.getFile(file);
                                 }
                             }
-                            //TODO: tutaj
                         }
                     }
                 }
@@ -367,7 +366,6 @@ public class MainPanel extends JFrame {
     }
 
     public DefaultListModel <Object> readAllMessages(int groupId) {
-        System.out.println("groupMessages -------------- : " + groupId);
         ArrayList <Integer> messages  =  client.getDataBase().getChat(groupId).getMessages();
         DefaultListModel <Object> messageList = new DefaultListModel<>();
 
@@ -384,7 +382,6 @@ public class MainPanel extends JFrame {
     public DefaultListModel <Object> readAllUserMessages(int userId) {
         ArrayList <Integer> messages  =  client.getDataBase().getChat(userId).getMessages();
         DefaultListModel <Object> messageList = new DefaultListModel<>();
-        System.out.println("UserMessages -------------------- : " + userId);
         for(int m : messages){
             if(!messageList.contains(m)) {
 
@@ -399,7 +396,6 @@ public class MainPanel extends JFrame {
                         }
                         break;
                         case "Message": {
-                           // ((Message)p).print();
                             id = ((Message) p).getUserId();
                             id2 = ((Message) p).getInfo1();
                         }

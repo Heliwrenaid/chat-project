@@ -62,6 +62,38 @@ public class Client {
         }
         clientThread = new ClientThread(socket,dataBase,event);
     }
+    public boolean transmissionIsActive(){
+        if(clientThread == null) return false;
+        if(socket == null) return false;
+        if(socket.isClosed()) return false;
+        return true;
+    }
+    public void logout(){
+        try {
+            clientThread.stop();
+            clientThread = null;
+            socket.close();
+        } catch (NullPointerException | IOException e){
+            e.printStackTrace();
+        }
+    }
+    public boolean checkIfFileIsDownloaded(FileContainer file){
+        Chat chat = dataBase.getChat(file.getDestId());
+        if(chat == null) return false;
+
+        String filePath = chat.getFileDir() + File.separator + file.getOriginalFileName();
+        if(Files.exists(Paths.get(filePath))){
+            return true;
+        }
+        else return false;
+    }
+
+    // request types ---------------------------------------------
+
+    public void send(Object obj){
+        if(obj != null) clientThread.send(obj);
+        else System.out.println("Client.send(): 'obj' is null");
+    }
     public void signUp(String email,String name, String pass, String bio, String avatarSrc){
         User user = new User(email,name,pass,bio,avatarSrc);
         user.setCmd("signUp");
@@ -97,13 +129,12 @@ public class Client {
         message.setUserId(getActualUser().getId());
         send(message);
     }
-    public User getActualUser(){
-        return clientThread.getActualUser();
-    }
-
-    public void send(Object obj){
-        if(obj != null) clientThread.send(obj);
-        else System.out.println("Client.send(): 'obj' is null");
+    public void updateUser(String name, String pass, String bio, String avatarSrc){
+        Message message = new Message();
+        message.setUserData(name,pass,bio,avatarSrc);
+        message.setCmd("updateUser");
+        message.setUserId(getActualUser().getId());
+        send(message);
     }
     public void sendMessage(String text, int destId){
         Message message = new Message();
@@ -131,32 +162,6 @@ public class Client {
         message.setInfo(fileName);
         message.setCmd("getFile");
         send(message);
-    }
-    public boolean checkIfFileIsDownloaded(FileContainer file){
-        Chat chat = dataBase.getChat(file.getDestId());
-        if(chat == null) return false;
-
-        String filePath = chat.getFileDir() + File.separator + file.getOriginalFileName();
-        if(Files.exists(Paths.get(filePath))){
-            return true;
-        }
-        else return false;
-    }
-    public boolean transmissionIsActive(){
-        if(clientThread == null) return false;
-        if(socket == null) return false;
-        if(socket.isClosed()) return false;
-        return true;
-    }
-    public void logout(){
-        try {
-            clientThread.stop();
-            clientThread = null;
-            socket.close();
-        } catch (NullPointerException | IOException e){
-            e.printStackTrace();
-        }
-
     }
 
     public void getAllChats(){
@@ -187,6 +192,9 @@ public class Client {
         message.setPassword(getActualUser().getPassword());
         send(message);
     }
+
+    // group management requests ---------------------------
+
     public void leaveChat(Chat chat){
         if(chat == null) {
             System.out.println("'chat' is null");
@@ -278,13 +286,12 @@ public class Client {
         send(message);
     }
 
-    public void updateUser(String name, String pass, String bio, String avatarSrc){
-        Message message = new Message();
-        message.setUserData(name,pass,bio,avatarSrc);
-        message.setCmd("updateUser");
-        message.setUserId(getActualUser().getId());
-        send(message);
+    // getters and setters -------------------------------------------
+
+    public User getActualUser(){
+        return clientThread.getActualUser();
     }
+
     public DataBase getDataBase() {
         return dataBase;
     }
@@ -300,26 +307,5 @@ public class Client {
     public static void main(String[] args) {
         Client client = new Client(System.getProperty("user.home") + File.separator + "ClientData","localhost",2700);
         client.startTransmission();
-
-//        FileContainer fileContainer = new FileContainer("C:\\Users\\Dell\\Pictures\\PE\\ak.png");
-//        fileContainer.setDestId(1);
-//        client.send(fileContainer);
-
-        //client.signUp("q","Michal","1234","afk",null);
-        //client.signIn("q","1234");
-       // System.out.println(client.getActualUser().getSubscribedChats());
-       // client.sendMessage(new Message("text",2,2));
-     //   client.createGroup("Group Name","bio","src\\Icons\\wolf.jpg","group");
-      //  Chat chat = client.dataBase.getChat(3);
-       // client.leaveChat(chat);
-
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-       // client.sendFile("src\\Icons\\wolf.jpg",3);
-        //client.saveDataBase();
-        //System.out.println(client.getActualUser().getSubscribedChats());
     }
 }

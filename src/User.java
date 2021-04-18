@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class User extends Chat implements Serializable {
-
     private String password;
     private String email;
     private String savePath;
@@ -32,6 +31,9 @@ public class User extends Chat implements Serializable {
         }
         save();
     }
+
+    public User (){}
+
     // updateUser in DataBase
     public User(User user,String mainDir){
         super(mainDir + File.separator + "users" + File.separator + user.getId(),user.getId(), user.getAvatarSrc());
@@ -45,12 +47,19 @@ public class User extends Chat implements Serializable {
         save();
     }
 
-	@Override
+    @Override
+    void save(){
+        if(avatar != null) saveAvatar();
+        Functions.save(this,dir+File.separator + "info");
+    }
+
+    @Override
     public String toString() {
         return "User: "+this.getName();
     }
 
-    public User (){
+    public static User loadUser(String path){
+        return (User) Functions.getObject(path);
     }
 
     public void subscribeChat(int id){
@@ -63,6 +72,8 @@ public class User extends Chat implements Serializable {
         subscribedChats.remove((Object)id);
         save();
     }
+
+    // user management --------------------------------------------------
 
     @Override
     public boolean takeAction(Message message){
@@ -138,15 +149,6 @@ public class User extends Chat implements Serializable {
         return true;
     }
 
-    @Override
-    void save(){
-        if(avatar != null) saveAvatar();
-        Functions.save(this,dir+File.separator + "info");
-    }
-
-    public static User loadUser(String path){
-        return (User) Functions.getObject(path);
-    }
 
     //-------------------Getters and setters--------------------
     public String getPassword() {
@@ -181,9 +183,6 @@ public class User extends Chat implements Serializable {
         this.messageDir = messageDir;
     }
 
-    public static void main(String[] args){
-       // User user = new User("jan","pass",1,)
-    }
     int nextMessageId(){
         return Functions.nextId(messages);
     }
@@ -203,15 +202,8 @@ public class User extends Chat implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public ArrayList<Integer> getSubscribedChats() {
         return subscribedChats;
-    }
-    public void setSubscribedChats(ArrayList<Integer> subscribedChats) {
-        this.subscribedChats = subscribedChats;
-    }
-    public void deleteFromSubscribedChats(Chat chat) {
-        this.subscribedChats.remove(chat.getId());
-        System.out.println("Group removed from subscribed chats!");
-        save();
     }
 }

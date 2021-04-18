@@ -7,10 +7,10 @@ public class UpdateCenter{
     private final DataBase dataBase;
     private final ServerThreadManager stm;
     private HashMap<Integer,Integer> actualUsers; // [userId, threadId] (from stm)
-
     private HashMap<Integer,ArrayList<Integer>> chats = new HashMap<>(); // [userId,destIds], destIds -> [users,groups]
     private HashMap<Integer,ArrayList<String>> messages = new HashMap<>(); // [userId, paths to messages]
     private HashMap<Integer,ArrayList<Message>> storedMessages = new HashMap<>(); // [userId,Message array]
+
     public UpdateCenter(DataBase dataBase, ServerThreadManager stm) {
         this.dataBase = dataBase;
         this.stm = stm;
@@ -20,13 +20,6 @@ public class UpdateCenter{
         startStoredMessageSynchronization();
     }
 
-    public DataBase getDataBase() {
-        return dataBase;
-    }
-
-    public ServerThreadManager getStm() {
-        return stm;
-    }
     public boolean addActualUser(int userId,int threadId){
         if(actualUsers == null) return false;
         if(actualUsers.containsKey(userId)) return false;
@@ -225,7 +218,6 @@ public class UpdateCenter{
         }
     }
 
-
     public void startGroupSynchronization(){
         Runnable listener = new Runnable() {
             public void run() {
@@ -358,5 +350,15 @@ public class UpdateCenter{
         updateContainer.calculateAmount();
         if (updateContainer.getAmount() == 0) return null;
         return updateContainer;
+    }
+
+    // getters and setters --------------------------------------
+
+    public DataBase getDataBase() {
+        return dataBase;
+    }
+
+    public ServerThreadManager getStm() {
+        return stm;
     }
 }

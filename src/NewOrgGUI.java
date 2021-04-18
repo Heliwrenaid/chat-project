@@ -35,7 +35,6 @@ public class NewOrgGUI extends JFrame{
         channelRadioButton.setBackground(lighter);
         groupRadioButton.setBackground(lighter);
 
-
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

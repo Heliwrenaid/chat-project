@@ -122,4 +122,13 @@
       </component>
     </children>
   </grid>
+  <buttonGroups>
+    <group name="avatarGroup">
+      <member id="62628"/>
+      <member id="62628"/>
+      <member id="1abb5"/>
+      <member id="ce0a9"/>
+      <member id="28fdc"/>
+    </group>
+  </buttonGroups>
 </form>

@@ -160,9 +160,9 @@ public class ServerThread extends ClientThread implements Runnable{
                 return;
             }
             case "updateUser":{
+                reloadActualUser();
                 if (message.getUserId() == 0) return;
                 if(actualUser.getId() != message.getUserId()) return;
-
                 if(message.getName() != null) actualUser.setName(message.getName());
                 if(message.getPassword() != null) actualUser.setPassword(message.getPassword());
                 if(message.getBio() != null) actualUser.setBio(message.getBio());
@@ -170,6 +170,7 @@ public class ServerThread extends ClientThread implements Runnable{
                 actualUser.save();
                 message.setCmd("updateUser:true");
                 System.out.println("User data was updated !!!");
+                updateCenter.addUpdate(message);
                 send(message);
                 return;
                 // not send if false

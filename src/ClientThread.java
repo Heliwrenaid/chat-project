@@ -134,6 +134,7 @@ public class ClientThread extends FileTransferManager{
                 if(message.getFile() != null) actualUser.setAvatar(message.getFile());
                 actualUser.save();
                 System.out.println("User data was updated !!!");
+                event.triggerAction("refreshChatList");
                 return;
             }
             case "updateGroup:true":{
@@ -144,6 +145,7 @@ public class ClientThread extends FileTransferManager{
                 }
                 if(status){
                    System.out.println("Group info was updated");
+                   event.triggerAction("refreshChatList");
                 }
                 else {
                     System.out.println("Group info wasn't updated only on Client side");

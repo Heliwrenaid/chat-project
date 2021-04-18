@@ -41,11 +41,20 @@ public class UpdateCenter{
     public void addUpdate(Message message){
         if(message == null) return;
         switch (message.getCmd()){
+            case "updateUser:true":{
+                Chat chat = dataBase.getChat(message.getUserId());
+                if(chat == null) return;
+                addChat(chat.getSubscribers(),message.getUserId());
+                if(chat.getUsers() != null){
+                    ArrayList<Integer> ids = new ArrayList<>(chat.getUsers().keySet());
+                    addChat(ids,message.getUserId());
+                }
+            }break;
             case "updateGroup:true":{
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;
                 addChat(chat.getSubscribers(),message.getDestId());
-            } break;
+            }break;
             case "messageResponse":{
                 Chat chat = dataBase.getChat(message.getDestId());
                 if(chat == null) return;

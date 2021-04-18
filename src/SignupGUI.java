@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 
 public class SignupGUI extends JFrame {
     private JPanel signupPanel;
@@ -64,13 +65,16 @@ public class SignupGUI extends JFrame {
                     animal = "src\\Icons\\horse.jpg";
                 }
 
-                if(userName.getText().length() == 0 && passwordField1 != passwordField2 && passwordField1.getText().length()!=0 && animal==null){
-                    JOptionPane.showMessageDialog(signupPanel,"ERROR in signing up. Please try again !");
-                    dispose();
-                }
-                else
-                {
-                   client.signUp(emailtextField1.getText(),userName.getText(),passwordField1.getText(),bioText.getText(),animal);
+                if(userName.getText().length() == 0){
+                    promptError();
+                } else if(!Arrays.equals(passwordField2.getPassword(),passwordField1.getPassword())){
+                   promptError();
+                } else if(passwordField1.getPassword().length == 0 || passwordField2.getPassword().length == 0){
+                   promptError();
+                } else if (animal == null){
+                    promptError();
+                } else {
+                   client.signUp(emailtextField1.getText(),userName.getText(),new String(passwordField1.getPassword()),bioText.getText(),animal);
                    dispose();
                 }
             }
@@ -87,12 +91,8 @@ public class SignupGUI extends JFrame {
             }
         });
     }
-
-    public static void main(String[] args) {
-//        JFrame frame = new JFrame("SignupGUI");
-//        frame.setContentPane(new SignupGUI().signupPanel);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
+    public void promptError(){
+        JOptionPane.showMessageDialog(signupPanel,"ERROR in signing up. Please try again !");
+        dispose();
     }
 }

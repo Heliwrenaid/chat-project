@@ -441,6 +441,7 @@ public class MainPanel extends JFrame {
         try {
             // second refresh mechanism
             if(client.getEvent().isActionTriggered("refreshChatList")){
+                listGroup.setModel(readAllChat());
                 if (status) {
                     messageList.setModel(readAllMessages(actualGroupId));
                 } else {

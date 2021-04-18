@@ -20,7 +20,7 @@ public class LoginGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (!client.transmissionIsActive()) client.startTransmission();
-                    if(client.signIn(nickField1.getText(), passwordField1.getText())) {
+                    if(client.signIn(nickField1.getText(),new String(passwordField1.getPassword()))) {
                         JFrame f = new MainPanel(client);
                         f.pack();
                         f.setVisible(true);

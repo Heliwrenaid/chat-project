@@ -108,8 +108,6 @@ public class SetupWizard extends JFrame{
             }
             if (p.equals("x"))
                 break;
-            if (p.equals("d"))
-                continue; //debug here
         }
 
     }

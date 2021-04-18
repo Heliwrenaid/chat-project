@@ -81,7 +81,7 @@ public class SettingsGUI extends JFrame{
                     {
                         animal = "src\\Icons\\horse.jpg";
                     }
-                    client.updateUser(nicktextField1.getText(),passwordField1.getText(),biotextField2.getText(),animal);
+                    client.updateUser(nicktextField1.getText(),new String(passwordField1.getPassword()),biotextField2.getText(),animal);
                     dispose();
                 }
                 else
